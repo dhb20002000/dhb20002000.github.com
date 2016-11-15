@@ -1,0 +1,1271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[周五周六]]></title>
+  <subtitle><![CDATA[do or die]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://www.zhou5zhou6.com/"/>
+  <updated>2016-02-01T07:13:18.647Z</updated>
+  <id>http://www.zhou5zhou6.com/</id>
+  
+  <author>
+    <name><![CDATA[婚格线]]></name>
+    
+  </author>
+  
+  <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[bind_dlz_mysql]]></title>
+    <link href="http://www.zhou5zhou6.com/2016/02/01/bind_dlz_mysql/"/>
+    <id>http://www.zhou5zhou6.com/2016/02/01/bind_dlz_mysql/</id>
+    <published>2016-02-01T06:37:10.000Z</published>
+    <updated>2016-02-01T07:13:04.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="一。安装包下载">一。安装包下载</h2>
+<p><a href="ftp://ftp.isc.org/isc/bind9/cur/9.10/bind-9.10.3-P3.tar.gz" target="_blank">bind</a><br><a href="http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.10.tar.gz" target="_blank">mysql</a><br><a href="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz" target="_blank">boost</a></p>
+<p><a id="more"></a><br>注意mysql5.7如果想通过编译安装，里面boost库是必须的，如果不安装会报以下信息</p>
+<figure class="highlight"><pre><span class="comment">-- BOOST_INCLUDE_DIR BOOST_INCLUDE_DIR-NOTFOUND</span>
+<span class="comment">-- LOCAL_BOOST_DIR</span>
+<span class="comment">-- LOCAL_BOOST_ZIP</span>
+<span class="comment">-- Could not find (the correct version of) boost.</span>
+<span class="comment">-- MySQL currently requires boost_1_59_0</span>
+
+CMake Error <span class="keyword">at</span> cmake/boost.cmake:<span class="number">76</span> (MESSAGE):
+  You can download <span class="keyword">it</span> <span class="operator">with</span> -DDOWNLOAD_BOOST=<span class="number">1</span> -DWITH_BOOST=&lt;<span class="built_in">directory</span>&gt;
+
+  This CMake script will look <span class="keyword">for</span> boost <span class="operator">in</span> &lt;<span class="built_in">directory</span>&gt;.  If <span class="keyword">it</span> is <span class="operator">not</span> there,
+  <span class="keyword">it</span> will download <span class="operator">and</span> unpack <span class="keyword">it</span> (<span class="operator">in</span> that <span class="built_in">directory</span>) <span class="keyword">for</span> you.
+
+  If you are inside <span class="operator">a</span> firewall, you may need <span class="built_in">to</span> use <span class="operator">an</span> <span class="keyword">http</span> proxy:
+
+  export http_proxy=<span class="keyword">http</span>://example.com:<span class="number">80</span>
+
+Call Stack (most recent call <span class="keyword">first</span>):
+  cmake/boost.cmake:<span class="number">228</span> (COULD_NOT_FIND_BOOST)
+  CMakeLists.txt:<span class="number">435</span> (INCLUDE)
+</pre></figure>
+
+<p>另外服务器内存必须大于1G，否则mysql编译安装的时候会报以下错误</p>
+<figure class="highlight"><pre>[ <span class="number">39</span>%] Building CXX object sql/CMakeFiles/sql<span class="preprocessor">.dir</span>/item_geofunc<span class="preprocessor">.cc</span><span class="preprocessor">.o</span>
+c++: 内部错误：已杀死 (程序 cc1plus)
+请提交一份完整的错误报告。
+具体步骤请参见 &lt;http://bugzilla<span class="preprocessor">.redhat</span><span class="preprocessor">.com</span>/bugzilla&gt;。
+make[<span class="number">2</span>]: *** [sql/CMakeFiles/sql<span class="preprocessor">.dir</span>/item_geofunc<span class="preprocessor">.cc</span><span class="preprocessor">.o</span>] 错误 <span class="number">1</span>
+make[<span class="number">1</span>]: *** [sql/CMakeFiles/sql<span class="preprocessor">.dir</span>/all] 错误 <span class="number">2</span>
+<span class="label">make:</span> *** [all] 错误 <span class="number">2</span>
+</pre></figure>
+
+
+<h2 id="二。安装过程">二。安装过程</h2>
+<h3 id="mysql通过tar包编译安装">mysql通过tar包编译安装</h3>
+<h4 id="1-安装各种依赖包">1.安装各种依赖包</h4>
+<figure class="highlight"><pre>yum install <span class="attribute">-y</span> cmake gcc ncurses<span class="attribute">-deve</span> openssl openssl<span class="attribute">-devel</span>
+</pre></figure><br>####2.安装mysql<br><br><figure class="highlight"><pre>groupadd mysql
+useradd -r -g mysql mysql
+mkdir -p /usr/local/mysql
+mkdir -p /data/mysqldb
+chown -R mysql:mysql /usr/local/mysql
+chown -R mysql:mysql /data/mysqldb
+<span class="comment">###安装boost</span>
+tar zxvf boost_1_59_0.tar.gz
+<span class="built_in">cd</span> boost_1_59_0
+./bootstrap.sh
+./b2 install
+<span class="comment">###安装mysql</span>
+tar zxvf mysql-<span class="number">5.7</span>.<span class="number">10</span>.tar.gz
+<span class="built_in">cd</span> mysql-<span class="number">5.7</span>.<span class="number">10</span>
+cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DDEFAULT_CHARSET=utf8 -DMYSQL_DATADIR=/data/mysql/  -DDEFAULT_COLLATION=utf8_general_ci
+make
+make install
+
+<span class="comment">####启动mysql之前的配置</span>
+ln <span class="operator">-s</span> /usr/local/mysql/lib/libmysqlclient.so.<span class="number">20</span>  /usr/lib64/
+cp support-files/mysql.server /etc/init.d/mysql
+/usr/local/mysql/bin/mysqld  --user=mysql --basedir=/usr/local/mysql --datadir=/data/mysql
+进入mysql，修改password；<span class="keyword">set</span> password <span class="keyword">for</span> <span class="string">'root'</span>@<span class="string">'localhost'</span>=password(<span class="string">'xxoo'</span>);
+
+<span class="comment">####安装bind</span>
+tar zxvf <span class="built_in">bind</span>-<span class="number">9.10</span>.<span class="number">3</span>-P3.tar.gz
+<span class="built_in">cd</span> <span class="built_in">bind</span>-<span class="number">9.10</span>.<span class="number">3</span>-P3
+./configure --enable-largefile --with-openssl=yes --with-dlz-mysql=/usr/local/mysql/ --prefix=/usr/local/<span class="built_in">bind</span>-<span class="number">9.10</span>.<span class="number">3</span>-P3
+make
+make install
+ln <span class="operator">-s</span> /usr/local/<span class="built_in">bind</span>-<span class="number">9.10</span>.<span class="number">3</span>-P3/ /usr/local/<span class="built_in">bind</span>
+chown -hR named:named /usr/local/<span class="built_in">bind</span>/var
+/usr/local/<span class="built_in">bind</span>/sbin/named -u named -c /usr/local/<span class="built_in">bind</span>/etc/named.conf
+</pre></figure>
+
+<h4 id="mysql通过yum安装和以上不同的_地方是，bind指定编译参数的时候不要指定mysql的路径">mysql通过yum安装和以上不同的 地方是，bind指定编译参数的时候不要指定mysql的路径</h4>
+<figure class="highlight"><pre><span class="built_in">.</span>/configure <span class="subst">--</span>prefix /opt/bind <span class="subst">--</span><span class="keyword">with</span><span class="attribute">-dlz</span><span class="attribute">-filesystem</span> <span class="subst">--</span><span class="keyword">with</span><span class="attribute">-dlz</span><span class="attribute">-mysql</span>
+</pre></figure>
+
+<p>三，配置bind<br>请参考<br><a href="http://www.vfeelit.com/610.html" target="_blank">http://www.vfeelit.com/610.html</a><br><a href="http://xdays.me/Bind%E5%9F%BA%E4%BA%8EDLZ%E5%AE%9E%E7%8E%B0%E6%99%BA%E8%83%BDDNS.html" target="_blank">http://xdays.me/Bind%E5%9F%BA%E4%BA%8EDLZ%E5%AE%9E%E7%8E%B0%E6%99%BA%E8%83%BDDNS.html</a></p>
+<p>注意：</p>
+<p>1.如果发现mysql或者bind无法启动，注意分析日志；<br>2.客户端配置好的dns解析不生效<br>注意清理一下dns缓存<br>方法如下<br>1&gt;nscd   </p>
+<figure class="highlight"><pre>service nscd restart
+</pre></figure><br>2&gt;dnsmasq缓存<br><figure class="highlight"><pre>service dnsmasq restart
+</pre></figure>
+
+<p>3&gt;bind的dns缓存</p>
+<figure class="highlight"><pre>/etc/init<span class="preprocessor">.d</span>/named restart
+或者
+rndc restart
+或者
+rndc flushname xxxo
+</pre></figure>
+]]></content>
+    <summary type="html"><![CDATA[<h2 id="一。安装包下载">一。安装包下载</h2>
+<p><a href="ftp://ftp.isc.org/isc/bind9/cur/9.10/bind-9.10.3-P3.tar.gz" target="_blank">bind</a><br><a href="http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.10.tar.gz" target="_blank">mysql</a><br><a href="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz" target="_blank">boost</a></p>
+<p>]]></summary>
+    
+      <category term="mysql" scheme="http://www.zhou5zhou6.com/tags/mysql/"/>
+    
+      <category term="dlz" scheme="http://www.zhou5zhou6.com/tags/dlz/"/>
+    
+      <category term="bind" scheme="http://www.zhou5zhou6.com/tags/bind/"/>
+    
+      <category term="软件应用" scheme="http://www.zhou5zhou6.com/categories/%E8%BD%AF%E4%BB%B6%E5%BA%94%E7%94%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[jenkins]]></title>
+    <link href="http://www.zhou5zhou6.com/2016/01/19/jenkins/"/>
+    <id>http://www.zhou5zhou6.com/2016/01/19/jenkins/</id>
+    <published>2016-01-19T09:11:40.000Z</published>
+    <updated>2016-01-19T09:56:11.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="INSTALL">INSTALL</h1>
+<h4 id="一-install_tomcat">一.install tomcat</h4>
+<p><a href="http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz" target="_blank">jdk</a><br><a href="http://apache.cs.utah.edu/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz" target="_blank">tomcat</a><br><a id="more"></a></p>
+<h5 id="1-安装jdk">1.安装jdk</h5>
+<figure class="highlight"><pre>mkdir /usr/java
+tar zxvf jdk<span class="subst">-</span><span class="number">7</span>u79<span class="attribute">-linux</span><span class="attribute">-x64</span><span class="built_in">.</span>tar<span class="built_in">.</span>gz <span class="attribute">-C</span> /usr/java<span class="subst">/</span>
+</pre></figure>
+
+
+<h5 id="2-安装tomcat">2.安装tomcat</h5>
+<figure class="highlight"><pre>tar zxvf apache<span class="attribute">-tomcat</span><span class="subst">-</span><span class="number">7.0</span><span class="number">.67</span><span class="built_in">.</span>tar<span class="built_in">.</span>gz
+mv apache<span class="attribute">-tomcat</span><span class="subst">-</span><span class="number">7.0</span><span class="number">.67</span> apache<span class="attribute">-tomcat</span>
+mv apache<span class="attribute">-tomcat</span> /letv<span class="subst">/</span>
+</pre></figure>
+
+<h5 id="3-配置环境变量">3.配置环境变量</h5>
+<p>编辑/etc/profile;追加以下内容</p>
+<p><figure class="highlight"><pre><span class="keyword">export</span> JAVA_HOME=/usr/java/jdk1.<span class="number">7.0</span>_79
+<span class="keyword">export</span> CLASSPATH=/usr/java/jdk1.<span class="number">7.0</span>_79/lib
+<span class="keyword">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span>
+<span class="keyword">export</span> TOMCAT_HOME=/letv/apache-tomcat/
+</pre></figure></p>
+<h5 id="4-修改配置">4.修改配置</h5>
+<p>修改server.xml，绑定ip，设置字符集</p>
+<p><figure class="highlight"><pre>&lt;Connector <span class="keyword">port</span>=<span class="string">"8080"</span> URIEncoding=<span class="string">"UTF-8"</span> address=<span class="string">"10.182.xx.xx"</span> protocol=<span class="string">"HTTP/1.1"</span>
+</pre></figure></p>
+<h5 id="5-启动tomcat">5.启动tomcat</h5>
+<p><figure class="highlight"><pre>/letv/apache-tomcat/bin/catalina.sh <span class="operator"><span class="keyword">start</span></span>
+</pre></figure></p>
+<h4 id="二-install_jenkins">二.install jenkins</h4>
+<h5 id="1-下载jenkins的war包">1.下载jenkins的war包</h5>
+<p><a href="http://mirrors.jenkins-ci.org/war/latest/jenkins.war" target="_blank">下载地址</a><br>将jenkins.war包拷贝到tomcat的webapps目录下<br>重启tomcat</p>
+<p><figure class="highlight"><pre>/letv/apache<span class="attribute">-tomcat</span>/bin/catalina<span class="built_in">.</span>sh stop;/letv/apache<span class="attribute">-tomcat</span>/bin/catalina<span class="built_in">.</span>sh start
+</pre></figure><br>在浏览器访问：<a href="http://ip:8080/jenkins/" target="_blank">http://ip:8080/jenkins/</a></p>
+<h4 id="三-配置jenkins">三.配置jenkins</h4>
+<h5 id="1-配置邮件">1.配置邮件</h5>
+<p>注意 system admin e-mail address 一定要和发件人邮箱保持一致否则测试邮箱配置的时候会报以下错误</p>
+<p><figure class="highlight"><pre>Failed to send <span class="keyword">out</span> e-mail
+
+<span class="label">com.sun.mail.smtp.SMTPSendFailedException:</span> <span class="number">553</span> Mail from must equal authorized user
+<span class="comment">;</span>
+  nested exception is:
+    <span class="keyword">com</span><span class="preprocessor">.sun</span><span class="preprocessor">.mail</span><span class="preprocessor">.smtp</span><span class="preprocessor">.SMTPSenderFailedException</span>: <span class="number">553</span> Mail from must equal authorized user
+
+
+    at <span class="keyword">com</span><span class="preprocessor">.sun</span><span class="preprocessor">.mail</span><span class="preprocessor">.smtp</span><span class="preprocessor">.SMTPTransport</span><span class="preprocessor">.issueSendCommand</span>(SMTPTransport<span class="preprocessor">.java</span>:<span class="number">2057</span>)
+</pre></figure><br>未完待续</p>
+]]></content>
+    <summary type="html"><![CDATA[<h1 id="INSTALL">INSTALL</h1>
+<h4 id="一-install_tomcat">一.install tomcat</h4>
+<p><a href="http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz" target="_blank">jdk</a><br><a href="http://apache.cs.utah.edu/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz" target="_blank">tomcat</a><br>]]></summary>
+    
+      <category term="tomcate" scheme="http://www.zhou5zhou6.com/tags/tomcate/"/>
+    
+      <category term="jenkins" scheme="http://www.zhou5zhou6.com/tags/jenkins/"/>
+    
+      <category term="tools" scheme="http://www.zhou5zhou6.com/categories/tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[google-authenticator]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/12/15/google-authenticator/"/>
+    <id>http://www.zhou5zhou6.com/2015/12/15/google-authenticator/</id>
+    <published>2015-12-15T02:57:38.000Z</published>
+    <updated>2015-12-15T05:51:00.000Z</updated>
+    <content type="html"><![CDATA[<p>结合ldap和google-authenticator 完成两步验证<br><a id="more"></a><br>一，</p>
+<p>下载所需安装包</p>
+<figure class="highlight"><pre>yum <span class="attribute">-y</span> install wget gcc make pam<span class="attribute">-devel</span> libpng<span class="attribute">-devel</span>
+git clone https:<span class="comment">//github.com/google/google-authenticator.git</span>
+wget <span class="attribute">-N</span> http:<span class="comment">//arthurdejong.org/nss-pam-ldapd/nss-pam-ldapd-0.9.6.tar.gz</span>
+</pre></figure>
+
+<p>二.<br>1&gt;安装配置google-authenticator</p>
+<figure class="highlight"><pre>cd google-authenticator/libpam/
+./bootstrap<span class="preprocessor">.sh</span>
+./configure
+make
+make install
+ln -s /usr/local/lib/security/pam_google_authenticator<span class="preprocessor">.so</span> /lib64/security/pam_google_authenticator<span class="preprocessor">.so</span>
+ln -s /lib/security/pam_ldap<span class="preprocessor">.so</span> /lib64/security/pam_ldap<span class="preprocessor">.so</span>
+</pre></figure><br>配置ssh登陆加入谷歌认证模块<br><figure class="highlight"><pre><span class="preprocessor">#%PAM-1.0</span>
+auth       required pam_google_authenticator<span class="preprocessor">.so</span> forward_pass nullok
+auth       required pam_sepermit<span class="preprocessor">.so</span>
+auth       include      password-auth
+account    required     pam_nologin<span class="preprocessor">.so</span>
+account    include      password-auth
+password   include      password-auth
+<span class="preprocessor"># pam_selinux.so close should be the first session rule</span>
+session    required     pam_selinux<span class="preprocessor">.so</span> close
+session    required     pam_loginuid<span class="preprocessor">.so</span>
+<span class="preprocessor"># pam_selinux.so open should only be followed by sessions to be executed in the user context</span>
+session    required     pam_selinux<span class="preprocessor">.so</span> open env_params
+session    optional     pam_keyinit<span class="preprocessor">.so</span> force revoke
+session    include      password-auth
+</pre></figure>
+
+<p>修改/etc/ssh/sshd_config，保证有下面两行</p>
+<figure class="highlight"><pre>ChallengeResponseAuthentication <span class="literal">yes</span>
+
+UsePAM <span class="literal">yes</span>
+</pre></figure>
+
+
+<p>2&gt;安装配置nss-pam</p>
+<figure class="highlight"><pre>yum install openldap openldap<span class="attribute">-devel</span>
+tar zxvf nss<span class="attribute">-pam</span><span class="attribute">-ldapd</span><span class="subst">-</span><span class="number">0.9</span><span class="number">.6</span><span class="built_in">.</span>tar<span class="built_in">.</span>gz
+cd nss<span class="attribute">-pam</span><span class="attribute">-ldapd</span><span class="subst">-</span><span class="number">0.9</span><span class="number">.6</span>
+<span class="built_in">.</span>/configure
+make
+make install
+</pre></figure>
+
+
+<p>编辑/etc/nslcd.conf 配置ldap</p>
+<figure class="highlight"><pre>uid nslcd
+gid ldap
+uri ldap://<span class="built_in">x</span><span class="preprocessor">.x</span><span class="preprocessor">.x</span><span class="preprocessor">.x</span>/ ldap://o<span class="preprocessor">.o</span><span class="preprocessor">.o</span><span class="preprocessor">.o</span> ldap://xo<span class="preprocessor">.xo</span><span class="preprocessor">.xo</span><span class="preprocessor">.xo</span>
+</pre></figure>
+
+<p>编辑  /etc/nsswitch.conf  </p>
+<figure class="highlight"><pre><span class="attribute">passwd</span>: <span class="string">    files ldap</span>
+<span class="attribute">shadow</span>: <span class="string">    files ldap</span>
+<span class="attribute">group</span>: <span class="string">     files ldap</span>
+<span class="attribute">hosts</span>: <span class="string">     files dns</span>
+<span class="attribute">bootparams</span>: <span class="string">nisplus [NOTFOUND=return] files</span>
+<span class="attribute">ethers</span>: <span class="string">    files</span>
+<span class="attribute">netmasks</span>: <span class="string">  files</span>
+<span class="attribute">networks</span>: <span class="string">  files</span>
+<span class="attribute">protocols</span>: <span class="string"> files</span>
+<span class="attribute">rpc</span>: <span class="string">       files</span>
+<span class="attribute">services</span>: <span class="string">  files</span>
+<span class="attribute">netgroup</span>: <span class="string">  files ldap</span>
+<span class="attribute">publickey</span>: <span class="string"> nisplus</span>
+<span class="attribute">automount</span>: <span class="string"> files ldap</span>
+<span class="attribute">aliases</span>: <span class="string">   files nisplus</span>
+</pre></figure>
+
+<p>编辑/etc/pam.conf or /etc/pam.d/*</p>
+<p><figure class="highlight"><pre><span class="tag">fingerprint-auth</span><span class="pseudo">:account</span>     <span class="attr_selector">[default=bad success=ok user_unknown=ignore]</span> <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">fingerprint-auth</span><span class="pseudo">:session</span>     <span class="tag">optional</span>      <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">fingerprint-auth-ac</span><span class="pseudo">:account</span>     <span class="attr_selector">[default=bad success=ok user_unknown=ignore]</span> <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">fingerprint-auth-ac</span><span class="pseudo">:session</span>     <span class="tag">optional</span>      <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">password-auth</span><span class="pseudo">:auth</span>        <span class="tag">sufficient</span>    <span class="tag">pam_ldap</span><span class="class">.so</span> <span class="tag">use_first_pass</span>
+<span class="tag">password-auth</span><span class="pseudo">:account</span>     <span class="attr_selector">[default=bad success=ok user_unknown=ignore]</span> <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">password-auth</span><span class="pseudo">:password</span>    <span class="tag">sufficient</span>    <span class="tag">pam_ldap</span><span class="class">.so</span> <span class="tag">use_authtok</span>
+<span class="tag">password-auth</span><span class="pseudo">:session</span>     <span class="tag">optional</span>      <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">password-auth-ac</span><span class="pseudo">:auth</span>        <span class="tag">sufficient</span>    <span class="tag">pam_ldap</span><span class="class">.so</span> <span class="tag">use_first_pass</span>
+<span class="tag">password-auth-ac</span><span class="pseudo">:account</span>     <span class="attr_selector">[default=bad success=ok user_unknown=ignore]</span> <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">password-auth-ac</span><span class="pseudo">:password</span>    <span class="tag">sufficient</span>    <span class="tag">pam_ldap</span><span class="class">.so</span> <span class="tag">use_authtok</span>
+<span class="tag">password-auth-ac</span><span class="pseudo">:session</span>     <span class="tag">optional</span>      <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">smartcard-auth</span><span class="pseudo">:account</span>     <span class="attr_selector">[default=bad success=ok user_unknown=ignore]</span> <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">smartcard-auth</span><span class="pseudo">:session</span>     <span class="tag">optional</span>      <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">smartcard-auth-ac</span><span class="pseudo">:account</span>     <span class="attr_selector">[default=bad success=ok user_unknown=ignore]</span> <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">smartcard-auth-ac</span><span class="pseudo">:session</span>     <span class="tag">optional</span>      <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">system-auth</span><span class="pseudo">:auth</span>        <span class="tag">sufficient</span>    <span class="tag">pam_ldap</span><span class="class">.so</span> <span class="tag">use_first_pass</span>
+<span class="tag">system-auth</span><span class="pseudo">:account</span>     <span class="attr_selector">[default=bad success=ok user_unknown=ignore]</span> <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">system-auth</span><span class="pseudo">:password</span>    <span class="tag">sufficient</span>    <span class="tag">pam_ldap</span><span class="class">.so</span> <span class="tag">use_authtok</span>
+<span class="tag">system-auth</span><span class="pseudo">:session</span>     <span class="tag">optional</span>      <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">system-auth-ac</span><span class="pseudo">:auth</span>        <span class="tag">sufficient</span>    <span class="tag">pam_ldap</span><span class="class">.so</span> <span class="tag">use_first_pass</span>
+<span class="tag">system-auth-ac</span><span class="pseudo">:account</span>     <span class="attr_selector">[default=bad success=ok user_unknown=ignore]</span> <span class="tag">pam_ldap</span><span class="class">.so</span>
+<span class="tag">system-auth-ac</span><span class="pseudo">:password</span>    <span class="tag">sufficient</span>    <span class="tag">pam_ldap</span><span class="class">.so</span> <span class="tag">use_authtok</span>
+<span class="tag">system-auth-ac</span><span class="pseudo">:session</span>     <span class="tag">optional</span>      <span class="tag">pam_ldap</span><span class="class">.so</span>
+</pre></figure><br>三.使用</p>
+<p>服务器端生成动态验证码：./google-authenticator<br>手机客户端<br><a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en_GB" target="_blank">Google Authenticator Android</a><br><a href="https://itunes.apple.com/gb/app/google-authenticator/id388497605?mt=8" target="_blank">Google Authenticator iOS</a><br><a href="http://www.windowsphone.com/en-gb/store/app/authenticator/e7994dbc-2336-4950-91ba-ca22d653759b" target="_blank">Authenticator for Windows Phone</a><br><a href="http://matthill.eu/linux/ssh-two-factor-authentication-google/m.google.com/authenticator" target="_blank">Blackberry</a></p>
+<p>from</p>
+<p><a href="http://arthurdejong.org/nss-pam-ldapd/setup" target="_blank">nss-pam-ldapd</a><br><a href="https://github.com/google/google-authenticator/tree/master/libpam" target="_blank">google-authenticator</a></p>
+]]></content>
+    <summary type="html"><![CDATA[<p>结合ldap和google-authenticator 完成两步验证<br>]]></summary>
+    
+      <category term="google-authenticator" scheme="http://www.zhou5zhou6.com/tags/google-authenticator/"/>
+    
+      <category term="nss-pam-ldapd" scheme="http://www.zhou5zhou6.com/tags/nss-pam-ldapd/"/>
+    
+      <category term="安全管理" scheme="http://www.zhou5zhou6.com/categories/%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[ntpd更新时间]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/10/16/ntpd/"/>
+    <id>http://www.zhou5zhou6.com/2015/10/16/ntpd/</id>
+    <published>2015-10-16T07:16:43.000Z</published>
+    <updated>2015-10-16T07:20:56.000Z</updated>
+    <content type="html"><![CDATA[<p>1.本地执行date报以下信息</p>
+<figure class="highlight"><pre>Fri Oct <span class="number">16</span> <span class="number">07</span>:<span class="number">09</span>:<span class="number">19</span> Local <span class="built_in">time</span> zone must be <span class="built_in">set</span><span class="comment">--see zic manual page 2015</span>
+</pre></figure><br>检查/etc/sysconfig/clock 和 /etc/localtime 均配置正常<br>执行后发现还是有问题<br>最后修改了一下环境变量,就能正常使用了。<br><figure class="highlight"><pre>TZ=<span class="string">'Asia/Shanghai'</span> ; <span class="keyword">export</span> TZ
+</pre></figure>
+
+]]></content>
+    
+    
+      <category term="ntpd" scheme="http://www.zhou5zhou6.com/tags/ntpd/"/>
+    
+      <category term="软件应用" scheme="http://www.zhou5zhou6.com/categories/%E8%BD%AF%E4%BB%B6%E5%BA%94%E7%94%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[puppet_modify_password]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/08/24/puppet_modify_password/"/>
+    <id>http://www.zhou5zhou6.com/2015/08/24/puppet_modify_password/</id>
+    <published>2015-08-24T02:16:16.000Z</published>
+    <updated>2015-08-24T02:28:43.000Z</updated>
+    <content type="html"><![CDATA[<p>通过puppet的user修改密码失败提示以下信息</p>
+<figure class="highlight"><pre>info: /User[zabbix]: Provider useradd does <span class="built_in">not</span> support features manages_passwords; <span class="built_in">not</span> managing <span class="keyword">attribute</span> password
+</pre></figure><br><a id="more"></a><br>一开始怀疑版本问题，升级客户端版本后依旧不行<br>最后谷歌发现时一个安装包的问题<br><figure class="highlight"><pre>yum install ruby-<span class="built_in">shadow</span>
+</pre></figure><br>再次执行更新<br><br><figure class="highlight"><pre><span class="attribute">notice</span>: <span class="string">/Stage[main]/Systembase_cdn_dev::User/User[zabbix]/password: changed password</span>
+</pre></figure>
+
+<p>from <a href="http://www.puppetcookbook.com/posts/managing-user-password-fails.html" target="_blank">managing-user-password-fails</a></p>
+]]></content>
+    <summary type="html"><![CDATA[<p>通过puppet的user修改密码失败提示以下信息</p>
+<figure class="highlight"><pre>info: /User[zabbix]: Provider useradd does <span class="built_in">not</span> support features manages_passwords; <span class="built_in">not</span> managing <span class="keyword">attribute</span> password
+</pre></figure><br>]]></summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[systemtap_install]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/07/17/systemtap_install/"/>
+    <id>http://www.zhou5zhou6.com/2015/07/17/systemtap_install/</id>
+    <published>2015-07-17T06:24:04.000Z</published>
+    <updated>2015-09-23T08:50:37.000Z</updated>
+    <content type="html"><![CDATA[<p>最近一个机器的cpu sy很高，cs切换很频繁，估计是某个程序有问题</p>
+<figure class="highlight"><pre><span class="comment">procs</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">memory</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">swap</span><span class="literal">-</span><span class="literal">-</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">io</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">system</span><span class="literal">-</span><span class="literal">-</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">cpu</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>
+ <span class="comment">r</span>  <span class="comment">b</span>   <span class="comment">swpd</span>   <span class="comment">free</span>   <span class="comment">buff</span>  <span class="comment">cache</span>   <span class="comment">si</span>   <span class="comment">so</span>    <span class="comment">bi</span>    <span class="comment">bo</span>   <span class="comment">in</span>   <span class="comment">cs</span> <span class="comment">us</span> <span class="comment">sy</span> <span class="comment">id</span> <span class="comment">wa</span> <span class="comment">st</span>
+<span class="comment">12</span>  <span class="comment">4</span> <span class="comment">1921224</span> <span class="comment">851056</span>   <span class="comment">3288</span> <span class="comment">4268828</span>    <span class="comment">1</span>    <span class="comment">7</span> <span class="comment">14422</span>  <span class="comment">2270</span>    <span class="comment">0</span>    <span class="comment">0</span>  <span class="comment">6</span> <span class="comment">14</span> <span class="comment">57</span> <span class="comment">24</span>  <span class="comment">0</span>
+<span class="comment">19</span>  <span class="comment">2</span> <span class="comment">1921228</span> <span class="comment">866648</span>   <span class="comment">3288</span> <span class="comment">4240524</span>    <span class="comment">0</span>    <span class="comment">4</span> <span class="comment">81520</span> <span class="comment">20471</span> <span class="comment">77085</span> <span class="comment">1657871</span> <span class="comment">16</span> <span class="comment">71</span>  <span class="comment">8</span>  <span class="comment">5</span>  <span class="comment">0</span>
+<span class="comment">11</span>  <span class="comment">0</span> <span class="comment">1921228</span> <span class="comment">867340</span>   <span class="comment">3280</span> <span class="comment">4241312</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">63484</span> <span class="comment">17729</span> <span class="comment">77097</span> <span class="comment">1670401</span> <span class="comment">17</span> <span class="comment">69</span> <span class="comment">12</span>  <span class="comment">2</span>  <span class="comment">0</span>
+<span class="comment">13</span>  <span class="comment">0</span> <span class="comment">1921228</span> <span class="comment">868596</span>   <span class="comment">3288</span> <span class="comment">4233176</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">52852</span> <span class="comment">17931</span> <span class="comment">70692</span> <span class="comment">1737849</span> <span class="comment">17</span> <span class="comment">70</span> <span class="comment">11</span>  <span class="comment">3</span>  <span class="comment">0</span>
+<span class="comment">17</span>  <span class="comment">0</span> <span class="comment">1921228</span> <span class="comment">871384</span>   <span class="comment">3280</span> <span class="comment">4228236</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">67400</span> <span class="comment">25778</span> <span class="comment">77112</span> <span class="comment">1679067</span> <span class="comment">16</span> <span class="comment">69</span> <span class="comment">13</span>  <span class="comment">2</span>  <span class="comment">0</span>
+<span class="comment">21</span>  <span class="comment">1</span> <span class="comment">1921228</span> <span class="comment">866268</span>   <span class="comment">3296</span> <span class="comment">4232780</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">64408</span> <span class="comment">19465</span> <span class="comment">75566</span> <span class="comment">1671655</span> <span class="comment">17</span> <span class="comment">69</span> <span class="comment">13</span>  <span class="comment">1</span>  <span class="comment">0</span>
+ <span class="comment">5</span>  <span class="comment">0</span> <span class="comment">1921228</span> <span class="comment">815304</span>   <span class="comment">3280</span> <span class="comment">4283268</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">74260</span> <span class="comment">17012</span> <span class="comment">73822</span> <span class="comment">1679299</span> <span class="comment">18</span> <span class="comment">70</span> <span class="comment">11</span>  <span class="comment">1</span>  <span class="comment">0</span>
+<span class="comment">15</span>  <span class="comment">2</span> <span class="comment">1921228</span> <span class="comment">757480</span>   <span class="comment">3288</span> <span class="comment">4336520</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">53720</span>  <span class="comment">9204</span> <span class="comment">67308</span> <span class="comment">1766932</span> <span class="comment">17</span> <span class="comment">69</span> <span class="comment">13</span>  <span class="comment">1</span>  <span class="comment">0</span>
+</pre></figure><br><a id="more"></a><br>然后通过dstat —top-cpu或者ps查看占用高的进程ps -eo pid,ni,pri,pcpu,psr,comm| sort -nr -k4| more<br><br>不过如果想查看cpu的cs切换的详细信息还必须依赖systemtap了<br><br>简单的安装步骤<br><figure class="highlight"><pre>yum <span class="keyword">install</span> systemtap systemtap-runtime
+</pre></figure><br>检查安装内核包，主要包括<br><br>    kernel-debuginfo<br>    kernel-debuginfo-common<br>    kernel-devel<br><br><figure class="highlight"><pre>stap<span class="attribute">-prep</span>
+</pre></figure>
+
+<p>所安装的包必须与当前的内核版本一致</p>
+<p>systemtap安装好后就可以用stap命令配合stap脚本分析了</p>
+<p>备忘:注意，stap执行的时候会报 </p>
+<figure class="highlight"><pre><span class="tag">ERROR</span>: <span class="tag">Array</span> <span class="tag">overflow</span>, <span class="tag">check</span> <span class="tag">MAXMAPENTRIES</span> <span class="tag">near</span> <span class="tag">identifier</span> ‘<span class="tag">a</span>’ <span class="tag">at</span> <span class="tag">test</span><span class="class">.stp</span><span class="pseudo">:6</span><span class="pseudo">:5</span>
+</pre></figure>
+
+<p>这个时候要加上-DMAXMAPENTRIES=10240  把这个值调大</p>
+<p><figure class="highlight"><pre><span class="attribute">ERROR</span>: <span class="string">probe overhead exceeded threshold</span>
+</pre></figure><br>用STP_NO_OVERLOAD来解除这个限制</p>
+<p>参考资料<br><a href="http://segmentfault.com/a/1190000000671438" target="_blank">install</a><br><a href="http://segmentfault.com/a/1190000000680628" target="_blank">systemtap脚本</a><br><a href="http://blog.yufeng.info/archives/1213" target="_blank">ERROR: Array overflow解决方法</a><br><a href="http://www.cnblogs.com/ggjucheng/archive/2012/01/05/2312625.html" target="_blank">vmstat</a><br><a href="http://www.vpsee.com/2009/11/linux-system-performance-monitoring-cpu/" target="_blank">cpu</a></p>
+]]></content>
+    <summary type="html"><![CDATA[<p>最近一个机器的cpu sy很高，cs切换很频繁，估计是某个程序有问题</p>
+<figure class="highlight"><pre><span class="comment">procs</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">memory</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">swap</span><span class="literal">-</span><span class="literal">-</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">io</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">system</span><span class="literal">-</span><span class="literal">-</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">cpu</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>
+ <span class="comment">r</span>  <span class="comment">b</span>   <span class="comment">swpd</span>   <span class="comment">free</span>   <span class="comment">buff</span>  <span class="comment">cache</span>   <span class="comment">si</span>   <span class="comment">so</span>    <span class="comment">bi</span>    <span class="comment">bo</span>   <span class="comment">in</span>   <span class="comment">cs</span> <span class="comment">us</span> <span class="comment">sy</span> <span class="comment">id</span> <span class="comment">wa</span> <span class="comment">st</span>
+<span class="comment">12</span>  <span class="comment">4</span> <span class="comment">1921224</span> <span class="comment">851056</span>   <span class="comment">3288</span> <span class="comment">4268828</span>    <span class="comment">1</span>    <span class="comment">7</span> <span class="comment">14422</span>  <span class="comment">2270</span>    <span class="comment">0</span>    <span class="comment">0</span>  <span class="comment">6</span> <span class="comment">14</span> <span class="comment">57</span> <span class="comment">24</span>  <span class="comment">0</span>
+<span class="comment">19</span>  <span class="comment">2</span> <span class="comment">1921228</span> <span class="comment">866648</span>   <span class="comment">3288</span> <span class="comment">4240524</span>    <span class="comment">0</span>    <span class="comment">4</span> <span class="comment">81520</span> <span class="comment">20471</span> <span class="comment">77085</span> <span class="comment">1657871</span> <span class="comment">16</span> <span class="comment">71</span>  <span class="comment">8</span>  <span class="comment">5</span>  <span class="comment">0</span>
+<span class="comment">11</span>  <span class="comment">0</span> <span class="comment">1921228</span> <span class="comment">867340</span>   <span class="comment">3280</span> <span class="comment">4241312</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">63484</span> <span class="comment">17729</span> <span class="comment">77097</span> <span class="comment">1670401</span> <span class="comment">17</span> <span class="comment">69</span> <span class="comment">12</span>  <span class="comment">2</span>  <span class="comment">0</span>
+<span class="comment">13</span>  <span class="comment">0</span> <span class="comment">1921228</span> <span class="comment">868596</span>   <span class="comment">3288</span> <span class="comment">4233176</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">52852</span> <span class="comment">17931</span> <span class="comment">70692</span> <span class="comment">1737849</span> <span class="comment">17</span> <span class="comment">70</span> <span class="comment">11</span>  <span class="comment">3</span>  <span class="comment">0</span>
+<span class="comment">17</span>  <span class="comment">0</span> <span class="comment">1921228</span> <span class="comment">871384</span>   <span class="comment">3280</span> <span class="comment">4228236</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">67400</span> <span class="comment">25778</span> <span class="comment">77112</span> <span class="comment">1679067</span> <span class="comment">16</span> <span class="comment">69</span> <span class="comment">13</span>  <span class="comment">2</span>  <span class="comment">0</span>
+<span class="comment">21</span>  <span class="comment">1</span> <span class="comment">1921228</span> <span class="comment">866268</span>   <span class="comment">3296</span> <span class="comment">4232780</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">64408</span> <span class="comment">19465</span> <span class="comment">75566</span> <span class="comment">1671655</span> <span class="comment">17</span> <span class="comment">69</span> <span class="comment">13</span>  <span class="comment">1</span>  <span class="comment">0</span>
+ <span class="comment">5</span>  <span class="comment">0</span> <span class="comment">1921228</span> <span class="comment">815304</span>   <span class="comment">3280</span> <span class="comment">4283268</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">74260</span> <span class="comment">17012</span> <span class="comment">73822</span> <span class="comment">1679299</span> <span class="comment">18</span> <span class="comment">70</span> <span class="comment">11</span>  <span class="comment">1</span>  <span class="comment">0</span>
+<span class="comment">15</span>  <span class="comment">2</span> <span class="comment">1921228</span> <span class="comment">757480</span>   <span class="comment">3288</span> <span class="comment">4336520</span>    <span class="comment">0</span>    <span class="comment">0</span> <span class="comment">53720</span>  <span class="comment">9204</span> <span class="comment">67308</span> <span class="comment">1766932</span> <span class="comment">17</span> <span class="comment">69</span> <span class="comment">13</span>  <span class="comment">1</span>  <span class="comment">0</span>
+</pre></figure><br>]]></summary>
+    
+      <category term="systemtap" scheme="http://www.zhou5zhou6.com/tags/systemtap/"/>
+    
+      <category term="tools" scheme="http://www.zhou5zhou6.com/categories/tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[tcpcopy笔记]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/07/10/tcpcopy/"/>
+    <id>http://www.zhou5zhou6.com/2015/07/10/tcpcopy/</id>
+    <published>2015-07-10T07:29:36.000Z</published>
+    <updated>2015-07-10T08:26:30.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="通过tcpcopy压力测试">通过tcpcopy压力测试</h1>
+<h2 id="下载">下载</h2>
+<p><a href="https://github.com/session-replay-tools/intercept/releases" target="_blank">intercept下载</a></p>
+<p><a href="https://github.com/session-replay-tools/tcpcopy/releases" target="_blank">tcpcopy下载</a></p>
+<p><a id="more"></a></p>
+<h2 id="安装">安装</h2>
+<p>tcpcopy</p>
+<figure class="highlight"><pre>
+./configure --prefix=/usr/local/tcpcopy
+<span class="built_in">make</span> && <span class="built_in">make</span> install
+</pre></figure><br>intercept<br><figure class="highlight"><pre>yum <span class="keyword">install</span> libpcap-devel
+./configure --prefix=/usr/local/intercept
+make && make <span class="keyword">install</span>
+</pre></figure>
+
+<h2 id="用法">用法</h2>
+<h3 id="在线抓包">在线抓包</h3>
+<h4 id="A_线上服务器_安装tcpcopy">A 线上服务器    安装tcpcopy</h4>
+<p>./tcpcopy -x A:80-B:80 -s C -l /var/log/tcpcopy.log -d</p>
+<h4 id="B_测试服务器">B 测试服务器</h4>
+<p> route add -host A gw C<br> 意思是将测试服务器B返回给客户端的响应走网关C，但是C 并没有开启路由模式，我们在C上运行intercept，用于抓获响应包</p>
+<h4 id="C_辅助服务器_安装intercept">C 辅助服务器    安装intercept</h4>
+<p>modprobe ip_queue<br>iptables -I OUTPUT -p tcp —sport <port> -j QUEUE<br>将响应结果发送至QUEUE（ip_queue），从而实现运行在用户态的进程对相关数据包进行裁定。<br>./intercept -i bond0 -F ‘tcp and src port 80’ -d</p>
+<h3 id="离线抓包">离线抓包</h3>
+<p>A ： tcpdump -i bond0 tcp and port 80 -s 0 -w online.pcap<br>B ： 安装intercept，tcpcopy</p>
+<figure class="highlight"><pre>modprobe ip_queue
+iptables <span class="attribute">-I</span> OUTPUT <span class="attribute">-p</span> tcp <span class="subst">--</span>sport <span class="subst">&lt;</span>port<span class="subst">&gt;</span> <span class="attribute">-j</span> <span class="built_in">QUEUE</span>
+将响应结果发送至<span class="built_in">QUEUE</span>（ip_queue），从而实现运行在用户态的进程对相关数据包进行裁定。
+intercept
+将在线抓取的包回放
+tcpcopy <span class="attribute">-i</span> <span class="subst">&lt;</span>抓包文件地址<span class="subst">&gt;</span> <span class="attribute">-x</span> <span class="subst">&lt;</span>port<span class="subst">&gt;-&lt;</span>本地ip<span class="subst">&gt;</span>:<span class="subst">&lt;</span>port<span class="subst">&gt;</span>
+</pre></figure>
+
+<p>疑惑的地方<br>在线压测，发现测试服务器和在线服务器流量差很多。。。。<br>bonding 配置有问题。。。。等同事检查后，再测试看看</p>
+]]></content>
+    <summary type="html"><![CDATA[<h1 id="通过tcpcopy压力测试">通过tcpcopy压力测试</h1>
+<h2 id="下载">下载</h2>
+<p><a href="https://github.com/session-replay-tools/intercept/releases" target="_blank">intercept下载</a></p>
+<p><a href="https://github.com/session-replay-tools/tcpcopy/releases" target="_blank">tcpcopy下载</a></p>
+<p>]]></summary>
+    
+      <category term="tcpcopy" scheme="http://www.zhou5zhou6.com/tags/tcpcopy/"/>
+    
+      <category term="测试" scheme="http://www.zhou5zhou6.com/categories/%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[mitmproxy]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/06/04/mitmproxy/"/>
+    <id>http://www.zhou5zhou6.com/2015/06/04/mitmproxy/</id>
+    <published>2015-06-04T02:11:12.000Z</published>
+    <updated>2015-06-04T02:12:42.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="mac通过mitmproxy设置代理给手机抓包">mac通过mitmproxy设置代理给手机抓包</h3>
+<h2 id="一、安装">一、安装</h2>
+<figure class="highlight"><pre>pip <span class="keyword">install</span> mitmproxy
+</pre></figure>
+
+<p><a id="more"></a></p>
+<h4 id="1-安装过程中报错信息处理">1.安装过程中报错信息处理</h4>
+<h5 id="1&gt;">1&gt;</h5>
+<figure class="highlight"><pre>cc <span class="attribute">-fno</span><span class="attribute">-strict</span><span class="attribute">-aliasing</span> <span class="attribute">-fno</span><span class="attribute">-common</span> <span class="attribute">-dynamic</span> <span class="attribute">-arch</span> x86_64 <span class="attribute">-arch</span> i386 <span class="attribute">-g</span> <span class="attribute">-Os</span> <span class="attribute">-pipe</span> <span class="attribute">-fno</span><span class="attribute">-common</span> <span class="attribute">-fno</span><span class="attribute">-strict</span><span class="attribute">-aliasing</span> <span class="attribute">-fwrapv</span> <span class="attribute">-DENABLE_DTRACE</span> <span class="attribute">-DMACOSX</span> <span class="attribute">-DNDEBUG</span> <span class="attribute">-Wall</span> <span class="attribute">-Wstrict</span><span class="attribute">-prototypes</span> <span class="attribute">-Wshorten</span><span class="subst">-</span><span class="number">64</span><span class="attribute">-to</span><span class="subst">-</span><span class="number">32</span> <span class="attribute">-DNDEBUG</span> <span class="attribute">-g</span> <span class="attribute">-fwrapv</span> <span class="attribute">-Os</span> <span class="attribute">-Wall</span> <span class="attribute">-Wstrict</span><span class="attribute">-prototypes</span> <span class="attribute">-DENABLE_DTRACE</span> <span class="attribute">-arch</span> x86_64 <span class="attribute">-arch</span> i386 <span class="attribute">-pipe</span> <span class="attribute">-DUSE__THREAD</span> <span class="attribute">-I</span>/usr/include/ffi <span class="attribute">-I</span>/usr/include/libffi <span class="attribute">-I</span>/System/Library/Frameworks/Python<span class="built_in">.</span>framework/Versions/<span class="number">2.7</span>/include/python2<span class="number">.7</span> <span class="attribute">-c</span> c/_cffi_backend<span class="built_in">.</span>c <span class="attribute">-o</span> build/temp<span class="built_in">.</span>macosx<span class="subst">-</span><span class="number">10.10</span><span class="attribute">-intel</span><span class="subst">-</span><span class="number">2.7</span>/c/_cffi_backend<span class="built_in">.</span>o
+
+c/_cffi_backend<span class="built_in">.</span>c:<span class="number">13</span>:<span class="number">10</span>: fatal error: <span class="string">'ffi.h'</span> file <span class="literal">not</span> found
+
+<span class="variable">#include</span> <span class="subst">&lt;</span>ffi<span class="built_in">.</span>h<span class="subst">&gt;</span>
+
+         ^
+
+<span class="number">1</span> error generated<span class="built_in">.</span>
+
+error: command <span class="string">'cc'</span> failed <span class="keyword">with</span> exit status <span class="number">1</span>
+</pre></figure>
+
+<p>解决方法</p>
+<p><figure class="highlight"><pre>sudo xcode-<span class="built_in">select</span> <span class="comment">--install</span>
+</pre></figure><br>安装完毕后，就会在/usr/include里面看到常用的头文件了</p>
+<h5 id="2&gt;">2&gt;</h5>
+<p><figure class="highlight"><pre>You are <span class="keyword">using</span> <span class="operator">an</span> outdated <span class="built_in">version</span> <span class="operator">of</span> pyOpenSSL: mitmproxy requires pyOpenSSL <span class="number">0.14</span> <span class="operator">or</span> greater.
+Your pyOpenSSL <span class="number">0.13</span><span class="number">.1</span> installation is located <span class="keyword">at</span> /System/Library/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/Extras/lib/python/OpenSSL
+</pre></figure><br>解决方法：</p>
+<p><figure class="highlight"><pre><span class="label">https:</span>//pypi<span class="preprocessor">.python</span><span class="preprocessor">.org</span>/packages/source/p/pyOpenSSL/pyOpenSSL-<span class="number">0.15</span><span class="number">.1</span><span class="preprocessor">.tar</span><span class="preprocessor">.gz</span><span class="preprocessor">#md5=f447644afcbd5f0a1f47350fec63a4c6</span>
+tar zxvf pyOpenSSL-<span class="number">0.15</span><span class="number">.1</span><span class="preprocessor">.tar</span><span class="preprocessor">.gz</span>
+cd pyOpenSSL-<span class="number">0.15</span><span class="number">.1</span>
+sudo python setup<span class="preprocessor">.py</span> install
+</pre></figure></p>
+<h4 id="2-使用">2.使用</h4>
+<p>mac上面设置代理</p>
+<blockquote>
+<p>sudo mitmproxy -p 8080<br>然后在手机上面设置上台式机的ip和端口代理即可<br>（手机的网络配置）</p>
+</blockquote>
+<p><a href="http://mitmproxy.org/" target="_blank">官网地址</a></p>
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="mac通过mitmproxy设置代理给手机抓包">mac通过mitmproxy设置代理给手机抓包</h3>
+<h2 id="一、安装">一、安装</h2>
+<figure class="highlight"><pre>pip <span class="keyword">install</span> mitmproxy
+</pre></figure>
+
+<p>]]></summary>
+    
+      <category term="mitmproxy" scheme="http://www.zhou5zhou6.com/tags/mitmproxy/"/>
+    
+      <category term="tools" scheme="http://www.zhou5zhou6.com/categories/tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[docker_install]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/06/03/dockerinstall/"/>
+    <id>http://www.zhou5zhou6.com/2015/06/03/dockerinstall/</id>
+    <published>2015-06-03T02:42:11.000Z</published>
+    <updated>2015-06-03T02:43:09.000Z</updated>
+    <content type="html"><![CDATA[<h4 id="dock_安装_@centos">dock 安装  @centos</h4>
+<p>1.yum -y install docker-io</p>
+<p><a id="more"></a><br>2./etc/init.d/docker start</p>
+<p>3.查看docker信息</p>
+<figure class="highlight"><pre>docker info
+Containers: <span class="number">0</span>
+Images: <span class="number">0</span>
+Storage Driver: devicemapper
+ Pool Name: docker<span class="subst">-</span><span class="number">253</span>:<span class="number">1</span><span class="subst">-</span><span class="number">263347</span><span class="attribute">-pool</span>
+ Pool Blocksize: <span class="number">65.54</span> kB
+ Backing Filesystem: extfs
+ <span class="built_in">Data</span> file: /dev/loop0
+ Metadata file: /dev/loop1
+ <span class="built_in">Data</span> Space Used: <span class="number">305.7</span> MB
+ <span class="built_in">Data</span> Space Total: <span class="number">107.4</span> GB
+ Metadata Space Used: <span class="number">733.2</span> kB
+ Metadata Space Total: <span class="number">2.147</span> GB
+ Udev Sync Supported: <span class="literal">true</span>
+ <span class="built_in">Data</span> <span class="keyword">loop</span> file: /<span class="built_in">var</span>/lib/docker/devicemapper/devicemapper/<span class="built_in">data</span>
+ Metadata <span class="keyword">loop</span> file: /<span class="built_in">var</span>/lib/docker/devicemapper/devicemapper/metadata
+ Library Version: <span class="number">1.02</span><span class="number">.89</span><span class="attribute">-RHEL6</span> (<span class="number">2014</span><span class="subst">-</span><span class="number">09</span><span class="subst">-</span><span class="number">01</span>)
+Execution Driver: native<span class="subst">-</span><span class="number">0.2</span>
+Kernel Version: <span class="number">2.6</span><span class="number">.32</span><span class="subst">-</span><span class="number">925.431</span><span class="number">.23</span><span class="number">.3</span><span class="built_in">.</span>letv<span class="built_in">.</span>el6<span class="built_in">.</span>x86_64
+Operating System: <span class="subst">&lt;</span>unknown<span class="subst">&gt;</span>
+CPUs: <span class="number">24</span>
+Total Memory: <span class="number">62.87</span> GiB
+Name: CDN<span class="attribute">-xxx</span>
+ID: WVDC:NHZ2:Q4TM:NM44:KJZ4:ODRO:<span class="number">3</span>BIA:C5AK:TRZI:LR3P:CR32:<span class="number">5</span>SVM
+</pre></figure>
+
+<p>执行过程报错</p>
+<figure class="highlight"><pre>
+
+<span class="avrasm">[root@CDN-xxx ~]<span class="preprocessor"># docker -d</span>
+INFO[<span class="number">0000</span>] +job serveapi(unix:///var/run/docker<span class="preprocessor">.sock</span>)
+INFO[<span class="number">0000</span>] Listening for HTTP on unix (/var/run/docker<span class="preprocessor">.sock</span>)
+INFO[<span class="number">0000</span>] WARNING: You are running linux kernel version <span class="number">2.6</span><span class="number">.32</span>-<span class="number">925.431</span><span class="number">.23</span><span class="number">.3</span><span class="preprocessor">.letv</span><span class="preprocessor">.el</span>6<span class="preprocessor">.x</span>86_64, which might be unstable running docker. Please upgrade your kernel to <span class="number">3.8</span><span class="number">.0</span>.
+<span class="label">docker:</span> relocation error: docker: symbol dm_task_get_info_with_deferred_remove, version Base not defined <span class="keyword">in</span> file libdevmapper<span class="preprocessor">.so</span><span class="number">.1</span><span class="number">.02</span> with link time reference</span>
+</pre></figure>
+
+<p>解决方法：</p>
+<figure class="highlight"><pre>yum install device<span class="attribute">-mapper</span><span class="attribute">-libs</span>
+</pre></figure>
+]]></content>
+    <summary type="html"><![CDATA[<h4 id="dock_安装_@centos">dock 安装  @centos</h4>
+<p>1.yum -y install docker-io</p>
+<p>]]></summary>
+    
+      <category term="docker" scheme="http://www.zhou5zhou6.com/tags/docker/"/>
+    
+      <category term="docker" scheme="http://www.zhou5zhou6.com/categories/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[slat-multi-master]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/05/26/slat-multi-master/"/>
+    <id>http://www.zhou5zhou6.com/2015/05/26/slat-multi-master/</id>
+    <published>2015-05-26T07:39:13.000Z</published>
+    <updated>2015-05-26T07:48:04.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="salt扩展">salt扩展</h2>
+<h4 id="多master横向扩展">多master横向扩展</h4>
+<p>1.机器B设置yum的epol源，安装salt-master<br>2.机器A上面通过nfs共享/etc/salt/pki/master配置<br><a id="more"></a><br>3.机器B mount A 的/etc/salt/pki/master；并把/etc/salt/的配置拷贝倒B的相同目录下<br>4.启动B机器的salt-master<br>5.配置minion为多个master即可<br>例如</p>
+<figure class="highlight"><pre>master:
+  -<span class="ruby"> 机器<span class="constant">A</span>
+</span>  -<span class="ruby"> 机器<span class="constant">B</span></span>
+</pre></figure>
+
+<p><a href="http://docs.saltstack.com/en/latest/topics/tutorials/multimaster.html" target="_blank">参考资料</a></p>
+<h4 id="突破网络限制">突破网络限制</h4>
+<p>有些机房有限制，禁止外网访问，这个时候就需要配置syndic<br>即通过master管理syndic，然后通过syndic管理minion机器</p>
+<p><img src="http://7x00f8.com1.z0.glb.clouddn.com/zhou5zhou6salt-syndic.png" alt="结构图"></p>
+]]></content>
+    <summary type="html"><![CDATA[<h2 id="salt扩展">salt扩展</h2>
+<h4 id="多master横向扩展">多master横向扩展</h4>
+<p>1.机器B设置yum的epol源，安装salt-master<br>2.机器A上面通过nfs共享/etc/salt/pki/master配置<br>]]></summary>
+    
+      <category term="salt" scheme="http://www.zhou5zhou6.com/tags/salt/"/>
+    
+      <category term="master" scheme="http://www.zhou5zhou6.com/tags/master/"/>
+    
+      <category term="saltstack" scheme="http://www.zhou5zhou6.com/categories/saltstack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[yum下载rpm包]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/05/20/yum_conf/"/>
+    <id>http://www.zhou5zhou6.com/2015/05/20/yum_conf/</id>
+    <published>2015-05-20T02:48:11.000Z</published>
+    <updated>2015-05-20T02:49:27.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="yum仅下载rpm包，不进行安装">yum仅下载rpm包，不进行安装</h3>
+<p>1.安装yum的download插件</p>
+<figure class="highlight"><pre>yum <span class="keyword">install</span> yum-downloadonly
+</pre></figure><br><a id="more"></a><br>2.多了2个配置参数<br>—downloadonly<br>—downloaddir<br>例如：将salt-master的rpm安装包保存倒/var下<br><figure class="highlight"><pre><span class="comment">yum</span> <span class="comment">install</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">downloadonly</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">downloaddir=/var</span> <span class="comment">salt</span><span class="literal">-</span><span class="comment">master</span>
+</pre></figure>
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="yum仅下载rpm包，不进行安装">yum仅下载rpm包，不进行安装</h3>
+<p>1.安装yum的download插件</p>
+<figure class="highlight"><pre>yum <span class="keyword">install</span> yum-downloadonly
+</pre></figure><br>]]></summary>
+    
+      <category term="yum" scheme="http://www.zhou5zhou6.com/tags/yum/"/>
+    
+      <category term="download" scheme="http://www.zhou5zhou6.com/tags/download/"/>
+    
+      <category term="rpm" scheme="http://www.zhou5zhou6.com/tags/rpm/"/>
+    
+      <category term="tools" scheme="http://www.zhou5zhou6.com/categories/tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[salt报错汇总]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/05/20/slat_error/"/>
+    <id>http://www.zhou5zhou6.com/2015/05/20/slat_error/</id>
+    <published>2015-05-20T02:29:03.000Z</published>
+    <updated>2015-05-27T03:07:50.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="salt报错汇总">salt报错汇总</h1>
+<p>1.执行salt-run 报[ERROR   ] Failed to import runners drac</p>
+<a id="more"></a>
+
+<figure class="highlight"><pre>
+
+<span class="coffeescript">[root<span class="property">@puppet</span> ~]<span class="comment"># salt-run manage.up</span>
+[ERROR   ] Failed to <span class="reserved">import</span> runners drac, <span class="keyword">this</span> <span class="keyword">is</span> due most likely to a syntax <span class="attribute">error</span>:
+Traceback (most recent call last):
+  File <span class="string">"/usr/lib/python2.6/site-packages/salt/loader.py"</span>, line <span class="number">951</span>, <span class="keyword">in</span> _load_module
+    ), fn_, fpath, desc)
+  File <span class="string">"/usr/lib/python2.6/site-packages/salt/runners/drac.py"</span>, line <span class="number">21</span>, <span class="keyword">in</span> &lt;<span class="built_in">module</span>&gt;
+    <span class="reserved">import</span> paramiko
+  File <span class="string">"/usr/lib/python2.6/site-packages/paramiko/__init__.py"</span>, line <span class="number">30</span>, <span class="keyword">in</span> &lt;<span class="built_in">module</span>&gt;
+    from paramiko.transport <span class="reserved">import</span> SecurityOptions, Transport
+  File <span class="string">"/usr/lib/python2.6/site-packages/paramiko/transport.py"</span>, line <span class="number">49</span>, <span class="keyword">in</span> &lt;<span class="built_in">module</span>&gt;
+    from paramiko.dsskey <span class="reserved">import</span> DSSKey
+  File <span class="string">"/usr/lib/python2.6/site-packages/paramiko/dsskey.py"</span>, line <span class="number">26</span>, <span class="keyword">in</span> &lt;<span class="built_in">module</span>&gt;
+    from Crypto.PublicKey <span class="reserved">import</span> DSA
+  File <span class="string">"/usr/lib64/python2.6/site-packages/Crypto/PublicKey/DSA.py"</span>, line <span class="number">88</span>, <span class="keyword">in</span> &lt;<span class="built_in">module</span>&gt;
+    from Crypto.PublicKey <span class="reserved">import</span> _DSA, _slowmath, pubkey
+  File <span class="string">"/usr/lib64/python2.6/site-packages/Crypto/PublicKey/_DSA.py"</span>, line <span class="number">30</span>, <span class="keyword">in</span> &lt;<span class="built_in">module</span>&gt;
+    from Crypto.PublicKey.pubkey <span class="reserved">import</span> *
+  File <span class="string">"/usr/lib64/python2.6/site-packages/Crypto/PublicKey/pubkey.py"</span>, line <span class="number">30</span>, <span class="keyword">in</span> &lt;<span class="built_in">module</span>&gt;
+    from Crypto.Util.number <span class="reserved">import</span> *
+  File <span class="string">"/usr/lib64/python2.6/site-packages/Crypto/Util/number.py"</span>, line <span class="number">56</span>, <span class="keyword">in</span> &lt;<span class="built_in">module</span>&gt;
+    <span class="keyword">if</span> _fastmath <span class="keyword">is</span> <span class="keyword">not</span> None <span class="keyword">and</span> <span class="keyword">not</span> _fastmath.<span class="attribute">HAVE_DECL_MPZ_POWM_SEC</span>:
+<span class="attribute">AttributeError</span>: <span class="string">'module'</span> object has <span class="literal">no</span> attribute <span class="string">'HAVE_DECL_MPZ_POWM_SEC'</span>
+- CDN-HLJ-SH-CNC-<span class="number">135</span></span>
+</pre></figure>
+
+<p>查看本地的salt配置</p>
+<figure class="highlight"><pre>salt<span class="attribute">-master</span> <span class="subst">--</span>versions<span class="attribute">-report</span>
+          Salt: <span class="number">2015.5</span><span class="number">.0</span>
+        Python: <span class="number">2.6</span><span class="number">.5</span> (r265:<span class="number">79063</span>, Nov <span class="number">12</span> <span class="number">2010</span>, <span class="number">00</span>:<span class="number">52</span>:<span class="number">45</span>)
+        Jinja2: <span class="number">2.7</span><span class="number">.3</span>
+      M2Crypto: <span class="number">0.20</span><span class="number">.2</span>
+msgpack<span class="attribute">-python</span>: <span class="number">0.4</span><span class="number">.6</span>
+  msgpack<span class="attribute">-pure</span>: <span class="literal">Not</span> Installed
+      pycrypto: <span class="number">2.6</span><span class="number">.1</span>
+       libnacl: <span class="literal">Not</span> Installed
+        PyYAML: <span class="number">3.11</span>
+         ioflo: <span class="literal">Not</span> Installed
+         PyZMQ: <span class="number">14.3</span><span class="number">.1</span>
+          RAET: <span class="literal">Not</span> Installed
+           ZMQ: <span class="number">3.2</span><span class="number">.5</span>
+          Mako: <span class="literal">Not</span> Installed
+</pre></figure>
+
+<p>网上搜</p>
+<blockquote>
+<p>AttributeError: ‘module’ object has no attribute ‘HAVE_DECL_MPZ_POWM_SEC’</p>
+</blockquote>
+<p>均说是 pycrypto的问题，所以把pycrypto重新安装一下</p>
+<figure class="highlight"><pre>yum reinstall pycrypto
+</pre></figure>
+
+<p>然后执行解决<br>目前       pycrypto: 2.0.1</p>
+<p>2.<br>执行 salt ‘*’  sys.doc  报以下错误</p>
+<p><figure class="highlight"><pre>[ERROR   ] An un-handled exception was caught by salt<span class="attribute">'s</span> global exception handler:
+TypeError: <span class="typename">string</span> indices must be integers, <span class="keyword">not</span> str
+Traceback (most recent call last):
+  <span class="keyword">File</span> <span class="string">"/usr/bin/salt"</span>, line <span class="number">10</span>, <span class="keyword">in</span> &lt;module&gt;
+    salt_main()
+  <span class="keyword">File</span> <span class="string">"/usr/lib/python2.6/site-packages/salt/scripts.py"</span>, line <span class="number">349</span>, <span class="keyword">in</span> salt_main
+    client.run()
+  <span class="keyword">File</span> <span class="string">"/usr/lib/python2.6/site-packages/salt/cli/salt.py"</span>, line <span class="number">192</span>, <span class="keyword">in</span> run
+    self._output_ret(ret, <span class="keyword">out</span>)
+  <span class="keyword">File</span> <span class="string">"/usr/lib/python2.6/site-packages/salt/cli/salt.py"</span>, line <span class="number">283</span>, <span class="keyword">in</span> _output_ret
+    self._print_docs(ret)
+  <span class="keyword">File</span> <span class="string">"/usr/lib/python2.6/site-packages/salt/cli/salt.py"</span>, line <span class="number">326</span>, <span class="keyword">in</span> _print_docs
+    <span class="keyword">if</span> ret[host][fun]:
+TypeError: <span class="typename">string</span> indices must be integers, <span class="keyword">not</span> str
+Traceback (most recent call last):
+  <span class="keyword">File</span> <span class="string">"/usr/bin/salt"</span>, line <span class="number">10</span>, <span class="keyword">in</span> &lt;module&gt;
+    salt_main()
+  <span class="keyword">File</span> <span class="string">"/usr/lib/python2.6/site-packages/salt/scripts.py"</span>, line <span class="number">349</span>, <span class="keyword">in</span> salt_main
+    client.run()
+  <span class="keyword">File</span> <span class="string">"/usr/lib/python2.6/site-packages/salt/cli/salt.py"</span>, line <span class="number">192</span>, <span class="keyword">in</span> run
+    self._output_ret(ret, <span class="keyword">out</span>)
+  <span class="keyword">File</span> <span class="string">"/usr/lib/python2.6/site-packages/salt/cli/salt.py"</span>, line <span class="number">283</span>, <span class="keyword">in</span> _output_ret
+    self._print_docs(ret)
+  <span class="keyword">File</span> <span class="string">"/usr/lib/python2.6/site-packages/salt/cli/salt.py"</span>, line <span class="number">326</span>, <span class="keyword">in</span> _print_docs
+    <span class="keyword">if</span> ret[host][fun]:
+TypeError: <span class="typename">string</span> indices must be integers, <span class="keyword">not</span> str
+</pre></figure><br>安装msgpack 解决</p>
+<blockquote>
+<p>yum install msgpack</p>
+</blockquote>
+]]></content>
+    <summary type="html"><![CDATA[<h1 id="salt报错汇总">salt报错汇总</h1>
+<p>1.执行salt-run 报[ERROR   ] Failed to import runners drac</p>
+]]></summary>
+    
+      <category term="salt" scheme="http://www.zhou5zhou6.com/tags/salt/"/>
+    
+      <category term="saltstack" scheme="http://www.zhou5zhou6.com/categories/saltstack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[salt-install]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/05/18/salt-install/"/>
+    <id>http://www.zhou5zhou6.com/2015/05/18/salt-install/</id>
+    <published>2015-05-18T08:49:17.000Z</published>
+    <updated>2015-05-18T08:51:01.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="saltsatck">saltsatck</h3>
+<p>环境centos6.0<br><a id="more"></a></p>
+<h1 id="安装">安装</h1>
+<p>1.yum方式<br>安装epol源</p>
+<figure class="highlight"><pre>rpm -ivh http://dl<span class="preprocessor">.fedoraproject</span><span class="preprocessor">.org</span>/pub/epel/<span class="number">6</span>/x86_64/epel-release-<span class="number">6</span>-<span class="number">8.</span>noarch<span class="preprocessor">.rpm</span>
+</pre></figure><br>安装salt-master或者salt-minion<br><figure class="highlight"><pre>yum <span class="keyword">install</span> salt-master
+yum <span class="keyword">install</span> salt-minion
+</pre></figure>
+
+
+<p>2.pip方式</p>
+<figure class="highlight"><pre>pip <span class="keyword">install</span> salt
+</pre></figure>
+
+
+<h1 id="遇到的问题">遇到的问题</h1>
+<p>客户端的salt-minion执行的时候报一下错误</p>
+<figure class="highlight"><pre>[ERROR ] <span class="keyword">global</span> name <span class="string">'RSA'</span> <span class="keyword">is</span> <span class="keyword">not</span> defined
+</pre></figure><br>通过pip安装的salt发现以上的问题，<br>然后执行<br><figure class="highlight"><pre>salt<span class="attribute">-minion</span> <span class="subst">--</span>versions<span class="attribute">-report</span>
+
+           Salt: <span class="number">2015.5</span><span class="number">.0</span>
+         Python: <span class="number">2.6</span><span class="number">.6</span> (r266:<span class="number">84292</span>, Jan <span class="number">22</span> <span class="number">2014</span>, <span class="number">09</span>:<span class="number">42</span>:<span class="number">36</span>)
+         Jinja2: <span class="number">2.2</span><span class="number">.1</span>
+       M2Crypto: <span class="literal">Not</span> Installed
+ msgpack<span class="attribute">-python</span>: <span class="number">0.4</span><span class="number">.6</span>
+   msgpack<span class="attribute">-pure</span>: <span class="literal">Not</span> Installed
+       pycrypto: <span class="number">2.0</span><span class="number">.1</span>
+        libnacl: <span class="literal">Not</span> Installed
+         PyYAML: <span class="number">3.10</span>
+          ioflo: <span class="literal">Not</span> Installed
+          PyZMQ: <span class="number">14.3</span><span class="number">.1</span>
+           RAET: <span class="literal">Not</span> Installed
+            ZMQ: <span class="literal">Not</span> Installed
+           Mako: <span class="literal">Not</span> Installed
+</pre></figure>
+
+<p>然后yum 安装 M2Crypto,在执行 报zmq is not defined<br>后来pip 卸载掉salt 然后通过yum安装</p>
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="saltsatck">saltsatck</h3>
+<p>环境centos6.0<br>]]></summary>
+    
+      <category term="saltstack" scheme="http://www.zhou5zhou6.com/tags/saltstack/"/>
+    
+      <category term="saltstack" scheme="http://www.zhou5zhou6.com/categories/saltstack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[hp服务器无法修改读写比例]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/05/08/hpacucli_1/"/>
+    <id>http://www.zhou5zhou6.com/2015/05/08/hpacucli_1/</id>
+    <published>2015-05-08T02:36:02.000Z</published>
+    <updated>2015-05-08T02:39:52.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="hp服务器无法修改读写比例">hp服务器无法修改读写比例</h3>
+<figure class="highlight"><pre>[root@cdn tmp]<span class="preprocessor"># hpssacli ctrl slot=2 modify cacheratio=80/20</span>
+
+<span class="keyword">Error</span>: Caching <span class="keyword">is</span> currently disabled <span class="keyword">for</span> all logical drives. Setting the cache
+       ratio <span class="keyword">is</span> <span class="keyword">not</span> allowed <span class="keyword">until</span> a logical drive enables caching.
+</pre></figure><br><a id="more"></a><br>hp服务器报以上错误<br>hpacucli ctrl slot=2 show config detail<br><figure class="highlight"><pre>Post Prompt Timeout: <span class="number">15</span> secs
+<span class="keyword">Cache</span> Board Present: <span class="literal">True</span>
+<span class="keyword">Cache</span> Status: <span class="literal">Not</span> Configured          <span class="subst">&lt;-----</span><span class="keyword">cache</span> 状态未配置
+<span class="keyword">Cache</span> Ratio: <span class="number">100</span><span class="subst">%</span> Read <span class="subst">/</span> <span class="number">0</span><span class="subst">%</span> Write
+Read <span class="keyword">Cache</span> Size: <span class="number">0</span> MB
+</pre></figure>
+
+<p>解决方法</p>
+<figure class="highlight"><pre><span class="xml"><span class="tag"><span class="attribute">hpssacli</span> <span class="attribute">ctrl</span> <span class="attribute">slot</span>=<span class="value">2</span> <span class="attribute">logicaldrive</span> <span class="attribute">1</span> <span class="attribute">modify</span> <span class="attribute">arrayaccelerator</span>=<span class="value">enable</span></span></span>
+</pre></figure><br>执行后<br><br><figure class="highlight"><pre>Surface Analysis Inconsistency Notification: Disabled
+Post Prompt Timeout: <span class="number">15</span> secs
+<span class="keyword">Cache</span> Board Present: <span class="literal">True</span>
+<span class="keyword">Cache</span> Status: OK      <span class="subst">&lt;--------</span>已经变成ok
+</pre></figure>
+
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="hp服务器无法修改读写比例">hp服务器无法修改读写比例</h3>
+<figure class="highlight"><pre>[root@cdn tmp]<span class="preprocessor"># hpssacli ctrl slot=2 modify cacheratio=80/20</span>
+
+<span class="keyword">Error</span>: Caching <span class="keyword">is</span> currently disabled <span class="keyword">for</span> all logical drives. Setting the cache
+       ratio <span class="keyword">is</span> <span class="keyword">not</span> allowed <span class="keyword">until</span> a logical drive enables caching.
+</pre></figure><br>]]></summary>
+    
+      <category term="hp" scheme="http://www.zhou5zhou6.com/tags/hp/"/>
+    
+      <category term="raid" scheme="http://www.zhou5zhou6.com/tags/raid/"/>
+    
+      <category term="hpssacli" scheme="http://www.zhou5zhou6.com/tags/hpssacli/"/>
+    
+      <category term="tools" scheme="http://www.zhou5zhou6.com/categories/tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[elasticsarchturnred]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/04/20/elasticsarchturnred/"/>
+    <id>http://www.zhou5zhou6.com/2015/04/20/elasticsarchturnred/</id>
+    <published>2015-04-20T02:00:54.000Z</published>
+    <updated>2015-04-20T02:05:53.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="elasticsearch服务器重启后导致shard多好变成UNASSIGNED，elasticsearch状态变成red">elasticsearch服务器重启后导致shard多好变成UNASSIGNED，elasticsearch状态变成red</h3>
+<p>通过<a href="http://192.168.1.100:9200/_plugin/head/查看图形如下所示" target="_blank">http://192.168.1.100:9200/_plugin/head/查看图形如下所示</a><br><a id="more"></a><br><img src="http://7x00f8.com1.z0.glb.clouddn.com/zhou5zhou6zhou5zhou6unassigned.png" alt="异常图"></p>
+<p>通过curl -s localhost:9200/_cat/shards | grep UNASS<br>查询结果如下</p>
+<figure class="highlight"><pre>logstsh-<span class="built_in">combine</span>-<span class="number">2015.04</span><span class="number">.10</span> <span class="number">7</span> p UNASSIGNED
+logstash-<span class="built_in">combine</span>-<span class="number">2015.04</span><span class="number">.10</span> <span class="number">7</span> r UNASSIGNED
+logstash-<span class="built_in">combine</span>-<span class="number">2015.04</span><span class="number">.10</span> <span class="number">4</span> p UNASSIGNED
+logstash-<span class="built_in">combine</span>-<span class="number">2015.04</span><span class="number">.10</span> <span class="number">4</span> r UNASSIGNED
+</pre></figure>
+
+
+<p>解决方法<br>强行指定nassigned的shard到ES的某个机器上<br>例如logstsh-combine-2015.04.10 7 p UNASSIGNED</p>
+<figure class="highlight"><pre>curl -XPOST -d '{ <span class="string">"commands"</span> : [ { <span class="string">"allocate"</span> : { <span class="string">"index"</span> : <span class="string">"logstsh-combine-2015.04.10"</span>, <span class="string">"shard"</span> : <span class="number">7</span>, <span class="string">"node"</span> : <span class="string">"glsb-188"</span>, <span class="string">"allow_primary"</span> : <span class="keyword">true</span> } } ] }' http:<span class="comment">//10.140.60.189:9200/_cluster/reroute?pretty</span>
+</pre></figure>
+
+<p>自动脚本</p>
+<p><figure class="highlight"><pre><span class="shebang">#!/bin/bash</span>
+curl <span class="operator">-s</span> <span class="number">10.140</span>.<span class="number">60.188</span>:<span class="number">9200</span>/_cat/shards | grep UNASS | <span class="keyword">while</span> <span class="built_in">read</span> line;<span class="keyword">do</span>
+
+filename=`<span class="built_in">echo</span> <span class="variable">$line</span>| awk  <span class="string">'{print $1}'</span>`
+shardname=`<span class="built_in">echo</span> <span class="variable">$line</span> | awk  <span class="string">'{print $2}'</span>`
+<span class="built_in">echo</span> <span class="string">"curl -XPOST -d '{ \"commands\" : [ { \"allocate\" : { \"index\" : \""</span><span class="variable">${filename}</span><span class="string">"\", \"shard\" : <span class="variable">$shardname</span>, \"node\" : \"glsb-188\", \"allow_primary\" : true } } ] }' http://10.140.60.188:9200/_cluster/reroute?pretty"</span>  &gt;&gt;<span class="number">2</span>
+<span class="keyword">done</span>
+</pre></figure><br>确认2中的数据无误执行即可；</p>
+<p><a href="http://stackoverflow.com/questions/23656458/elasticsearch-what-to-do-with-unassigned-shards" target="_blank">参考资料</a></p>
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="elasticsearch服务器重启后导致shard多好变成UNASSIGNED，elasticsearch状态变成red">elasticsearch服务器重启后导致shard多好变成UNASSIGNED，elasticsearch状态变成red</h3>
+<p>通过<a href="http://192.168.1.100:9200/_plugin/head/查看图形如下所示" target="_blank">http://192.168.1.100:9200/_plugin/head/查看图形如下所示</a><br>]]></summary>
+    
+      <category term="elasticsearch" scheme="http://www.zhou5zhou6.com/tags/elasticsearch/"/>
+    
+      <category term="软件应用" scheme="http://www.zhou5zhou6.com/categories/%E8%BD%AF%E4%BB%B6%E5%BA%94%E7%94%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[foreman_install]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/04/11/foreman_install/"/>
+    <id>http://www.zhou5zhou6.com/2015/04/11/foreman_install/</id>
+    <published>2015-04-11T15:52:32.000Z</published>
+    <updated>2015-04-16T07:12:12.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="foreman杂七杂八">foreman杂七杂八</h2>
+<h3 id="一，环境配置">一，环境配置</h3>
+<p><a id="more"></a><br>配置epel源</p>
+<figure class="highlight"><pre>rpm -ivh http://dl<span class="preprocessor">.fedoraproject</span><span class="preprocessor">.org</span>/pub/epel/<span class="number">6</span>/x86_64/epel-release-<span class="number">6</span>-<span class="number">8.</span>noarch<span class="preprocessor">.rpm</span>
+</pre></figure><br>puppetlabs源<br><figure class="highlight"><pre>rpm -ivh http://yum<span class="preprocessor">.puppetlabs</span><span class="preprocessor">.com</span>/puppetlabs-release-el-<span class="number">6.</span>noarch<span class="preprocessor">.rpm</span>
+</pre></figure><br>foreman源<br><figure class="highlight"><pre>yum -<span class="built_in">y</span> install epel-release http://yum<span class="preprocessor">.theforeman</span><span class="preprocessor">.org</span>/releases/<span class="number">1.7</span>/el6/x86_64/foreman-release<span class="preprocessor">.rpm</span>
+</pre></figure>
+
+<p>二，安装配置</p>
+<figure class="highlight"><pre>yum <span class="attribute">-y</span> install foreman<span class="attribute">-installer</span>
+</pre></figure>
+
+<blockquote>
+<p>报错如下</p>
+<figure class="highlight"><pre>&gt;<span class="keyword">Error</span>: Cannot retrieve metalink <span class="keyword">for</span> repository: epel. Please verify its path <span class="keyword">and</span> &gt;<span class="keyword">try</span> again
+&gt;
+</pre></figure><br>处理方式：<br>取消baseurl的注释，注释mirrorlist url<br><figure class="highlight"><pre>&gt;sed -i ‘s|^<span class="symbol">#baseurl</span><span class="localvars">|baseurl|</span> ; s|^mirrorlist|<span class="symbol">#mirrorlist</span>|’ &gt;/etc/yum.repos.d/epel.repo
+&gt;
+</pre></figure><br>通过foreman-install安装foreman<br><figure class="highlight"><pre>foreman-installer
+ /Stage[main]/Foreman_proxy::Install/Package[foreman-proxy]/<span class="keyword">ensure</span>: change <span class="keyword">from</span> absent <span class="keyword">to</span> present failed: Execution <span class="keyword">of</span> <span class="string">'/usr/bin/yum -d 0 -e 0 -y install foreman-proxy'</span> returned <span class="number">1</span>:
+</pre></figure><br>发现好多包无法安装，然后发现epel也被添加了baselist；<br>执行以下即可<br><figure class="highlight"><pre>foreman<span class="attribute">-installer</span> <span class="subst">--</span>foreman<span class="attribute">-configure</span><span class="attribute">-epel</span><span class="attribute">-repo</span><span class="subst">=</span><span class="literal">false</span>
+</pre></figure>
+
+</blockquote>
+<p>执行完后</p>
+<figure class="highlight"><pre>nstalling             debug: Finishing transaction <span class="number">69958912989540</span>        [<span class="number">99</span>%]Installing             Done                                               [<span class="number">100</span>%Installing             Done                                               [<span class="number">100</span>%] []
+  Success!
+  * Foreman is running <span class="keyword">at</span> <span class="keyword">https</span>://puppet.xx.xxoo.com
+      Initial credentials are admin / ekTJzNkSuwZxWyx4
+  * Foreman Proxy is running <span class="keyword">at</span> <span class="keyword">https</span>://puppet.xx.xxoo.com:<span class="number">8443</span>
+  * Puppetmaster is running <span class="keyword">at</span> port <span class="number">8140</span>
+  The full <span class="built_in">log</span> is <span class="keyword">at</span> /var/<span class="built_in">log</span>/foreman-installer/foreman-installer.<span class="built_in">log</span>
+</pre></figure><br>如果执行过程中出现failed，见招拆招吧。。。<br><br><br><br>三。proxy端<br><figure class="highlight"><pre>Could <span class="operator">not</span> <span class="built_in">get</span> default values, check <span class="built_in">log</span> <span class="built_in">file</span> <span class="keyword">at</span> /var/<span class="built_in">log</span>/foreman-installer/foreman-installer.<span class="built_in">log</span> <span class="keyword">for</span> more information
+</pre></figure><br>解决方法<br><figure class="highlight"><pre>facter fqdn
+查看是否有输出，当时我的facter版本过低，升级后解决
+</pre></figure>
+
+
+]]></content>
+    <summary type="html"><![CDATA[<h2 id="foreman杂七杂八">foreman杂七杂八</h2>
+<h3 id="一，环境配置">一，环境配置</h3>
+<p>]]></summary>
+    
+      <category term="puppet" scheme="http://www.zhou5zhou6.com/tags/puppet/"/>
+    
+      <category term="foreman" scheme="http://www.zhou5zhou6.com/tags/foreman/"/>
+    
+      <category term="puppet" scheme="http://www.zhou5zhou6.com/categories/puppet/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[redis_error]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/04/01/redis_error/"/>
+    <id>http://www.zhou5zhou6.com/2015/04/01/redis_error/</id>
+    <published>2015-04-01T08:34:29.000Z</published>
+    <updated>2015-04-01T09:05:43.000Z</updated>
+    <content type="html"><![CDATA[<p>1.安装redis-stat报错</p>
+<figure class="highlight"><pre>[root@log bin]<span class="preprocessor"># gem install redis-stat</span>
+Building native extensions.  This could <span class="keyword">take</span> a <span class="keyword">while</span>...
+<span class="keyword">ERROR</span>:  <span class="keyword">Error</span> installing redis-stat:
+    <span class="keyword">ERROR</span>: Failed <span class="keyword">to</span> build gem native extension.
+
+/usr/bin/ruby extconf.rb
+mkmf.rb can<span class="comment">'t find header files for ruby at /usr/lib/ruby/ruby.h</span>
+
+
+Gem files will remain installed <span class="keyword">in</span> /usr/<span class="keyword">lib</span>/ruby/gems/<span class="number">1.8</span>/gems/json-<span class="number">1.8</span><span class="number">.2</span> <span class="keyword">for</span> inspection.
+Results logged <span class="keyword">to</span> /usr/<span class="keyword">lib</span>/ruby/gems/<span class="number">1.8</span>/gems/json-<span class="number">1.8</span><span class="number">.2</span>/ext/json/ext/generator/gem_make.out
+</pre></figure><br><a id="more"></a><br>解决方法<br><figure class="highlight"><pre>yum <span class="keyword">install</span> ruby-devel
+</pre></figure>
+
+<p>2.<br>执行gem install redis-stat报以下错误</p>
+<figure class="highlight"><pre>/usr/<span class="keyword">lib</span>/ruby/site_ruby/<span class="number">1.8</span>/rubygems.rb:<span class="number">779</span>:<span class="keyword">in</span> `report_activate_error<span class="comment">': RubyGem version error: daemons(1.2.2 not ~&gt; 1.1.9) (Gem::LoadError)</span>
+    <span class="keyword">from</span> /usr/<span class="keyword">lib</span>/ruby/site_ruby/<span class="number">1.8</span>/rubygems.rb:<span class="number">214</span>:<span class="keyword">in</span> `activate<span class="comment">'</span>
+    <span class="keyword">from</span> /usr/<span class="keyword">lib</span>/ruby/site_ruby/<span class="number">1.8</span>/rubygems.rb:<span class="number">249</span>:<span class="keyword">in</span> `activate<span class="comment">'</span>
+    <span class="keyword">from</span> /usr/<span class="keyword">lib</span>/ruby/site_ruby/<span class="number">1.8</span>/rubygems.rb:<span class="number">248</span>:<span class="keyword">in</span> `<span class="keyword">each</span><span class="comment">'</span>
+    <span class="keyword">from</span> /usr/<span class="keyword">lib</span>/ruby/site_ruby/<span class="number">1.8</span>/rubygems.rb:<span class="number">248</span>:<span class="keyword">in</span> `activate<span class="comment">'</span>
+    <span class="keyword">from</span> /usr/<span class="keyword">lib</span>/ruby/site_ruby/<span class="number">1.8</span>/rubygems.rb:<span class="number">1082</span>:<span class="keyword">in</span> `gem<span class="comment">'</span>
+    <span class="keyword">from</span> /usr/bin/redis-stat:<span class="number">18</span>
+</pre></figure>
+
+
+<p>解决方法<br>安装daemon老版本<br>卸载新版本的daemon即可</p>
+<figure class="highlight"><pre>gem install daemons <span class="attribute">-v</span> <span class="number">1.1</span><span class="number">.9</span>
+gem uninstall daemons <span class="attribute">-v</span> <span class="number">1.2</span><span class="number">.2</span>
+</pre></figure>
+]]></content>
+    <summary type="html"><![CDATA[<p>1.安装redis-stat报错</p>
+<figure class="highlight"><pre>[root@log bin]<span class="preprocessor"># gem install redis-stat</span>
+Building native extensions.  This could <span class="keyword">take</span> a <span class="keyword">while</span>...
+<span class="keyword">ERROR</span>:  <span class="keyword">Error</span> installing redis-stat:
+    <span class="keyword">ERROR</span>: Failed <span class="keyword">to</span> build gem native extension.
+
+/usr/bin/ruby extconf.rb
+mkmf.rb can<span class="comment">'t find header files for ruby at /usr/lib/ruby/ruby.h</span>
+
+
+Gem files will remain installed <span class="keyword">in</span> /usr/<span class="keyword">lib</span>/ruby/gems/<span class="number">1.8</span>/gems/json-<span class="number">1.8</span><span class="number">.2</span> <span class="keyword">for</span> inspection.
+Results logged <span class="keyword">to</span> /usr/<span class="keyword">lib</span>/ruby/gems/<span class="number">1.8</span>/gems/json-<span class="number">1.8</span><span class="number">.2</span>/ext/json/ext/generator/gem_make.out
+</pre></figure><br>]]></summary>
+    
+      <category term="redis" scheme="http://www.zhou5zhou6.com/tags/redis/"/>
+    
+      <category term="gem" scheme="http://www.zhou5zhou6.com/tags/gem/"/>
+    
+      <category term="软件应用" scheme="http://www.zhou5zhou6.com/categories/%E8%BD%AF%E4%BB%B6%E5%BA%94%E7%94%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[kibana map]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/03/19/kibana_map/"/>
+    <id>http://www.zhou5zhou6.com/2015/03/19/kibana_map/</id>
+    <published>2015-03-19T09:09:10.000Z</published>
+    <updated>2015-03-19T10:24:58.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="通过kibana的map在地图上面展现访问IP的来源地">通过kibana的map在地图上面展现访问IP的来源地</h3>
+<p>版本是kibana4<br><a id="more"></a><br>1.在下面的地址下载下来IP库<br><a href="http://dev.maxmind.com/geoip/legacy/geolite/" target="_blank">http://dev.maxmind.com/geoip/legacy/geolite/</a></p>
+<figure class="highlight"><pre>
+<span class="label">http:</span>//geolite<span class="preprocessor">.maxmind</span><span class="preprocessor">.com</span>/download/geoip/database/GeoLiteCity<span class="preprocessor">.dat</span><span class="preprocessor">.gz</span>
+gunzip GeoLiteCity<span class="preprocessor">.dat</span><span class="preprocessor">.gz</span>
+</pre></figure>
+
+<p>2.在logstash里面使用</p>
+<figure class="highlight"><pre>geoip {
+     source =&gt; <span class="string">"ip_s"</span>
+     target =&gt; <span class="string">"geoip"</span>
+     database =&gt; <span class="string">"/home/herbert/search/GeoLiteCity.dat"</span>
+
+     }
+</pre></figure>
+
+
+<p>这样输出就会有查询的地理位置信息</p>
+<figure class="highlight"><pre><span class="string">"geoip"</span>: {
+  <span class="string">"ip"</span>: <span class="string">"59.172.75.208"</span>,
+  <span class="string">"country_code2"</span>: <span class="string">"CN"</span>,
+  <span class="string">"country_code3"</span>: <span class="string">"CHN"</span>,
+  <span class="string">"country_name"</span>: <span class="string">"China"</span>,
+  <span class="string">"continent_code"</span>: <span class="string">"AS"</span>,
+  <span class="string">"region_name"</span>: <span class="string">"12"</span>,
+  <span class="string">"city_name"</span>: <span class="string">"Wuhan"</span>,
+  <span class="string">"latitude"</span>: <span class="number">30.580099999999987</span>,
+  <span class="string">"longitude"</span>: <span class="number">114.27339999999998</span>,
+  <span class="string">"timezone"</span>: <span class="string">"Asia/Shanghai"</span>,
+  <span class="string">"real_region_name"</span>: <span class="string">"Hubei"</span>,
+  <span class="string">"location"</span>: [
+    <span class="number">114.27339999999998</span>,
+    <span class="number">30.580099999999987</span>
+  ]
+},
+</pre></figure>
+
+<p>然后在visualize里面配置即可</p>
+<h5 id="地图改成高德地图">地图改成高德地图</h5>
+<p>kibana-4.0.1-linux-x64/src/public<br>修改配置文件index.js即可,把原先的titleLayer注释替换即可</p>
+<figure class="highlight"><pre><span class="regexp">/*          var tileLayer = L.tileLayer('http:/</span><span class="regexp">/otile{s}.mqcdn.com/tiles/1.0.0/map/</span>{z}<span class="regexp">/{x}/</span>{y}.jpeg<span class="string">', {
+            attribution: '</span>Tiles <span class="keyword">by</span> &lt;a href=<span class="string">"http://www.mapquest.com/"</span>&gt;MapQuest&lt;/a&gt; &mdash; <span class="string">' +
+              '</span>Map data &copy; &lt;a href=<span class="string">"http://openstreetmap.org"</span>&gt;OpenStreetMap&lt;/a&gt; contributors, <span class="string">' +
+              '</span>&lt;a href=<span class="string">"http://creativecommons.org/licenses/by-sa/2.0/"</span>&gt;CC-BY-SA&lt;/a&gt;<span class="string">',
+            subdomains: '</span><span class="number">1234</span><span class="string">'
+          });  */  
+
+
+            var tileLayer = L.tileLayer('</span><span class="attribute">http</span>:<span class="regexp">//</span>webrd0{s}.<span class="keyword">is</span>.autonavi.com<span class="regexp">/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {            attribution: 'Tiles by &lt;a href="http:/</span><span class="regexp">/www.mapquest.com/</span><span class="string">"&gt;MapQuest&lt;/a&gt; &mdash; ' +
+              'Map data &copy; &lt;a href="</span><span class="attribute">http</span>:<span class="regexp">//</span>openstreetmap.org<span class="string">"&gt;OpenStreetMap&lt;/a&gt; contributors, ' +
+              '&lt;a href="</span><span class="attribute">http</span>:<span class="regexp">//</span>creativecommons.org<span class="regexp">/licenses/by-sa/2.0/</span><span class="string">"&gt;CC-BY-SA&lt;/a&gt;',
+              subdomains:["</span><span class="number">1</span><span class="string">","</span><span class="number">2</span><span class="string">","</span><span class="number">3</span><span class="string">","</span><span class="number">4</span><span class="string">"],
+              variants: {
+                Satellite:{
+                    url: 'http://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}'
+                    }
+                }
+            });</span>
+</pre></figure>
+
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="通过kibana的map在地图上面展现访问IP的来源地">通过kibana的map在地图上面展现访问IP的来源地</h3>
+<p>版本是kibana4<br>]]></summary>
+    
+      <category term="kibana" scheme="http://www.zhou5zhou6.com/tags/kibana/"/>
+    
+      <category term="map" scheme="http://www.zhou5zhou6.com/tags/map/"/>
+    
+      <category term="软件应用" scheme="http://www.zhou5zhou6.com/categories/%E8%BD%AF%E4%BB%B6%E5%BA%94%E7%94%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[elasticsearch_503]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/03/18/elasticsearch_503/"/>
+    <id>http://www.zhou5zhou6.com/2015/03/18/elasticsearch_503/</id>
+    <published>2015-03-18T08:12:52.000Z</published>
+    <updated>2015-03-18T08:30:27.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="Elastic_Search分布式失效">Elastic Search分布式失效</h3>
+<p>通过<a href="http://10.150.150.42:9200/_plugin/head/查看只有master" target="_blank">http://10.150.150.42:9200/_plugin/head/查看只有master</a> node，找不到另外一个节点<br>然后通过<a href="http://10.150.150.42:9200/" target="_blank">http://10.150.150.42:9200/</a> 查看报503</p>
+<a id="more"></a>
+
+<figure class="highlight"><pre>{
+  "<span class="attribute">status</span>" : <span class="value"><span class="number">503</span></span>,
+  "<span class="attribute">name</span>" : <span class="value"><span class="string">"cdn-181"</span></span>,
+  "<span class="attribute">cluster_name</span>" : <span class="value"><span class="string">"elasticsearch-gslb"</span></span>,
+  "<span class="attribute">version</span>" : <span class="value">{
+    "<span class="attribute">number</span>" : <span class="value"><span class="string">"1.4.4"</span></span>,
+    "<span class="attribute">build_hash</span>" : <span class="value"><span class="string">"c88f77ffc81301dfa9dfd81ca2232f09588bd512"</span></span>,
+    "<span class="attribute">build_timestamp</span>" : <span class="value"><span class="string">"2015-02-19T13:05:36Z"</span></span>,
+    "<span class="attribute">build_snapshot</span>" : <span class="value"><span class="literal">false</span></span>,
+    "<span class="attribute">lucene_version</span>" : <span class="value"><span class="string">"4.10.3"</span>
+  </span>}</span>,
+  "<span class="attribute">tagline</span>" : <span class="value"><span class="string">"You Know, for Search"</span>
+</span>}
+</pre></figure>
+
+<p>在elasticsearch界面查看有以下debug信息</p>
+<figure class="highlight"><pre>[<span class="link_label">2015-03-18 12:51:58,918</span>][<span class="link_reference">DEBUG</span>][<span class="link_label">action.admin.indices.get </span>] [cdn-187] observer: timeout notification from cluster service. timeout setting [30s], time since start [30s]
+[<span class="link_label">2015-03-18 12:52:00,476</span>][<span class="link_reference">DEBUG</span>][<span class="link_label">action.admin.indices.get </span>] [cdn-187] observer: timeout notification from cluster service. timeout setting [30s], time since start [30s]
+[<span class="link_label">2015-03-18 12:52:00,537</span>][<span class="link_reference">DEBUG</span>][<span class="link_label">action.admin.indices.get </span>] [cdn-187] observer: timeout notification from cluster service. timeout setting [30s], time since start [30s]
+[<span class="link_label">2015-03-18 12:52:00,542</span>][<span class="link_reference">DEBUG</span>][<span class="link_label">action.admin.indices.get </span>] [cdn-187] no known master node, scheduling a retry
+</pre></figure>
+
+<p>原因：<br>我采用的是默认的多播探测，探测失效导致我的从节点失效</p>
+<p>解决方法：<br>修改config/elasticsearch.yml 指定探测列表；<br>并禁用多播探测<br>discovery.zen.ping.multicast.enabled: false</p>
+<figure class="highlight"><pre><span class="filename">discovery.zen.ping.unicast.hosts</span>: [<span class="string">"10.150.150.42"</span>]
+</pre></figure>
+
+<p><a href="http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-zen.html#unicast" target="_blank">http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-zen.html#unicast</a></p>
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="Elastic_Search分布式失效">Elastic Search分布式失效</h3>
+<p>通过<a href="http://10.150.150.42:9200/_plugin/head/查看只有master" target="_blank">http://10.150.150.42:9200/_plugin/head/查看只有master</a> node，找不到另外一个节点<br>然后通过<a href="http://10.150.150.42:9200/" target="_blank">http://10.150.150.42:9200/</a> 查看报503</p>
+]]></summary>
+    
+      <category term="elasticsearch" scheme="http://www.zhou5zhou6.com/tags/elasticsearch/"/>
+    
+      <category term="软件应用" scheme="http://www.zhou5zhou6.com/categories/%E8%BD%AF%E4%BB%B6%E5%BA%94%E7%94%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[sysdig(三)]]></title>
+    <link href="http://www.zhou5zhou6.com/2015/03/10/sysdig3/"/>
+    <id>http://www.zhou5zhou6.com/2015/03/10/sysdig3/</id>
+    <published>2015-03-10T07:53:47.000Z</published>
+    <updated>2015-03-10T08:06:01.000Z</updated>
+    <content type="html"><![CDATA[<p>sysdig的简要说明</p>
+<a id="more"></a>
+
+<figure class="highlight"><pre>ysdig <span class="property">version</span> <span class="number">0.1</span><span class="number">.98</span>
+Usage: sysdig [options] [-p &lt;output_format&gt;] [filter]
+
+Options:
+ -A, <span class="comment">--print-ascii  Only print the text portion of data buffers, and echo</span>
+                    <span class="keyword">end</span>-<span class="keyword">of</span>-lines. This <span class="keyword">is</span> useful <span class="keyword">to</span> only display human-readable
+                    data.
+ -b, <span class="comment">--print-base64 Print data buffers in base64. This is useful for encoding</span>
+                    binary data <span class="keyword">that</span> needs <span class="keyword">to</span> be used <span class="keyword">over</span> media designed <span class="keyword">to</span>
+                    handle textual data (i.e., terminal <span class="keyword">or</span> json).
+ -c &lt;chiselname&gt; &lt;chiselargs&gt;, <span class="comment">--chisel  &lt;chiselname&gt; &lt;chiselargs&gt;</span>
+                    <span class="command">run</span> <span class="keyword">the</span> specified chisel. If <span class="keyword">the</span> chisel require arguments,
+                    they must be specified <span class="keyword">in</span> <span class="keyword">the</span> command line <span class="keyword">after</span> <span class="keyword">the</span> <span class="property">name</span>.
+ -cl, <span class="comment">--list-chisels</span>
+                    lists <span class="keyword">the</span> available chisels. Looks <span class="keyword">for</span> chisels <span class="keyword">in</span>
+                    ./chisels, ~/.chisels <span class="keyword">and</span> /usr/share/sysdig/chisels.
+ -d, <span class="comment">--displayflt   Make the given filter a display one</span>
+                    Setting this option causes <span class="keyword">the</span> events <span class="keyword">to</span> be filtered
+                    <span class="keyword">after</span> being parsed <span class="keyword">by</span> <span class="keyword">the</span> state system. Events are
+                    normally filtered <span class="keyword">before</span> being analyzed, which <span class="keyword">is</span> more
+                    efficient, <span class="keyword">but</span> can cause state (e.g. FD names) <span class="keyword">to</span> be lost.
+ -D, <span class="comment">--debug        Capture events about sysdig itself</span>
+ -E, <span class="comment">--exclude-users</span>
+                    Don't create <span class="keyword">the</span> user/group tables <span class="keyword">by</span> querying <span class="keyword">the</span> OS when
+                    sysdig starts. This also means <span class="keyword">that</span> no user <span class="keyword">or</span> group info
+                    will be written <span class="keyword">to</span> <span class="keyword">the</span> tracefile <span class="keyword">by</span> <span class="keyword">the</span> -w flag.
+                    The user/group tables are necessary <span class="keyword">to</span> use filter fields
+                    like user.<span class="property">name</span> <span class="keyword">or</span> group.<span class="property">name</span>. However, creating them can
+                    increase sysdig's startup <span class="property">time</span>. Moreover, they <span class="keyword">contain</span>
+                    information <span class="keyword">that</span> could be privacy sensitive.
+ -F, <span class="comment">--fatfile       Enable fatfile mode</span>
+                    when writing <span class="keyword">in</span> fatfile mode, <span class="keyword">the</span> output <span class="type">file</span> will <span class="keyword">contain</span>
+                    events <span class="keyword">that</span> will be invisible when reading <span class="keyword">the</span> <span class="type">file</span>, <span class="keyword">but</span>
+                    <span class="keyword">that</span> are necessary <span class="keyword">to</span> fully reconstruct <span class="keyword">the</span> state.
+                    Fatfile mode <span class="keyword">is</span> useful when saving events <span class="keyword">to</span> disk <span class="keyword">with</span> an
+                    aggressive filter. The filter could drop events <span class="keyword">that</span> would
+                    <span class="keyword">the</span> state <span class="keyword">to</span> be updated (e.g. clone() <span class="keyword">or</span> open()). With
+                    fatfile mode, those events are still saved <span class="keyword">to</span> <span class="type">file</span>, <span class="keyword">but</span>
+                    'hidden' so <span class="keyword">that</span> they won't appear when reading <span class="keyword">the</span> <span class="type">file</span>.
+                    Be aware <span class="keyword">that</span> using this flag might generate substantially
+                    bigger traces files.
+ -h, <span class="comment">--help         Print this page</span>
+ -i &lt;chiselname&gt;, <span class="comment">--chisel-info &lt;chiselname&gt;</span>
+                    Get a longer description <span class="keyword">and</span> <span class="keyword">the</span> arguments associated <span class="keyword">with</span>
+                    a chisel found <span class="keyword">in</span> <span class="keyword">the</span> -cl option <span class="type">list</span>.
+ -j, <span class="comment">--json         Emit output as json, data buffer encoding will depend from the</span>
+                    print format selected.
+ -L, <span class="comment">--list-events  List the events that the engine supports</span>
+ -l, <span class="comment">--list         List the fields that can be used for filtering and output</span>
+                    formatting. Use -lv <span class="keyword">to</span> <span class="keyword">get</span> additional information <span class="keyword">for</span> each
+                    field.
+ -n &lt;num&gt;, <span class="comment">--numevents=&lt;num&gt;</span>
+                    Stop capturing <span class="keyword">after</span> &lt;num&gt; events
+ -P, <span class="comment">--progress     Print progress on stderr while processing trace files</span>
+ -p &lt;output_format&gt;, <span class="comment">--print=&lt;output_format&gt;</span>
+                    Specify <span class="keyword">the</span> format <span class="keyword">to</span> be used when printing <span class="keyword">the</span> events.
+                    With -pc <span class="keyword">or</span> -pcontainer will use a container-friendly format.
+                    See <span class="keyword">the</span> examples section <span class="keyword">below</span> <span class="keyword">for</span> more info.
+ -q, <span class="comment">--quiet        Don't print events on the screen</span>
+                    Useful when dumping <span class="keyword">to</span> disk.
+ -r &lt;readfile&gt;, <span class="comment">--read=&lt;readfile&gt;</span>
+                    Read <span class="keyword">the</span> events <span class="keyword">from</span> &lt;readfile&gt;.
+ -S, <span class="comment">--summary      print the event summary (i.e. the list of the top events)</span>
+                    when <span class="keyword">the</span> capture ends.
+ -s &lt;len&gt;, <span class="comment">--snaplen=&lt;len&gt;</span>
+                    Capture <span class="keyword">the</span> <span class="keyword">first</span> &lt;len&gt; bytes <span class="keyword">of</span> each I/O buffer.
+                    By default, <span class="keyword">the</span> <span class="keyword">first</span> <span class="number">80</span> bytes are captured. Use this
+                    option <span class="keyword">with</span> caution, <span class="keyword">it</span> can generate huge trace files.
+ -t &lt;timetype&gt;, <span class="comment">--timetype=&lt;timetype&gt;</span>
+                    Change <span class="keyword">the</span> way event <span class="property">time</span> <span class="keyword">is</span> displayed. Accepted values are
+                    h <span class="keyword">for</span> human-readable <span class="type">string</span>, a <span class="keyword">for</span> absolute timestamp <span class="keyword">from</span>
+                    epoch, r <span class="keyword">for</span> relative <span class="property">time</span> <span class="keyword">from</span> <span class="keyword">the</span> <span class="keyword">beginning</span> <span class="keyword">of</span> <span class="keyword">the</span>
+                    capture, d <span class="keyword">for</span> delta <span class="keyword">between</span> event enter <span class="keyword">and</span> <span class="keyword">exit</span>, <span class="keyword">and</span>
+                    D <span class="keyword">for</span> delta <span class="keyword">from</span> <span class="keyword">the</span> previous event.
+ -v, <span class="comment">--verbose      Verbose output.</span>
+                    This flag will cause <span class="keyword">the</span> full content <span class="keyword">of</span> <span class="type">text</span> <span class="keyword">and</span> binary
+                    buffers <span class="keyword">to</span> be printed <span class="function_start"><span class="keyword">on</span></span> screen, <span class="keyword">instead of</span> being truncated
+                    <span class="keyword">to</span> <span class="number">40</span> <span class="property">characters</span>. Note <span class="keyword">that</span> data buffers <span class="property">length</span> <span class="keyword">is</span> still
+                    limited <span class="keyword">by</span> <span class="keyword">the</span> snaplen (refer <span class="keyword">to</span> <span class="keyword">the</span> -s flag documentation)
+                    -v will also make sysdig print <span class="keyword">some</span> summary information <span class="keyword">at</span>
+                    <span class="keyword">the</span> <span class="keyword">end</span> <span class="keyword">of</span> <span class="keyword">the</span> capture.
+ <span class="comment">--version          Print version number.</span>
+ -w &lt;writefile&gt;, <span class="comment">--write=&lt;writefile&gt;</span>
+                    Write <span class="keyword">the</span> captured events <span class="keyword">to</span> &lt;writefile&gt;.
+ -x, <span class="comment">--print-hex    Print data buffers in hex.</span>
+ -X, <span class="comment">--print-hex-ascii</span>
+                    Print data buffers <span class="keyword">in</span> hex <span class="keyword">and</span> ASCII.
+ -z, <span class="comment">--compress     Used with -w, enables compression for tracefiles.</span>
+
+Output format:
+
+By default, sysdig prints <span class="keyword">the</span> information <span class="keyword">for</span> each captured event <span class="function_start"><span class="keyword">on</span></span> a single
+ line <span class="keyword">with</span> <span class="keyword">the</span> following format:
+
+ %evt.num %evt.<span class="property">time</span> %evt.cpu %proc.<span class="property">name</span> (%thread.tid) %evt.dir %evt.type %evt.info
+
+<span class="keyword">where</span>:
+ evt.num <span class="keyword">is</span> <span class="keyword">the</span> incremental event <span class="type">number</span>
+ evt.<span class="property">time</span> <span class="keyword">is</span> <span class="keyword">the</span> event timestamp
+ evt.cpu <span class="keyword">is</span> <span class="keyword">the</span> CPU <span class="type">number</span> <span class="keyword">where</span> <span class="keyword">the</span> event was captured
+ proc.<span class="property">name</span> <span class="keyword">is</span> <span class="keyword">the</span> <span class="property">name</span> <span class="keyword">of</span> <span class="keyword">the</span> process <span class="keyword">that</span> generated <span class="keyword">the</span> event
+ thread.tid <span class="property">id</span> <span class="keyword">the</span> TID <span class="keyword">that</span> generated <span class="keyword">the</span> event, which corresponds <span class="keyword">to</span> <span class="keyword">the</span>
+   PID <span class="keyword">for</span> single thread processes
+ evt.dir <span class="keyword">is</span> <span class="keyword">the</span> event direction, &gt; <span class="keyword">for</span> enter events <span class="keyword">and</span> &lt; <span class="keyword">for</span> <span class="keyword">exit</span> events
+ evt.type <span class="keyword">is</span> <span class="keyword">the</span> <span class="property">name</span> <span class="keyword">of</span> <span class="keyword">the</span> event, e.g. 'open' <span class="keyword">or</span> '<span class="command">read</span>'
+ evt.info <span class="keyword">is</span> <span class="keyword">the</span> <span class="type">list</span> <span class="keyword">of</span> event arguments.
+
+The output format can be customized <span class="keyword">with</span> <span class="keyword">the</span> -p switch, using any <span class="keyword">of</span> <span class="keyword">the</span>
+fields listed <span class="keyword">by</span> 'sysdig -l'.
+
+Using -pc <span class="keyword">or</span> -pcontainer, <span class="keyword">the</span> default format will be changed <span class="keyword">to</span> a container-friendly one:
+
+%evt.num %evt.<span class="property">time</span> %evt.cpu %container.<span class="property">name</span> (%container.<span class="property">id</span>) %proc.<span class="property">name</span> (%thread.tid:%thread.vtid) %evt.dir %evt.type %evt.info
+
+Examples:
+
+ Capture all <span class="keyword">the</span> events <span class="keyword">from</span> <span class="keyword">the</span> live system <span class="keyword">and</span> print them <span class="keyword">to</span> screen
+   $ sysdig
+
+ Capture all <span class="keyword">the</span> events <span class="keyword">from</span> <span class="keyword">the</span> live system <span class="keyword">and</span> save them <span class="keyword">to</span> disk
+   $ sysdig -w dumpfile.scap
+
+ Read events <span class="keyword">from</span> a <span class="type">file</span> <span class="keyword">and</span> print them <span class="keyword">to</span> screen
+   $ sysdig -r dumpfile.scap
+
+ Print all <span class="keyword">the</span> open system calls invoked <span class="keyword">by</span> cat
+   $ sysdig proc.<span class="property">name</span>=cat <span class="keyword">and</span> evt.type=open
+
+ Print <span class="keyword">the</span> <span class="property">name</span> <span class="keyword">of</span> <span class="keyword">the</span> files opened <span class="keyword">by</span> cat
+   $ sysdig -p<span class="string">"%evt.arg.name"</span> proc.<span class="property">name</span>=cat <span class="keyword">and</span> evt.type=open
+</pre></figure>
+]]></content>
+    <summary type="html"><![CDATA[<p>sysdig的简要说明</p>
+]]></summary>
+    
+      <category term="sysdig" scheme="http://www.zhou5zhou6.com/tags/sysdig/"/>
+    
+      <category term="tools" scheme="http://www.zhou5zhou6.com/categories/tools/"/>
+    
+  </entry>
+  
+</feed>

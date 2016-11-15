@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="婚格线" />
+
+
+
+<meta name="description" content="##一、丢包问题123456789101112eth0      Link encap:Ethernet  HWaddr 40:F2:E9:6A:51:90          UP BROADCAST RUNNING SLAVE MULTICAST  MTU:1500  Metric:1          RX packets:1630869437 errors:0 dropped:0 overr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nic_overruns">
+<meta property="og:url" content="http://www.zhou5zhou6.com/2014/10/31/nic_overruns/index.html">
+<meta property="og:site_name" content="周五周六">
+<meta property="og:description" content="##一、丢包问题123456789101112eth0      Link encap:Ethernet  HWaddr 40:F2:E9:6A:51:90          UP BROADCAST RUNNING SLAVE MULTICAST  MTU:1500  Metric:1          RX packets:1630869437 errors:0 dropped:0 overr">
+<meta property="og:updated_time" content="2016-11-15T20:14:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nic_overruns">
+<meta name="twitter:description" content="##一、丢包问题123456789101112eth0      Link encap:Ethernet  HWaddr 40:F2:E9:6A:51:90          UP BROADCAST RUNNING SLAVE MULTICAST  MTU:1500  Metric:1          RX packets:1630869437 errors:0 dropped:0 overr">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="周五周六" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>nic_overruns | 周五周六</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">婚格线</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">do or die</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="/dhb20002000@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="/dhb20002000@163.com" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/">IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Inventory/">Inventory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/adduser/">adduser</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible-install/">ansible install</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible-error/">ansible_error</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bind/">bind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blkparse/">blkparse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blktrace/">blktrace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/btt/">btt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/">centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chisels/">chisels</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpu/">cpu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cron/">cron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/disk/">disk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dlz/">dlz</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/download/">download</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dstat/">dstat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easy-install/">easy_install</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/file/">file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/foreman/">foreman</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gem/">gem</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google-authenticator/">google-authenticator</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grub/">grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hp/">hp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hpssacli/">hpssacli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/httpry/">httpry</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iodump/">iodump</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iopp/">iopp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iotop/">iotop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ipmitool/">ipmitool</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ip雷达/">ip雷达</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/">jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash/">logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac-os/">mac os</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/master/">master</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mitmproxy/">mitmproxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongrel/">mongrel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monit/">monit</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nss-pam-ldapd/">nss-pam-ldapd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntp/">ntp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/overruns/">overruns</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/passenger/">passenger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/puppet/">puppet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/raid/">raid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/record-host-keys/">record_host_keys</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rpm/">rpm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rundeck/">rundeck</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/salt/">salt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/saltstack/">saltstack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smokeping/">smokeping</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ss/">ss</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sshkey/">sshkey</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/strace/">strace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sysdig/">sysdig</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/system/">system</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemtap/">systemtap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcpcopy/">tcpcopy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcpdump/">tcpdump</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcate/">tomcate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualbox/">virtualbox</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yum/">yum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/温度/">温度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网卡/">网卡</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于运维架构</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">婚格线</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">婚格线</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">do or die</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="/dhb20002000@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="/dhb20002000@163.com" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-nic_overruns" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/10/31/nic_overruns/" class="article-date">
+      <time datetime="2014-10-31T03:00:28.000Z" itemprop="datePublished">2014-10-31</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nic_overruns
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/overruns/">overruns</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网卡/">网卡</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>##一、丢包问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">eth0      Link encap:Ethernet  HWaddr 40:F2:E9:6A:51:90</div><div class="line">          UP BROADCAST RUNNING SLAVE MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:1630869437 errors:0 dropped:0 overruns:6158 frame:0</div><div class="line">          TX packets:1962708078 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:1000</div><div class="line">          RX bytes:550772215872 (512.9 GiB)  TX bytes:2636446959152 (2.3 TiB)</div><div class="line">          Memory:a85a0000-a85c0000</div><div class="line"></div><div class="line">eth1      Link encap:Ethernet  HWaddr 40:F2:E9:6A:51:90</div><div class="line">          UP BROADCAST RUNNING SLAVE MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:1705143800 errors:66 dropped:0 overruns:2837 frame:66</div><div class="line">          TX packets:1962681963 errors:0 dropped:0 overruns:0 carrier:0</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>网卡报overruns:6158</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">Settings for eth0:</div><div class="line">    Supported ports: [ TP ]</div><div class="line">    Supported link modes:   10baseT/Half 10baseT/Full</div><div class="line">                            100baseT/Half 100baseT/Full</div><div class="line">                            1000baseT/Full</div><div class="line">    Supported pause frame use: Symmetric</div><div class="line">    Supports auto-negotiation: Yes</div><div class="line">    Advertised link modes:  10baseT/Half 10baseT/Full</div><div class="line">                            100baseT/Half 100baseT/Full</div><div class="line">                            1000baseT/Full</div><div class="line">    Advertised pause frame use: Symmetric</div><div class="line">    Advertised auto-negotiation: Yes</div><div class="line">    Speed: 1000Mb/s</div><div class="line">    Duplex: Full</div><div class="line">    Port: Twisted Pair</div><div class="line">    PHYAD: 1</div><div class="line">    Transceiver: internal</div><div class="line">    Auto-negotiation: on</div><div class="line">    MDI-X: Unknown</div><div class="line">    Supports Wake-on: pumbg</div><div class="line">    Wake-on: g</div><div class="line">    Current message level: 0x00000007 (7)</div><div class="line">                   drv probe link</div><div class="line">    Link detected: yes</div></pre></td></tr></table></figure>
+<p>检查网卡配置没有问题<br>以下内容从网上摘抄的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">RX errors: 表示总的收包的错误数量，这包括 too-long-frames 错误，Ring Buffer 溢出错误，crc 校验错误，帧同步错误，fifo overruns 以及 missed pkg 等等。</div><div class="line">RX dropped: 表示数据包已经进入了 Ring Buffer，但是由于内存不够等系统原因，导致在拷贝到内存的过程中被丢弃。</div><div class="line">RX overruns: 表示了 fifo 的 overruns，这是由于 Ring Buffer(aka Driver Queue) 传输的 IO 大于 kernel 能够处理的 IO 导致的，而 Ring Buffer 则是指在发起 IRQ 请求之前的那块 buffer。很明显，overruns 的增大意味着数据包没到 Ring Buffer 就被网卡物理层给丢弃了，而 CPU 无法即使的处理中断是造成 Ring Buffer 满的原因之一，上面那台有问题的机器就是因为 interruprs 分布的不均匀(都压在 core0)，没有做 affinity 而造成的丢包。</div><div class="line">RX frame: 表示 misaligned 的 frames。</div></pre></td></tr></table></figure></p>
+<p>好的我们把ring buffer调大</p>
+<p>查看当前值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Ring parameters for eth0:</div><div class="line">Pre-set maximums:</div><div class="line">RX:     4096</div><div class="line">RX Mini:    0</div><div class="line">RX Jumbo:   0</div><div class="line">TX:     4096</div><div class="line">Current hardware settings:</div><div class="line">RX:     256</div><div class="line">RX Mini:    0</div><div class="line">RX Jumbo:   0</div><div class="line">TX:     256</div></pre></td></tr></table></figure></p>
+<p>当前值为256</p>
+<p>现在把他调大</p>
+<blockquote>
+<p>ethtool -G eth0 rx 4096</p>
+</blockquote>
+<p>经过一天的观察 网卡的overruns不再增加</p>
+<p>##二、网卡队列问题<br>查看本机的网卡中断（网卡是inter的i350）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">18: IR-IO-APIC-fasteoi eth1</div><div class="line">19: IR-IO-APIC-fasteoi eth2</div></pre></td></tr></table></figure></p>
+<p>在同类型网卡的其他机器看到的结果是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">109: IR-PCI-MSI-edge eth0-TxRx-0</div><div class="line">110: IR-PCI-MSI-edge eth0-TxRx-1</div><div class="line">111: IR-PCI-MSI-edge eth0-TxRx-2</div><div class="line">112: IR-PCI-MSI-edge eth0-TxRx-3</div><div class="line">113: IR-PCI-MSI-edge eth0-TxRx-4</div><div class="line">114: IR-PCI-MSI-edge eth0-TxRx-5</div><div class="line">115: IR-PCI-MSI-edge eth0-TxRx-6</div><div class="line">116: IR-PCI-MSI-edge eth0-TxRx-7</div></pre></td></tr></table></figure>
+<p>而且通过查看，中断几乎都集中在一个cup上</p>
+<blockquote>
+<p>mpstat -P ALL 5 2</p>
+</blockquote>
+<p>经过同事的排查是因为grub里面添加了pci=nomsi，在grub引导里面删除这个选项，然后重启电脑</p>
+<p>关于IRQ中断请参考（<a href="http://blog.yufeng.info/archives/2422）" target="_blank" rel="external">http://blog.yufeng.info/archives/2422）</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PCI Express支持两类中断:INTx使用传统的IRQ中断,可以与现行的PCI总线的驱动程序和操作系统兼容;MSI则是通过inbound Memory Write触发和发送中断,更适合多CPU系统.可以使用&quot;pci=nomsi&quot;内核引导参数关闭MSI</div></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2014/10/31/nic_overruns/">nic_overruns</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">婚格线</a></p>
+        <p><span>发布时间:</span>2014-10-31, 11:00:28</p>
+        <p><span>最后更新:</span>2016-11-16, 04:14:31</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2014/10/31/nic_overruns/" title="nic_overruns">http://www.zhou5zhou6.com/2014/10/31/nic_overruns/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.zhou5zhou6.com/2014/10/31/nic_overruns/　　作者: 婚格线" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2014/11/05/ipmi/">
+                    ipmitool执行卡住
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2014/10/22/mac_error/">
+                    mac_error
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"nic_overruns　| 周五周六　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2014/10/31/nic_overruns/" data-title="nic_overruns" data-url="http://www.zhou5zhou6.com/2014/10/31/nic_overruns/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"herbert"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2014/11/05/ipmi/" title="上一篇: ipmitool执行卡住">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2014/10/22/mac_error/" title="下一篇: mac_error">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/02/01/bind_dlz_mysql/">bind_dlz_mysql</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/jenkins/">jenkins</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/15/google-authenticator/">google-authenticator</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/16/ntpd/">ntpd更新时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/24/puppet_modify_password/">puppet_modify_password</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/17/systemtap_install/">systemtap_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/10/tcpcopy/">tcpcopy笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/04/mitmproxy/">mitmproxy</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/03/dockerinstall/">docker_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/26/slat-multi-master/">slat-multi-master</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/20/yum_conf/">yum下载rpm包</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/20/slat_error/">salt报错汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/18/salt-install/">salt-install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/08/hpacucli_1/">hp服务器无法修改读写比例</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/20/elasticsarchturnred/">elasticsarchturnred</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/11/foreman_install/">foreman_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/01/redis_error/">redis_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/19/kibana_map/">kibana map</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/18/elasticsearch_503/">elasticsearch_503</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig3/">sysdig(三)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig2/">sysdig(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig1/">sysdig(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/06/git_rollback/">git_rollback</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/06/git2/">git操作(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/04/ntp_ddos/">ntp ddos</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/27/rundeck_install/">rundeck install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/20/pip_error/">pip使用备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/16/user/">登陆管理备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/08/mysql_1/">处理mysql二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/07/git_1/">git迁移</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/26/smokeping_install/">smokeping_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/23/puppet_file/">puppet_file</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/17/puppet_cron/">puppet_cron</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/16/nginx_passenger_puppet/">puppet+passenger+nginx操作笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/04/logstash/">kibana采用特定字段作为x时间轴</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/21/monitor/">按秒拉起服务进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/11/puppetmore/">puppet扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/05/ipmi/">ipmitool执行卡住</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/31/nic_overruns/">nic_overruns</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/22/mac_error/">mac_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/22/blktrace/">blktrace分析IO</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/zhuabao/">抓包工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/parameters/">parameters</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/dstat/">linux下的IO查看工具（四）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/12/starce/">starce</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/11/ansible/">ansible</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio3/">linux下的IO查看工具（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio2/">linux下的IO查看工具（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio/">linux下的IO查看工具（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/27/awk/">awk语句汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/26/ss/">ss</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/29/ansible_inventory/">ansible_inventory</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/24/install-os-by-grub/">install-OS-by-grub</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/18/kibana+logstash+elasticsearch+redis/">Kibana+Logstash+Elasticsearch+Redis安装部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/16/ansible_error/">ansible_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/15/ansible_install/">ansible_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/01/cpuscaling/">CPU frequency and voltage scaling code in the Linux</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/11/mac_5/">Lm_sensors</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/11/mac_4/">cpu burn-in</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/05/mac_3/">shell-init</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/03/mac_2/">英语角</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/05/30/mac-1/">virtual box</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/05/26/test/">test</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016 婚格线
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
