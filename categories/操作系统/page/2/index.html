@@ -15,19 +15,15 @@
 
 
 
-<meta name="description" content="###mac通过mitmproxy设置代理给手机抓包
-##一、安装1pip install mitmproxy">
-<meta property="og:type" content="article">
-<meta property="og:title" content="mitmproxy">
-<meta property="og:url" content="http://www.zhou5zhou6.com/2015/06/04/mitmproxy/index.html">
+<meta name="description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
+<meta property="og:type" content="website">
+<meta property="og:title" content="周五周六">
+<meta property="og:url" content="http://www.zhou5zhou6.com/categories/操作系统/page/2/index.html">
 <meta property="og:site_name" content="周五周六">
-<meta property="og:description" content="###mac通过mitmproxy设置代理给手机抓包
-##一、安装1pip install mitmproxy">
-<meta property="og:updated_time" content="2016-11-15T20:14:31.000Z">
+<meta property="og:description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mitmproxy">
-<meta name="twitter:description" content="###mac通过mitmproxy设置代理给手机抓包
-##一、安装1pip install mitmproxy">
+<meta name="twitter:title" content="周五周六">
+<meta name="twitter:description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -59,7 +55,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>mitmproxy | 周五周六</title>
+<title>Category: 操作系统 | 周五周六</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -69,10 +65,10 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: true,
+        isPost: false,
         isArchive: false,
         isTag: false,
-        isCategory: false,
+        isCategory: true,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
         scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
         search: undefined
@@ -263,211 +259,59 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-mitmproxy" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap">
   
-    <div class="article-meta">
-      <a href="/2015/06/04/mitmproxy/" class="article-date">
-      <time datetime="2015-06-04T02:11:12.000Z" itemprop="datePublished">2015-06-04</time>
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2014" class="archive-year">2014</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+          <div class="article-meta">
+              <a href="/2014/06/05/mac_3/" class="archive-article-date">
+      <time datetime="2014-06-05T09:28:52.000Z" itemprop="datePublished">06-05</time>
 </a>
 
 
-    </div>
+        </div>
+         
   
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      mitmproxy
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2014/06/05/mac_3/">shell-init</a>
     </h1>
   
 
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/tools/">tools</a>
-    </div>
-
-
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mitmproxy/">mitmproxy</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
+        <div class="article-info info-on-archive">
           
-        <p>###mac通过mitmproxy设置代理给手机抓包</p>
-<p>##一、安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install mitmproxy</div></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<p>####1.安装过程中报错信息处理</p>
-<p>#####1&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">cc -fno-strict-aliasing -fno-common -dynamic -arch x86_64 -arch i386 -g -Os -pipe -fno-common -fno-strict-aliasing -fwrapv -DENABLE_DTRACE -DMACOSX -DNDEBUG -Wall -Wstrict-prototypes -Wshorten-64-to-32 -DNDEBUG -g -fwrapv -Os -Wall -Wstrict-prototypes -DENABLE_DTRACE -arch x86_64 -arch i386 -pipe -DUSE__THREAD -I/usr/include/ffi -I/usr/include/libffi -I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -c c/_cffi_backend.c -o build/temp.macosx-10.10-intel-2.7/c/_cffi_backend.o</div><div class="line"></div><div class="line">c/_cffi_backend.c:13:10: fatal error: &apos;ffi.h&apos; file not found</div><div class="line"></div><div class="line">#include &lt;ffi.h&gt;</div><div class="line"></div><div class="line">         ^</div><div class="line"></div><div class="line">1 error generated.</div><div class="line"></div><div class="line">error: command &apos;cc&apos; failed with exit status 1</div></pre></td></tr></table></figure></p>
-<p>解决方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo xcode-select --install</div></pre></td></tr></table></figure>
-<p>安装完毕后，就会在/usr/include里面看到常用的头文件了</p>
-<p>#####2&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">You are using an outdated version of pyOpenSSL: mitmproxy requires pyOpenSSL 0.14 or greater.</div><div class="line">Your pyOpenSSL 0.13.1 installation is located at /System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/OpenSSL</div></pre></td></tr></table></figure></p>
-<p>解决方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">https://pypi.python.org/packages/source/p/pyOpenSSL/pyOpenSSL-0.15.1.tar.gz#md5=f447644afcbd5f0a1f47350fec63a4c6</div><div class="line">tar zxvf pyOpenSSL-0.15.1.tar.gz</div><div class="line">cd pyOpenSSL-0.15.1</div><div class="line">sudo python setup.py install</div></pre></td></tr></table></figure>
-<p>####2.使用<br>mac上面设置代理</p>
-<blockquote>
-<p>sudo mitmproxy -p 8080<br>然后在手机上面设置上台式机的ip和端口代理即可<br>（手机的网络配置）</p>
-</blockquote>
-<p><a href="http://mitmproxy.org/" target="_blank" rel="external">官网地址</a></p>
-
-      
-      
-    </div>
-    
-  </div>
-  
-    
-    <div class="copyright">
-        <p><span>本文标题:</span><a href="/2015/06/04/mitmproxy/">mitmproxy</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页">婚格线</a></p>
-        <p><span>发布时间:</span>2015-06-04, 10:11:12</p>
-        <p><span>最后更新:</span>2016-11-16, 04:14:31</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2015/06/04/mitmproxy/" title="mitmproxy">http://www.zhou5zhou6.com/2015/06/04/mitmproxy/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.zhou5zhou6.com/2015/06/04/mitmproxy/　　作者: 婚格线" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
-        </p>
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
     </div>
 
 
-
-    <nav id="article-nav">
-        
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2015/07/10/tcpcopy/">
-                    tcpcopy笔记
-                </a>
-            </div>
-        
-        
-            <div id="article-nav-older" class="article-nav-title">
-                <a href="/2015/06/03/dockerinstall/">
-                    docker_install
-                </a>
-            </div>
-        
-    </nav>
-
-  
-</article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
-
-
-    
-<div class="share">
-    
-        <div class="bdsharebuttonbox">
-            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
-            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
-            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
-            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
-            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
-            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+          
         </div>
-        <script>
-            window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"mitmproxy　| 周五周六　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-        </script>
-    
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
+  
 
     
-</div>
-
-
-
-
-
-
-
-    
-      <div class="duoshuo" id="comments">
-    <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2015/06/04/mitmproxy/" data-title="mitmproxy" data-url="http://www.zhou5zhou6.com/2015/06/04/mitmproxy/"></div>
-    <script>
-        var duoshuoQuery = {short_name:"herbert"};
-        var loadComment = function(){
-            var d = document, s = d.createElement('script');
-            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            s.async = true; s.charset = 'UTF-8';
-            (d.head || d.body).appendChild(s);
-        }
-
-        
-    </script>
-    
-    <script> loadComment(); </script>
-
-</div>
-    
-
-
-
-
-    <div class="scroll" id="post-nav-button">
-        
-            <a href="/2015/07/10/tcpcopy/" title="上一篇: tcpcopy笔记">
-                <i class="fa fa-angle-left"></i>
-            </a>
-        
-
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-
-        
-            <a href="/2015/06/03/dockerinstall/" title="下一篇: docker_install">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        
-    </div>
-
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/modifyhostname/">modifyhostname</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/01/bind_dlz_mysql/">bind_dlz_mysql</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/jenkins/">jenkins</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/15/google-authenticator/">google-authenticator</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/16/ntpd/">ntpd更新时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/24/puppet_modify_password/">puppet_modify_password</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/17/systemtap_install/">systemtap_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/10/tcpcopy/">tcpcopy笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/04/mitmproxy/">mitmproxy</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/03/dockerinstall/">docker_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/26/slat-multi-master/">slat-multi-master</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/20/yum_conf/">yum下载rpm包</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/20/slat_error/">salt报错汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/18/salt-install/">salt-install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/08/hpacucli_1/">hp服务器无法修改读写比例</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/20/elasticsarchturnred/">elasticsarchturnred</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/11/foreman_install/">foreman_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/01/redis_error/">redis_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/19/kibana_map/">kibana map</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/18/elasticsearch_503/">elasticsearch_503</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig3/">sysdig(三)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig2/">sysdig(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig1/">sysdig(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/06/git_rollback/">git_rollback</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/06/git2/">git操作(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/04/ntp_ddos/">ntp ddos</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/27/rundeck_install/">rundeck install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/20/pip_error/">pip使用备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/16/user/">登陆管理备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/08/mysql_1/">处理mysql二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/07/git_1/">git迁移</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/26/smokeping_install/">smokeping_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/23/puppet_file/">puppet_file</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/17/puppet_cron/">puppet_cron</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/16/nginx_passenger_puppet/">puppet+passenger+nginx操作笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/04/logstash/">kibana采用特定字段作为x时间轴</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/21/monitor/">按秒拉起服务进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/11/puppetmore/">puppet扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/05/ipmi/">ipmitool执行卡住</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/31/nic_overruns/">nic_overruns</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/22/mac_error/">mac_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/22/blktrace/">blktrace分析IO</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/zhuabao/">抓包工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/parameters/">parameters</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/dstat/">linux下的IO查看工具（四）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/12/starce/">starce</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/11/ansible/">ansible</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio3/">linux下的IO查看工具（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio2/">linux下的IO查看工具（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio/">linux下的IO查看工具（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/27/awk/">awk语句汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/26/ss/">ss</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/29/ansible_inventory/">ansible_inventory</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/24/install-os-by-grub/">install-OS-by-grub</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/18/kibana+logstash+elasticsearch+redis/">Kibana+Logstash+Elasticsearch+Redis安装部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/16/ansible_error/">ansible_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/15/ansible_install/">ansible_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/01/cpuscaling/">CPU frequency and voltage scaling code in the Linux</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/11/mac_5/">Lm_sensors</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/11/mac_4/">cpu burn-in</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/05/mac_3/">shell-init</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/03/mac_2/">英语角</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/05/30/mac-1/">virtual box</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/05/26/test/">test</a></li></ul>
-
-
-
-
-    <script>
-        
-    </script>
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/categories/操作系统/">&laquo; Prev</a><a class="page-number" href="/categories/操作系统/">1</a><span class="page-number current">2</span>
+    </nav>
+  
 
 </div>
       <footer id="footer">
