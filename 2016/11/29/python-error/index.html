@@ -15,15 +15,16 @@
 
 
 
-<meta name="description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
-<meta property="og:type" content="website">
-<meta property="og:title" content="周五周六">
-<meta property="og:url" content="http://www.zhou5zhou6.com/tags/网卡/index.html">
+<meta name="description" content="python使用过程中的各种报错统计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python error list">
+<meta property="og:url" content="http://www.zhou5zhou6.com/2016/11/29/python-error/index.html">
 <meta property="og:site_name" content="周五周六">
-<meta property="og:description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
+<meta property="og:description" content="python使用过程中的各种报错统计">
+<meta property="og:updated_time" content="2016-11-29T08:55:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周五周六">
-<meta name="twitter:description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
+<meta name="twitter:title" content="python error list">
+<meta name="twitter:description" content="python使用过程中的各种报错统计">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -55,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Tag: 网卡 | 周五周六</title>
+<title>python error list | 周五周六</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -65,9 +66,9 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: false,
+        isPost: true,
         isArchive: false,
-        isTag: true,
+        isTag: false,
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
         scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
@@ -259,59 +260,198 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-python-error" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2014/10/31/nic_overruns/" class="archive-article-date">
-      <time datetime="2014-10-31T03:00:28.000Z" itemprop="datePublished">10-31</time>
+    <div class="article-meta">
+      <a href="/2016/11/29/python-error/" class="article-date">
+      <time datetime="2016-11-29T08:47:48.000Z" itemprop="datePublished">2016-11-29</time>
 </a>
 
 
-        </div>
-         
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/10/31/nic_overruns/">nic_overruns</a>
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python error list
     </h1>
   
 
-        <div class="article-info info-on-archive">
-          
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
-    </div>
+      </header>
+      
+      <div class="article-info article-info-post">
+        
 
-
-          
+        
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/overruns/">overruns</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网卡/">网卡</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
     </div>
 
-        </div>
         <div class="clearfix"></div>
-    </header>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>python使用过程中的各种报错统计<br><a id="more"></a></p>
+<p>###1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">yum output:</div><div class="line">python-crypto-2.6.1-1.el7.rf.x86_64.rpm | 456 kB 00:00:00</div><div class="line">Running transaction check</div><div class="line">Running transaction test</div><div class="line">Transaction test succeeded</div><div class="line">Running transaction</div><div class="line">  Installing : python-crypto-2.6.1-1.el7.rf.x86_64 1/1</div><div class="line">Error unpacking rpm package python-crypto-2.6.1-1.el7.rf.x86_64</div><div class="line">error: unpacking of archive failed on file /usr/lib64/python2.7/site-packages/pycrypto-2.6.1-py2.7.egg-info: cpio: rename</div><div class="line">  Verifying : python-crypto-2.6.1-1.el7.rf.x86_64 1/1</div><div class="line"></div><div class="line">Failed:</div><div class="line">  python-crypto.x86_64 0:2.6.1-1.el7.rf</div></pre></td></tr></table></figure></p>
+<p>解决方法</p>
+<blockquote>
+<h1 id="rm-f-usr-lib64-python2-7-site-packages-pycrypto-2-6-1-py2-7-egg-info"><a href="#rm-f-usr-lib64-python2-7-site-packages-pycrypto-2-6-1-py2-7-egg-info" class="headerlink" title="rm -f /usr/lib64/python2.7/site-packages/pycrypto-2.6.1-py2.7.egg-info"></a>rm -f /usr/lib64/python2.7/site-packages/pycrypto-2.6.1-py2.7.egg-info</h1></blockquote>
+<p>###2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">InsecurePlatformWarning</div><div class="line">/usr/lib/python2.7/site-packages/requests/packages/urllib3/util/ssl_.py:120: InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail. For more information, see https://urllib3.readthedocs.org/en/latest/security.html#insecureplatformwarning.</div><div class="line">  InsecurePlatformWarning</div><div class="line">/usr/lib/python2.7/site-packages/requests/packages/urllib3/util/ssl_.py:120: InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail. For more information, see https://urllib3.readthedocs.org/en/latest/security.html#insecureplatformwarning.</div></pre></td></tr></table></figure></p>
+<p>解决方法：</p>
+<blockquote>
+<p>yum install python-devel libffi-devel openssl-devel<br>pip install pyopenssl ndg-httpsclient pyasn1</p>
+</blockquote>
+<p>###3<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">    import requests</div><div class="line">  File &quot;/usr/lib/python2.6/site-packages/requests/__init__.py&quot;, line 60, in &lt;module&gt;</div><div class="line">    from .api import request, get, head, post, patch, put, delete, options</div><div class="line">  File &quot;/usr/lib/python2.6/site-packages/requests/api.py&quot;, line 14, in &lt;module&gt;</div><div class="line">    from . import sessions</div><div class="line">  File &quot;/usr/lib/python2.6/site-packages/requests/sessions.py&quot;, line 27, in &lt;module&gt;</div><div class="line">    from .adapters import HTTPAdapter</div><div class="line">  File &quot;/usr/lib/python2.6/site-packages/requests/adapters.py&quot;, line 29, in &lt;module&gt;</div><div class="line">    from .packages.urllib3.exceptions import ResponseError</div><div class="line">ImportError: cannot import name ResponseError</div></pre></td></tr></table></figure></p>
+<p>解决方法</p>
+<blockquote>
+<p>rpm -e python-requests<br>rm -rf /usr/lib/python2.6/site-packages/requests/<br>yum install python-requests</p>
+</blockquote>
+
+      
+      
+    </div>
+    
   </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/11/29/python-error/">python error list</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">婚格线</a></p>
+        <p><span>发布时间:</span>2016-11-29, 16:47:48</p>
+        <p><span>最后更新:</span>2016-11-29, 16:55:01</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/29/python-error/" title="python error list">http://www.zhou5zhou6.com/2016/11/29/python-error/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.zhou5zhou6.com/2016/11/29/python-error/　　作者: 婚格线" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/11/17/modifyhostname/">
+                    centos7 modify hostname
+                </a>
+            </div>
+        
+    </nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#rm-f-usr-lib64-python2-7-site-packages-pycrypto-2-6-1-py2-7-egg-info"><span class="toc-number">1.</span> <span class="toc-text">rm -f /usr/lib64/python2.7/site-packages/pycrypto-2.6.1-py2.7.egg-info</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
 
     
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"python error list　| 周五周六　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/11/29/python-error/" data-title="python error list" data-url="http://www.zhou5zhou6.com/2016/11/29/python-error/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"herbert"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/11/17/modifyhostname/" title="下一篇: centos7 modify hostname">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/python-error/">python error list</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/modifyhostname/">centos7 modify hostname</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/01/bind_dlz_mysql/">bind_dlz_mysql</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/jenkins/">jenkins</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/15/google-authenticator/">google-authenticator</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/16/ntpd/">ntpd更新时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/24/puppet_modify_password/">puppet_modify_password</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/17/systemtap_install/">systemtap_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/10/tcpcopy/">tcpcopy笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/04/mitmproxy/">mitmproxy</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/03/dockerinstall/">docker_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/26/slat-multi-master/">slat-multi-master</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/20/yum_conf/">yum下载rpm包</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/20/slat_error/">salt报错汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/18/salt-install/">salt-install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/08/hpacucli_1/">hp服务器无法修改读写比例</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/20/elasticsarchturnred/">elasticsarchturnred</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/11/foreman_install/">foreman_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/01/redis_error/">redis_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/19/kibana_map/">kibana map</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/18/elasticsearch_503/">elasticsearch_503</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig3/">sysdig(三)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig2/">sysdig(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig1/">sysdig(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/06/git_rollback/">git_rollback</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/06/git2/">git操作(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/04/ntp_ddos/">ntp ddos</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/27/rundeck_install/">rundeck install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/20/pip_error/">pip使用备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/16/user/">登陆管理备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/08/mysql_1/">处理mysql二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/07/git_1/">git迁移</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/26/smokeping_install/">smokeping_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/23/puppet_file/">puppet_file</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/17/puppet_cron/">puppet_cron</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/16/nginx_passenger_puppet/">puppet+passenger+nginx操作笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/04/logstash/">kibana采用特定字段作为x时间轴</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/21/monitor/">按秒拉起服务进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/11/puppetmore/">puppet扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/05/ipmi/">ipmitool执行卡住</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/31/nic_overruns/">nic_overruns</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/22/mac_error/">mac_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/22/blktrace/">blktrace分析IO</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/zhuabao/">抓包工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/parameters/">parameters</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/dstat/">linux下的IO查看工具（四）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/12/starce/">starce</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/11/ansible/">ansible</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio3/">linux下的IO查看工具（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio2/">linux下的IO查看工具（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio/">linux下的IO查看工具（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/27/awk/">awk语句汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/26/ss/">ss</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/29/ansible_inventory/">ansible_inventory</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/24/install-os-by-grub/">install-OS-by-grub</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/18/kibana+logstash+elasticsearch+redis/">Kibana+Logstash+Elasticsearch+Redis安装部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/16/ansible_error/">ansible_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/15/ansible_install/">ansible_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/01/cpuscaling/">CPU frequency and voltage scaling code in the Linux</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/11/mac_5/">Lm_sensors</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/11/mac_4/">cpu burn-in</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/05/mac_3/">shell-init</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/03/mac_2/">英语角</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/05/30/mac-1/">virtual box</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/05/26/test/">test</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
 
 </div>
       <footer id="footer">
