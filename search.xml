@@ -39,7 +39,7 @@
     <entry>
       <title><![CDATA[centos7 modify hostname]]></title>
       <url>http://www.zhou5zhou6.com/2016/11/17/modifyhostname/</url>
-      <content type="html"><![CDATA[<p>最近在aws上面修改centos7的的hostname，重启后总是失效<br><a id="more"></a><br>解决方法<br>1.编辑/etc/system/network<br>2.编辑/etc/hostname<br>3.编辑/etc/cloud/cloud.cfg<br>添加如下的参数</p>
+      <content type="html"><![CDATA[<p>最近在aws上面修改centos7的的hostname，重启后总是失效<br><a id="more"></a><br>解决方法<br>1.编辑/etc/sysconfig/network<br>2.编辑/etc/hostname<br>3.编辑/etc/cloud/cloud.cfg<br>添加如下的参数</p>
 <blockquote>
 <p>preserve_hostname: true</p>
 </blockquote>
