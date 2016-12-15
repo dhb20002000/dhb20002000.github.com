@@ -256,6 +256,11 @@ kernel-devel
 <blockquote>
 <p>yum install msgpack</p>
 </blockquote>
+<p>3.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Process Process-1:</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;/usr/lib64/python2.6/multiprocessing/process.py&quot;, line 232, in _bootstrap</div><div class="line">    self.run()</div><div class="line">  File &quot;/usr/lib64/python2.6/multiprocessing/process.py&quot;, line 88, in run</div><div class="line">    self._target(*self._args, **self._kwargs)</div><div class="line">  File &quot;/usr/lib/python2.6/site-packages/salt/scripts.py&quot;, line 129, in minion_process</div><div class="line">    minion.start()</div><div class="line">  File &quot;/usr/lib/python2.6/site-packages/salt/cli/daemons.py&quot;, line 340, in start</div><div class="line">    super(Minion, self).start()</div><div class="line">  File &quot;/usr/lib/python2.6/site-packages/salt/utils/parsers.py&quot;, line 996, in start</div><div class="line">    self.prepare()</div><div class="line">  File &quot;/usr/lib/python2.6/site-packages/salt/cli/daemons.py&quot;, line 315, in prepare</div><div class="line">    self.minion = salt.minion.MinionManager(self.config)</div><div class="line">  File &quot;/usr/lib/python2.6/site-packages/salt/minion.py&quot;, line 767, in __init__</div><div class="line">    self.io_loop = LOOP_CLASS.current()</div><div class="line">AttributeError: type object &apos;IOLoop&apos; has no attribute &apos;current&apos;</div></pre></td></tr></table></figure></p>
+<p>解决方法<br>升级pyzmq</p>
+<blockquote>
+<p>sudo easy_install pip;sudo yum install gcc-c++ -y;sudo yum install python-devel -y;sudo pip uninstall pyzmq;sudo pip install  pyzmq</p>
+</blockquote>
 ]]></content>
     </entry>
     
