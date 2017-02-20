@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://www.zhou5zhou6.com/2017/02/20/redis-error/index.html">
 <meta property="og:site_name" content="周五周六">
 <meta property="og:description" content="redis / codis 报错信息汇总">
-<meta property="og:updated_time" content="2017-02-20T09:08:25.000Z">
+<meta property="og:updated_time" content="2017-02-20T09:09:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis/codis error 汇总">
 <meta name="twitter:description" content="redis / codis 报错信息汇总">
@@ -309,11 +309,11 @@
           
         <p>redis / codis 报错信息汇总</p>
 <a id="more"></a>
-<p>1.codis proxy无法启动<br>proxy挂了，重启过程中日志内容如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">2017/02/19 13:02:55 proxy.go:173: [PANIC] create fence node failed</div><div class="line">[error]: zk: node already exists</div><div class="line">[stack]:</div><div class="line">    2   /data/apps/opt/codis/src/github.com/wandoulabs/codis/pkg/proxy/proxy.go:173</div><div class="line">            github.com/wandoulabs/codis/pkg/proxy.(*Server).register</div><div class="line">    1   /data/apps/opt/codis/src/github.com/wandoulabs/codis/pkg/proxy/proxy.go:77</div></pre></td></tr></table></figure></p>
+<p>##1.codis proxy无法启动<br>proxy挂了，重启过程中日志内容如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">2017/02/19 13:02:55 proxy.go:173: [PANIC] create fence node failed</div><div class="line">[error]: zk: node already exists</div><div class="line">[stack]:</div><div class="line">    2   /data/apps/opt/codis/src/github.com/wandoulabs/codis/pkg/proxy/proxy.go:173</div><div class="line">            github.com/wandoulabs/codis/pkg/proxy.(*Server).register</div><div class="line">    1   /data/apps/opt/codis/src/github.com/wandoulabs/codis/pkg/proxy/proxy.go:77</div></pre></td></tr></table></figure></p>
 <p>原因是codis proxy非正常关闭，导致zk上有注册信息<br>解决方法是手动在zk上删除这个机器的注册信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[zk: xxx.xxx.xxx.xxx:2181(CONNECTED) 19] delete /zk/codis/db_ooooo/fence/xo.xo.xo.xo:19000</div></pre></td></tr></table></figure></p>
 <p>清理完毕后，重启codis proxy<br>日志如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2017/02/19 13:15:42 proxy.go:206: [INFO] wait to be online: xo.xo.xo.xo</div></pre></td></tr></table></figure></p>
 <p>把proxy 在dashboard置为online即可</p>
-<p>2.redis/codis 被黑<br>redis/codis读取报<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NOAUTH Authentication required.</div></pre></td></tr></table></figure></p>
+<p>##2.redis/codis 被黑<br>redis/codis读取报<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NOAUTH Authentication required.</div></pre></td></tr></table></figure></p>
 <p>原因是机器被黑，被设置了登陆密码</p>
 <p><a href="http://blog.jobbole.com/94518/" target="_blank" rel="external">解决方法请参考</a><br>redis ／ codis 千万别开公网，服务千万不要起到公网上</p>
 
@@ -328,7 +328,7 @@
         <p><span>本文标题:</span><a href="/2017/02/20/redis-error/">redis/codis error 汇总</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">婚格线</a></p>
         <p><span>发布时间:</span>2017-02-20, 16:57:04</p>
-        <p><span>最后更新:</span>2017-02-20, 17:08:25</p>
+        <p><span>最后更新:</span>2017-02-20, 17:09:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/02/20/redis-error/" title="redis/codis error 汇总">http://www.zhou5zhou6.com/2017/02/20/redis-error/</a>
             <span class="copy-path" data-clipboard-text="原文: http://www.zhou5zhou6.com/2017/02/20/redis-error/　　作者: 婚格线" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
