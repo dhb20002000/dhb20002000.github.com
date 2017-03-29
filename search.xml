@@ -4,6 +4,21 @@
   
     
     <entry>
+      <title><![CDATA[kafka]]></title>
+      <url>http://www.zhou5zhou6.com/2017/03/29/kafka/</url>
+      <content type="html"><![CDATA[<p>kafka知识点整理</p>
+<a id="more"></a>
+<h2 id="kafka-manager"><a href="#kafka-manager" class="headerlink" title="kafka-manager"></a>kafka-manager</h2><p>1.项目地址<br><a href="https://github.com/yahoo/kafka-manager" target="_blank" rel="external">https://github.com/yahoo/kafka-manager</a><br>2.下载编译</p>
+<blockquote>
+<p> git clone <a href="https://github.com/yahoo/kafka-manager.git" target="_blank" rel="external">https://github.com/yahoo/kafka-manager.git</a><br> cd kafka-manager<br> sbt clean dist<br>执行编译的时候打包时间很长<br>打包完毕会生成一个zip包<br>解压后，修改conf/application.conf 把zkhost配置上，就可以启动了<br>启动脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"></div><div class="line">cd /data/apps/kafka-manager</div><div class="line">cd /data/apps/tools/kafka-manager-1.3.3.1</div><div class="line">rm -rf /data/apps/tools/kafka-manager-1.3.3.1/RUNNING_PID</div><div class="line">nohup ./bin/kafka-manager -Dconfig.file=conf/application.conf -Dhttp.port=9005 &amp;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<ol>
+<li>api 接口<br>kafka又简单的api接口<br>格式可以参照kafka-manager/conf/route里面的内容<br>或者参考这里的<a href="https://github.com/yahoo/kafka-manager/pulls?utf8=%E2%9C%93&amp;q=api" target="_blank" rel="external">https://github.com/yahoo/kafka-manager/pulls?utf8=%E2%9C%93&amp;q=api</a></li>
+</ol>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[redis/codis error 汇总]]></title>
       <url>http://www.zhou5zhou6.com/2017/02/20/redis-error/</url>
       <content type="html"><![CDATA[<p>redis / codis 报错信息汇总</p>
