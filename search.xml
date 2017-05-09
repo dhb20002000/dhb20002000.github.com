@@ -4,6 +4,15 @@
   
     
     <entry>
+      <title><![CDATA[kubernetes_install]]></title>
+      <url>http://www.zhou5zhou6.com/2017/05/09/kubernetes-install/</url>
+      <content type="html"><![CDATA[<p>操作系统环境：Ubuntu 16.04.2 LTS<br><a id="more"></a></p>
+<h3 id="一-部署完后，启动docker，把FORWARD-改成了disable"><a href="#一-部署完后，启动docker，把FORWARD-改成了disable" class="headerlink" title="一. 部署完后，启动docker，把FORWARD 改成了disable"></a>一. 部署完后，启动docker，把FORWARD 改成了disable</h3><p>解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1.在开机启动前执行sudo iptables -P FORWARD ACCEPT</div><div class="line">2.通过启动配置docker.service 配置docker启动项 --iptables=false</div></pre></td></tr></table></figure></p>
+<p>可是在ubuntu下面在/etc/rc.local下面添加的程序未正常执行<br>原因是从 Ubuntu 6.10开始，Ubuntu就将先前默认的bash shell 更换成了dash shell，/etc/rc.local使用的是sh，导致脚本出问题<br>解决方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">方法1：在终端执行 sudo dpkg-reconfigure dash，然后选择 no.</div><div class="line">方法2：重新进行软链接:</div><div class="line">sudo rm /bin/sh</div><div class="line">sudo ln -s /bin/bash /bin/sh</div></pre></td></tr></table></figure></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[kicktcp]]></title>
       <url>http://www.zhou5zhou6.com/2017/04/25/kicktcp/</url>
       <content type="html"><![CDATA[<p>最近因为kafka版本bug的问题，要清理机器上面多余的链接<br><a id="more"></a><br>发现2个工具可以用于踢掉tcp</p>
