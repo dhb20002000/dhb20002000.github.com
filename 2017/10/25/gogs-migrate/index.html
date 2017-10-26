@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://www.zhou5zhou6.com/2017/10/25/gogs-migrate/index.html">
 <meta property="og:site_name" content="周五周六">
 <meta property="og:description" content="git仓库，gogs迁移">
-<meta property="og:updated_time" content="2017-10-26T03:48:07.000Z">
+<meta property="og:updated_time" content="2017-10-26T03:50:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gogs_migrate">
 <meta name="twitter:description" content="git仓库，gogs迁移">
@@ -308,8 +308,8 @@
       
           
         <p>git仓库，gogs迁移<br><a id="more"></a><br>A.原gogs服务器  B.目的gogs服务器</p>
-<h3 id="备份gogs数据库，配置文件"><a href="#备份gogs数据库，配置文件" class="headerlink" title=".备份gogs数据库，配置文件"></a>.备份gogs数据库，配置文件</h3><h3 id="目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。"><a href="#目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。" class="headerlink" title=".目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。"></a>.目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。</h3><h3 id="A服务器执行-gogs-backup-dhbbackup"><a href="#A服务器执行-gogs-backup-dhbbackup" class="headerlink" title=".A服务器执行./gogs backup dhbbackup"></a>.A服务器执行./gogs backup dhbbackup</h3><h3 id="B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置"><a href="#B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置" class="headerlink" title=".B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置"></a>.B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置</h3><p>备注：其实数据库可以单独摘出来，这样以后迁移就不需要修改数据库配置了</p>
-<h3 id="迁移过程注意提示，见招拆招"><a href="#迁移过程注意提示，见招拆招" class="headerlink" title=".迁移过程注意提示，见招拆招"></a>.迁移过程注意提示，见招拆招</h3><h3 id="目的服务器B重启gogs进程"><a href="#目的服务器B重启gogs进程" class="headerlink" title=".目的服务器B重启gogs进程"></a>.目的服务器B重启gogs进程</h3><p>注意，如果AB服务器gogs安装目录不一致，注意修改hooks里面的配置文件，否则push会报错</p>
+<h3 id="一-备份gogs数据库，配置文件"><a href="#一-备份gogs数据库，配置文件" class="headerlink" title="一.备份gogs数据库，配置文件"></a>一.备份gogs数据库，配置文件</h3><h3 id="二-目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。"><a href="#二-目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。" class="headerlink" title="二.目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。"></a>二.目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。</h3><h3 id="三-A服务器执行-gogs-backup-dhbbackup"><a href="#三-A服务器执行-gogs-backup-dhbbackup" class="headerlink" title="三.A服务器执行./gogs backup dhbbackup"></a>三.A服务器执行./gogs backup dhbbackup</h3><h3 id="四-B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置"><a href="#四-B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置" class="headerlink" title="四.B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置"></a>四.B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置</h3><p>备注：其实数据库可以单独摘出来，这样以后迁移就不需要修改数据库配置了</p>
+<h3 id="五-迁移过程注意提示，见招拆招"><a href="#五-迁移过程注意提示，见招拆招" class="headerlink" title="五.迁移过程注意提示，见招拆招"></a>五.迁移过程注意提示，见招拆招</h3><h3 id="六-目的服务器B重启gogs进程"><a href="#六-目的服务器B重启gogs进程" class="headerlink" title="六.目的服务器B重启gogs进程"></a>六.目的服务器B重启gogs进程</h3><p>注意，如果AB服务器gogs安装目录不一致，注意修改hooks里面的配置文件，否则push会报错</p>
 
       
       
@@ -322,7 +322,7 @@
         <p><span>本文标题:</span><a href="/2017/10/25/gogs-migrate/">gogs_migrate</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">婚格线</a></p>
         <p><span>发布时间:</span>2017-10-25, 11:34:05</p>
-        <p><span>最后更新:</span>2017-10-26, 11:48:07</p>
+        <p><span>最后更新:</span>2017-10-26, 11:50:05</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/25/gogs-migrate/" title="gogs_migrate">http://www.zhou5zhou6.com/2017/10/25/gogs-migrate/</a>
             <span class="copy-path" data-clipboard-text="原文: http://www.zhou5zhou6.com/2017/10/25/gogs-migrate/　　作者: 婚格线" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -352,7 +352,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#备份gogs数据库，配置文件"><span class="toc-number">1.</span> <span class="toc-text">.备份gogs数据库，配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。"><span class="toc-number">2.</span> <span class="toc-text">.目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A服务器执行-gogs-backup-dhbbackup"><span class="toc-number">3.</span> <span class="toc-text">.A服务器执行./gogs backup dhbbackup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置"><span class="toc-number">4.</span> <span class="toc-text">.B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#迁移过程注意提示，见招拆招"><span class="toc-number">5.</span> <span class="toc-text">.迁移过程注意提示，见招拆招</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#目的服务器B重启gogs进程"><span class="toc-number">6.</span> <span class="toc-text">.目的服务器B重启gogs进程</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-备份gogs数据库，配置文件"><span class="toc-number">1.</span> <span class="toc-text">一.备份gogs数据库，配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。"><span class="toc-number">2.</span> <span class="toc-text">二.目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-A服务器执行-gogs-backup-dhbbackup"><span class="toc-number">3.</span> <span class="toc-text">三.A服务器执行./gogs backup dhbbackup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四-B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置"><span class="toc-number">4.</span> <span class="toc-text">四.B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五-迁移过程注意提示，见招拆招"><span class="toc-number">5.</span> <span class="toc-text">五.迁移过程注意提示，见招拆招</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六-目的服务器B重启gogs进程"><span class="toc-number">6.</span> <span class="toc-text">六.目的服务器B重启gogs进程</span></a></li></ol>
         
     </div>
     <style>
