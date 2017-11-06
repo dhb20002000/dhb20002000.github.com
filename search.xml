@@ -4,6 +4,20 @@
   
     
     <entry>
+      <title><![CDATA[pam_systemd]]></title>
+      <url>http://www.zhou5zhou6.com/2017/11/06/pam-systemd/</url>
+      <content type="html"><![CDATA[<p>systemctl重启服务报以下错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Restarting grafana-server (via systemctl):  Error getting authority: Error initializing authority: Could not connect: Resource temporarily unavailable (g-io-error-quark, 27)</div></pre></td></tr></table></figure></p>
+<p>同时The dbus-daemon 伴随占用100% CPU usage.</p>
+<a id="more"></a>
+<p>执行 journalctl -r -p err -b</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">11月 06 16:41:00 ali-hb2-vip1-zabbix-1 sshd[10383]: pam_systemd(sshd:session): Failed to connect to system bus: Resource temporarily</div></pre></td></tr></table></figure>
+<p>ls -1 /var/run/systemd/sessions/ | wc -l<br>4236</p>
+<p>解决方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">备份/etc/pam.d/</div><div class="line">sudo sed -i -e &apos;/^[^#]*pam_systemd.so/ s/^/#&amp;/g&apos; /etc/pam.d/*</div><div class="line">sudo systemctl mask systemd-logind</div><div class="line">sudo systemctl stop systemd-logind</div></pre></td></tr></table></figure></p>
+<p>参考地址：<a href="https://tutel.me/c/unix/questions/324260/error+getting+authority+error+initializing+authority+could+not+connect+resource+temporarily+unavailable+gioerrorquark+27" target="_blank" rel="external">https://tutel.me/c/unix/questions/324260/error+getting+authority+error+initializing+authority+could+not+connect+resource+temporarily+unavailable+gioerrorquark+27</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[gogs_migrate]]></title>
       <url>http://www.zhou5zhou6.com/2017/10/25/gogs-migrate/</url>
       <content type="html"><![CDATA[<p>git仓库，gogs迁移<br><a id="more"></a><br>A.原gogs服务器  B.目的gogs服务器</p>
