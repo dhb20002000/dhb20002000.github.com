@@ -21,7 +21,7 @@
 <meta name="description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
 <meta property="og:type" content="website">
 <meta property="og:title" content="周五周六">
-<meta property="og:url" content="http://www.zhou5zhou6.com/index.html">
+<meta property="og:url" content="https://www.zhou5zhou6.com/index.html">
 <meta property="og:site_name" content="周五周六">
 <meta property="og:description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
 <meta property="og:locale" content="zh-Hans">
@@ -273,6 +273,76 @@
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-redis-bigkey" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/15/redis-bigkey/" class="article-date">
+      <time datetime="2019-01-15T02:48:45.000Z" itemprop="datePublished">2019-01-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/15/redis-bigkey/">扫描redis大key</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#方法一。redis-cli 的–bigkeys参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--bigkeys          Sample Redis keys looking for big keys.</span><br></pre></td></tr></table></figure>
+<p>说明：<br><strong>1</strong>.使用scan方式执行，不会对redis造成阻塞；<br><strong>2</strong>.使用-i 可以设置统计间隔，例如-i 0.1  每统计100个key休眠0.1s<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># average sizes per key type.  You can use -i 0.1 to sleep 0.1 sec</span><br><span class="line"># per 100 SCAN commands (not usually needed).</span><br></pre></td></tr></table></figure></p>
+<p>#方法二。debug object key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Value at:0x7fe5a903f420 refcount:1 encoding:quicklist serializedlength:462016 lru:4017626 lru_seconds_idle:178 ql_nodes:239 ql_avg_node:16.49 ql_ziplist_max:-2 ql_compressed:0 ql_uncompressed_size:2118480</span><br><span class="line"></span><br><span class="line">Value at：key的内存地址</span><br><span class="line">refcount：引用次数</span><br><span class="line">encoding：编码类型</span><br><span class="line">serializedlength：序列化长度</span><br><span class="line">lru_seconds_idle：空闲时间</span><br></pre></td></tr></table></figure>
+<p>#方法三。rdbtools</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">安装</span><br><span class="line">pip install rdbtools</span><br><span class="line"></span><br><span class="line">使用</span><br><span class="line">rdb命令依赖rdb文件</span><br><span class="line">生成内存报告</span><br><span class="line">rdb -c memory /tmp/dump.rdb</span><br><span class="line">最大的n个key</span><br><span class="line">rdb -c memory -l 3 /tmp/dump.rdb</span><br><span class="line"></span><br><span class="line">redis-memory-for-key 不依赖rdb文件</span><br><span class="line">查看单个key</span><br><span class="line">redis-memory-for-key -s redishost -p 6379 myhash</span><br></pre></td></tr></table></figure>
+<p>#方法四。python redis模块<br>通过使用redis模块，用scan遍历key，然后计算每个key的长度<br><a href="https://yq.aliyun.com/articles/117042" target="_blank" rel="noopener">传送门</a></p>
+<p>备注：<br><a href="https://redis.io/topics/rediscli#scanning-for-big-keys" target="_blank" rel="noopener">scanning-for-big-keys</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-hexo-error" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -870,72 +940,6 @@
 
 
   
-    <article id="post-supervisor" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/02/16/supervisor/" class="article-date">
-      <time datetime="2017-02-16T07:37:27.000Z" itemprop="datePublished">2017-02-16</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/16/supervisor/">supervisor</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>最近用supervisor检测zabbix agent拉起，进程可以拉起，但是会报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">2017-02-16 15:13:28,410 INFO spawned: &apos;zabbix_agentd&apos; with pid 8701</span><br><span class="line">2017-02-16 15:13:28,422 INFO exited: zabbix_agentd (exit status 0; not expected)</span><br><span class="line">2017-02-16 15:13:29,424 INFO spawned: &apos;zabbix_agentd&apos; with pid 8712</span><br><span class="line">2017-02-16 15:13:29,434 INFO exited: zabbix_agentd (exit status 0; not expected)</span><br><span class="line">2017-02-16 15:13:31,439 INFO spawned: &apos;zabbix_agentd&apos; with pid 8722</span><br><span class="line">2017-02-16 15:13:31,448 INFO exited: zabbix_agentd (exit status 0; not expected)</span><br><span class="line">2017-02-16 15:13:32,450 INFO gave up: zabbix_agentd entered FATAL state, too many start retries too quickly</span><br></pre></td></tr></table></figure></p>
-          
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/supervisor/">supervisor</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2017/02/16/supervisor/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -947,7 +951,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2018 婚格线
+                2016-2019 婚格线
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>

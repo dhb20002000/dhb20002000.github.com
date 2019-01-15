@@ -4,8 +4,31 @@
   
     
     <entry>
+      <title><![CDATA[扫描redis大key]]></title>
+      <url>https://www.zhou5zhou6.com/2019/01/15/redis-bigkey/</url>
+      <content type="html"><![CDATA[<p>#方法一。redis-cli 的–bigkeys参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--bigkeys          Sample Redis keys looking for big keys.</span><br></pre></td></tr></table></figure>
+<p>说明：<br><strong>1</strong>.使用scan方式执行，不会对redis造成阻塞；<br><strong>2</strong>.使用-i 可以设置统计间隔，例如-i 0.1  每统计100个key休眠0.1s<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># average sizes per key type.  You can use -i 0.1 to sleep 0.1 sec</span><br><span class="line"># per 100 SCAN commands (not usually needed).</span><br></pre></td></tr></table></figure></p>
+<p>#方法二。debug object key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Value at:0x7fe5a903f420 refcount:1 encoding:quicklist serializedlength:462016 lru:4017626 lru_seconds_idle:178 ql_nodes:239 ql_avg_node:16.49 ql_ziplist_max:-2 ql_compressed:0 ql_uncompressed_size:2118480</span><br><span class="line"></span><br><span class="line">Value at：key的内存地址</span><br><span class="line">refcount：引用次数</span><br><span class="line">encoding：编码类型</span><br><span class="line">serializedlength：序列化长度</span><br><span class="line">lru_seconds_idle：空闲时间</span><br></pre></td></tr></table></figure>
+<p>#方法三。rdbtools</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">安装</span><br><span class="line">pip install rdbtools</span><br><span class="line"></span><br><span class="line">使用</span><br><span class="line">rdb命令依赖rdb文件</span><br><span class="line">生成内存报告</span><br><span class="line">rdb -c memory /tmp/dump.rdb</span><br><span class="line">最大的n个key</span><br><span class="line">rdb -c memory -l 3 /tmp/dump.rdb</span><br><span class="line"></span><br><span class="line">redis-memory-for-key 不依赖rdb文件</span><br><span class="line">查看单个key</span><br><span class="line">redis-memory-for-key -s redishost -p 6379 myhash</span><br></pre></td></tr></table></figure>
+<p>#方法四。python redis模块<br>通过使用redis模块，用scan遍历key，然后计算每个key的长度<br><a href="https://yq.aliyun.com/articles/117042" target="_blank" rel="noopener">传送门</a></p>
+<p>备注：<br><a href="https://redis.io/topics/rediscli#scanning-for-big-keys" target="_blank" rel="noopener">scanning-for-big-keys</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> redis </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[hexo_error]]></title>
-      <url>http://www.zhou5zhou6.com/2018/05/15/hexo-error/</url>
+      <url>https://www.zhou5zhou6.com/2018/05/15/hexo-error/</url>
       <content type="html"><![CDATA[<p>mac笔记本node升级后，执行hexo命令报以下信息</p>
 <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">was compiled against a different Node.js version using</span><br><span class="line">NODE_MODULE_VERSION 51. This version of Node.js requires</span><br><span class="line">NODE_MODULE_VERSION 59. Please try re-compiling or re-installing</span><br><span class="line">the module (for instance, using `npm rebuild` or `npm install`).</span><br><span class="line">    at Object.Module._extensions..node (module.js:670:18)</span><br><span class="line">    at Module.load (module.js:560:32)</span><br><span class="line">    at tryModuleLoad (module.js:503:12)</span><br><span class="line">    at Function.Module._load (module.js:495:3)</span><br><span class="line">    at Module.require (module.js:585:17)</span><br><span class="line">    at require (internal/module.js:11:18)</span><br><span class="line">    at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/hexo/node_modules/dtrace-provider/dtrace-provider.js:17:23)</span><br><span class="line">    at Module._compile (module.js:641:30)</span><br><span class="line">    at Object.Module._extensions..js (module.js:652:10)</span><br><span class="line">    at Module.load (module.js:560:32)</span><br><span class="line">    at tryModuleLoad (module.js:503:12)</span><br><span class="line">    at Function.Module._load (module.js:495:3)</span><br><span class="line">    at Module.require (module.js:585:17)</span><br><span class="line">    at require (internal/module.js:11:18)</span><br><span class="line">    at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/hexo/node_modules/bunyan/lib/bunyan.js:79:18)</span><br><span class="line">    at Module._compile (module.js:641:30)</span><br><span class="line">&#123; Error: Cannot find module &apos;./build/default/DTraceProviderBindings&apos;</span><br><span class="line">    at Function.Module._resolveFilename (module.js:542:15)</span><br><span class="line">    at Function.Module._load (module.js:472:25)</span><br><span class="line">    at Module.require (module.js:585:17)</span><br><span class="line">    at require (internal/module.js:11:18)</span><br><span class="line">    at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/hexo/node_modules/dtrace-provider/dtrace-provider.js:17:23)</span><br><span class="line">    at Module._compile (module.js:641:30)</span><br><span class="line">    at Object.Module._extensions..js (module.js:652:10)</span><br><span class="line">    at Module.load (module.js:560:32)</span><br><span class="line">    at tryModuleLoad (module.js:503:12)</span><br><span class="line">    at Function.Module._load (module.js:495:3)</span><br><span class="line">    at Module.require (module.js:585:17)</span><br><span class="line">    at require (internal/module.js:11:18)</span><br><span class="line">    at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/hexo/node_modules/bunyan/lib/bunyan.js:79:18)</span><br><span class="line">    at Module._compile (module.js:641:30)</span><br><span class="line">    at Object.Module._extensions..js (module.js:652:10)</span><br><span class="line">    at Module.load (module.js:560:32) code: &apos;MODULE_NOT_FOUND&apos; &#125;</span><br><span class="line">&#123; Error: Cannot find module &apos;./build/Debug/DTraceProviderBindings&apos;</span><br><span class="line">    at Function.Module._resolveFilename (module.js:542:15)</span><br><span class="line">    at Function.Module._load (module.js:472:25)</span><br><span class="line">    at Module.require (module.js:585:17)</span><br><span class="line">    at require (internal/module.js:11:18)</span><br><span class="line">    at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/hexo/node_modules/dtrace-provider/dtrace-provider.js:17:23)</span><br><span class="line">    at Module._compile (module.js:641:30)</span><br><span class="line">    at Object.Module._extensions..js (module.js:652:10)</span><br><span class="line">    at Module.load (module.js:560:32)</span><br><span class="line">    at tryModuleLoad (module.js:503:12)</span><br><span class="line">    at Function.Module._load (module.js:495:3)</span><br><span class="line">    at Module.require (module.js:585:17)</span><br><span class="line">    at require (internal/module.js:11:18)</span><br><span class="line">    at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/hexo/node_modules/bunyan/lib/bunyan.js:79:18)</span><br><span class="line">    at Module._compile (module.js:641:30)</span><br><span class="line">    at Object.Module._extensions..js (module.js:652:10)</span><br><span class="line">    at Module.load (module.js:560:32) code: &apos;MODULE_NOT_FOUND&apos; &#125;</span><br><span class="line">(node:92613) [DEP0061] DeprecationWarning: fs.SyncWriteStream is deprecated.</span><br></pre></td></tr></table></figure>
@@ -23,7 +46,7 @@
     
     <entry>
       <title><![CDATA[confluence_email]]></title>
-      <url>http://www.zhou5zhou6.com/2018/05/15/confluence-email/</url>
+      <url>https://www.zhou5zhou6.com/2018/05/15/confluence-email/</url>
       <content type="html"><![CDATA[<p>使用阿里云邮箱配置confluence发邮件，配置smtp报以下错误</p>
 <p>‘’’<br>An error has occurred with sending the test email:<br>    com.atlassian.mail.MailException: javax.mail.MessagingException: Exception reading response;<br>      nested exception is:<br>        java.net.SocketTimeoutException: Read timed out<br>        at com.atlassian.confluence.jmx.JmxSMTPMailServer.doSendWithMessageIdSupport(JmxSMTPMailServer.java:120)<br>        at com.atlassian.confluence.jmx.JmxSMTPMailServer.send(JmxSMTPMailServer.java:79)<br>        at<br>‘’’<br><a id="more"></a></p>
 <p>解决方法：</p>
@@ -42,7 +65,7 @@
     
     <entry>
       <title><![CDATA[pam_systemd]]></title>
-      <url>http://www.zhou5zhou6.com/2017/11/06/pam-systemd/</url>
+      <url>https://www.zhou5zhou6.com/2017/11/06/pam-systemd/</url>
       <content type="html"><![CDATA[<p>systemctl重启服务报以下错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Restarting grafana-server (via systemctl):  Error getting authority: Error initializing authority: Could not connect: Resource temporarily unavailable (g-io-error-quark, 27)</span><br></pre></td></tr></table></figure></p>
 <p>同时The dbus-daemon 伴随占用100% CPU usage.</p>
 <a id="more"></a>
@@ -64,7 +87,7 @@
     
     <entry>
       <title><![CDATA[gogs_migrate]]></title>
-      <url>http://www.zhou5zhou6.com/2017/10/25/gogs-migrate/</url>
+      <url>https://www.zhou5zhou6.com/2017/10/25/gogs-migrate/</url>
       <content type="html"><![CDATA[<p>git仓库，gogs迁移<br><a id="more"></a><br>A.原gogs服务器  B.目的gogs服务器</p>
 <p>###一.备份gogs数据库，配置文件</p>
 <h3 id="二-目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。"><a href="#二-目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。" class="headerlink" title="二.目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。"></a>二.目的gogs服务器，运行gogs帐户、gogs安装目录、数据库密码必须要和原gogs服务器一致，否则倒入的时候会报错。</h3><h3 id="三-A服务器执行-gogs-backup-dhbbackup"><a href="#三-A服务器执行-gogs-backup-dhbbackup" class="headerlink" title="三.A服务器执行./gogs backup dhbbackup"></a>三.A服务器执行./gogs backup dhbbackup</h3><h3 id="四-B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置"><a href="#四-B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置" class="headerlink" title="四.B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置"></a>四.B服务器，将A服务器备份的文件拷贝到B，然后解压缩，确认下配置，主要是运行用户和数据库配置</h3><p>备注：其实数据库可以单独摘出来，这样以后迁移就不需要修改数据库配置了</p>
@@ -82,7 +105,7 @@
     
     <entry>
       <title><![CDATA[Kubernetes-cluster-with-prometheus]]></title>
-      <url>http://www.zhou5zhou6.com/2017/06/08/Monitoring-Kubernetes-cluster-with-prometheus/</url>
+      <url>https://www.zhou5zhou6.com/2017/06/08/Monitoring-Kubernetes-cluster-with-prometheus/</url>
       <content type="html"><![CDATA[<p>Monitoring Kubernetes cluster with prometheus</p>
 <a id="more"></a>
 <h2 id="一，下载安装包"><a href="#一，下载安装包" class="headerlink" title="一，下载安装包"></a>一，下载安装包</h2><blockquote>
@@ -129,7 +152,7 @@
     
     <entry>
       <title><![CDATA[kubernetes_install]]></title>
-      <url>http://www.zhou5zhou6.com/2017/05/09/kubernetes-install/</url>
+      <url>https://www.zhou5zhou6.com/2017/05/09/kubernetes-install/</url>
       <content type="html"><![CDATA[<p>操作系统环境：Ubuntu 16.04.2 LTS<br><a id="more"></a></p>
 <h3 id="一-部署完后，启动docker，把FORWARD-改成了disable"><a href="#一-部署完后，启动docker，把FORWARD-改成了disable" class="headerlink" title="一. 部署完后，启动docker，把FORWARD 改成了disable"></a>一. 部署完后，启动docker，把FORWARD 改成了disable</h3><p> docker 1.13.0 更改了默认的防火墙规整，FORWARD 改为了 drop，导致被防火墙 drop 了<br>解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.在开机启动前执行sudo iptables -P FORWARD ACCEPT</span><br><span class="line">2.通过启动配置docker.service 配置docker启动项 --iptables=false</span><br></pre></td></tr></table></figure></p>
 <p>可是在ubuntu下面在/etc/rc.local下面添加的程序未正常执行<br>原因是从 Ubuntu 6.10开始，Ubuntu就将先前默认的bash shell 更换成了dash shell，/etc/rc.local使用的是sh，导致脚本出问题<br>解决方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">方法1：在终端执行 sudo dpkg-reconfigure dash，然后选择 no.</span><br><span class="line">方法2：重新进行软链接:</span><br><span class="line">sudo rm /bin/sh</span><br><span class="line">sudo ln -s /bin/bash /bin/sh</span><br></pre></td></tr></table></figure></p>
@@ -148,7 +171,7 @@
     
     <entry>
       <title><![CDATA[kicktcp]]></title>
-      <url>http://www.zhou5zhou6.com/2017/04/25/kicktcp/</url>
+      <url>https://www.zhou5zhou6.com/2017/04/25/kicktcp/</url>
       <content type="html"><![CDATA[<p>最近因为kafka版本bug的问题，要清理机器上面多余的链接<br><a id="more"></a><br>发现2个工具可以用于踢掉tcp</p>
 <h3 id="Killcx"><a href="#Killcx" class="headerlink" title="Killcx"></a>Killcx</h3><p> Killcx is a Perl script to close a TCP connection under Linux, whatever its state is (half-open, established, waiting or closing state).<br>链接地址：<a href="http://killcx.sourceforge.net/" target="_blank" rel="noopener">http://killcx.sourceforge.net/</a><br>注意用这个perl脚本的时候将下面的注释。这样就不会检测了,缩短执行时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sub check_res &#123;</span><br><span class="line"></span><br><span class="line">   # received signal from our child :</span><br><span class="line">#   print &quot;[PARENT] received child signal, checking results...\n&quot;;</span><br><span class="line">   # check whether the operation was successful or not :</span><br><span class="line">#   ( $local_ip, $local_port, $state) = &amp;check_tcp( $dest_hex );</span><br><span class="line">#   if ( $state ) &#123;</span><br><span class="line">#   print &quot;         =&gt; error : connection hasn&apos;t been closed\n\n&quot;;</span><br><span class="line">#      exit 1;</span><br><span class="line">#   &#125;</span><br><span class="line">   print &quot;         =&gt; success : connection has been closed !\n\n&quot;;</span><br><span class="line">   exit 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="tcpkill"><a href="#tcpkill" class="headerlink" title="tcpkill"></a>tcpkill</h3><p>通过yum安装只能kill掉活的链接，对于半链接无效。<br>不过阿里云上又一个改版的可以踢掉半链接等链接<br>链接地址：<a href="https://yq.aliyun.com/articles/59308" target="_blank" rel="noopener">https://yq.aliyun.com/articles/59308</a><br><a href="http://site-img-data.oss-cn-shanghai.aliyuncs.com/tcpkill/tcpkill_v2.tar.gz?spm=5176.100239.blogcont59308.12.RoN1fe&amp;file=tcpkill_v2.tar.gz" target="_blank" rel="noopener">http://site-img-data.oss-cn-shanghai.aliyuncs.com/tcpkill/tcpkill_v2.tar.gz?spm=5176.100239.blogcont59308.12.RoN1fe&amp;file=tcpkill_v2.tar.gz</a></p>
@@ -168,7 +191,7 @@
     
     <entry>
       <title><![CDATA[kafka]]></title>
-      <url>http://www.zhou5zhou6.com/2017/03/29/kafka/</url>
+      <url>https://www.zhou5zhou6.com/2017/03/29/kafka/</url>
       <content type="html"><![CDATA[<p>kafka知识点整理</p>
 <a id="more"></a>
 <h2 id="kafka-manager"><a href="#kafka-manager" class="headerlink" title="kafka-manager"></a>kafka-manager</h2><p>1.项目地址<br><a href="https://github.com/yahoo/kafka-manager" target="_blank" rel="noopener">https://github.com/yahoo/kafka-manager</a><br>2.下载编译</p>
@@ -199,7 +222,7 @@
     
     <entry>
       <title><![CDATA[redis/codis error 汇总]]></title>
-      <url>http://www.zhou5zhou6.com/2017/02/20/redis-error/</url>
+      <url>https://www.zhou5zhou6.com/2017/02/20/redis-error/</url>
       <content type="html"><![CDATA[<p>redis / codis 报错信息汇总</p>
 <a id="more"></a>
 <h2 id="1-codis-proxy无法启动"><a href="#1-codis-proxy无法启动" class="headerlink" title="1.codis proxy无法启动"></a>1.codis proxy无法启动</h2><p>proxy挂了，重启过程中日志内容如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2017/02/19 13:02:55 proxy.go:173: [PANIC] create fence node failed</span><br><span class="line">[error]: zk: node already exists</span><br><span class="line">[stack]:</span><br><span class="line">    2   /data/apps/opt/codis/src/github.com/wandoulabs/codis/pkg/proxy/proxy.go:173</span><br><span class="line">            github.com/wandoulabs/codis/pkg/proxy.(*Server).register</span><br><span class="line">    1   /data/apps/opt/codis/src/github.com/wandoulabs/codis/pkg/proxy/proxy.go:77</span><br></pre></td></tr></table></figure></p>
@@ -224,7 +247,7 @@
     
     <entry>
       <title><![CDATA[supervisor]]></title>
-      <url>http://www.zhou5zhou6.com/2017/02/16/supervisor/</url>
+      <url>https://www.zhou5zhou6.com/2017/02/16/supervisor/</url>
       <content type="html"><![CDATA[<p>最近用supervisor检测zabbix agent拉起，进程可以拉起，但是会报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">2017-02-16 15:13:28,410 INFO spawned: &apos;zabbix_agentd&apos; with pid 8701</span><br><span class="line">2017-02-16 15:13:28,422 INFO exited: zabbix_agentd (exit status 0; not expected)</span><br><span class="line">2017-02-16 15:13:29,424 INFO spawned: &apos;zabbix_agentd&apos; with pid 8712</span><br><span class="line">2017-02-16 15:13:29,434 INFO exited: zabbix_agentd (exit status 0; not expected)</span><br><span class="line">2017-02-16 15:13:31,439 INFO spawned: &apos;zabbix_agentd&apos; with pid 8722</span><br><span class="line">2017-02-16 15:13:31,448 INFO exited: zabbix_agentd (exit status 0; not expected)</span><br><span class="line">2017-02-16 15:13:32,450 INFO gave up: zabbix_agentd entered FATAL state, too many start retries too quickly</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>搜了搜，原来supervisor只能监控前台程序（程序必须以非daemon方式运行），否则就回提示“ too many start retries too quickly”<br>解决方法：</p>
@@ -245,7 +268,7 @@
     
     <entry>
       <title><![CDATA[mac 环境下部署python虚拟环境]]></title>
-      <url>http://www.zhou5zhou6.com/2017/01/09/env-python/</url>
+      <url>https://www.zhou5zhou6.com/2017/01/09/env-python/</url>
       <content type="html"><![CDATA[<p>最近在mac上面使用python3.5，原版自带python2.7，通过virtualenv为不同的项目搭建独立的python环境<br><a id="more"></a><br>1.安装virtualenv</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install virtualenv</span><br></pre></td></tr></table></figure>
 <p>2.创建项目文件夹<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir envworkspaces</span><br><span class="line">virtualenv py3_test -p /usr/local/bin/python3.5</span><br></pre></td></tr></table></figure></p>
@@ -274,7 +297,7 @@
     
     <entry>
       <title><![CDATA[通过logstash过滤日志触发脚本执行]]></title>
-      <url>http://www.zhou5zhou6.com/2016/12/01/logstash-command/</url>
+      <url>https://www.zhou5zhou6.com/2016/12/01/logstash-command/</url>
       <content type="html"><![CDATA[<p>最近业务有一个需求，根据日志过滤出用户请求把用户从当前用户踢掉<br><a id="more"></a><br>方案：<br>1.crontab 执行某个脚本过滤日志，然后触发某个脚本运行<br>2.使用logstash的file和command插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">    file &#123;</span><br><span class="line">        type =&gt; &quot;msync_log&quot;</span><br><span class="line">        path =&gt; &quot;/data/apps/opt/msync/log/info.log&quot;</span><br><span class="line">        sincedb_path =&gt; &quot;/data/apps/opt/msync/log/info.log&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">filter &#123;</span><br><span class="line">    if [type] == &quot;msync_log&quot; and [message] =~ &quot;open_session&quot; &#123;</span><br><span class="line">        if [message] =~ &quot;xxx&quot; &#123;</span><br><span class="line">        grok &#123;</span><br><span class="line">            match =&gt; [</span><br><span class="line">                &quot;message&quot;,&quot;%&#123;TIMESTAMP_ISO8601:timestamp&#125; \[%&#123;WORD:level&#125;\] \&lt;%&#123;DATA&#125;\&gt;\@%&#123;WORD&#125;\:%&#123;WORD:type&#125;\:%&#123;NUMBER&#125; \(%&#123;IP&#125;\) %&#123;WORD&#125; %&#123;WORD&#125; %&#123;WORD&#125; %&#123;WORD&#125; %&#123;DATA:org&#125;\#%&#123;DATA:app&#125;\_%&#123;DATA:target&#125;\@%&#123;WORD&#125;&quot;</span><br><span class="line">                ]</span><br><span class="line">            remove_field =&gt; [&quot;message&quot;,&quot;timestamp&quot;,&quot;level&quot;,&quot;type&quot;]</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        &#125;else &#123; drop&#123;&#125;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123; drop&#123;&#125;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line"></span><br><span class="line">#    stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">        exec &#123;</span><br><span class="line">        command =&gt; &quot;python /data/shell/kickuser/kickmsyncuser.py %&#123;org&#125; %&#123;app&#125; %&#123;target&#125; &gt;&gt;/data/apps/opt/logstash-2.1.1/kickuser.log&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>注意：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Where to write the sincedb database (keeps track of the current position of monitored log files). The default will write sincedb files to some path matching “$HOME/.sincedb*”</span><br></pre></td></tr></table></figure></p>
 <p>解决方法：</p>
@@ -295,7 +318,7 @@
     
     <entry>
       <title><![CDATA[python error list]]></title>
-      <url>http://www.zhou5zhou6.com/2016/11/29/python-error/</url>
+      <url>https://www.zhou5zhou6.com/2016/11/29/python-error/</url>
       <content type="html"><![CDATA[<p>python使用过程中的各种报错统计<br><a id="more"></a></p>
 <h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yum output:</span><br><span class="line">python-crypto-2.6.1-1.el7.rf.x86_64.rpm | 456 kB 00:00:00</span><br><span class="line">Running transaction check</span><br><span class="line">Running transaction test</span><br><span class="line">Transaction test succeeded</span><br><span class="line">Running transaction</span><br><span class="line">  Installing : python-crypto-2.6.1-1.el7.rf.x86_64 1/1</span><br><span class="line">Error unpacking rpm package python-crypto-2.6.1-1.el7.rf.x86_64</span><br><span class="line">error: unpacking of archive failed on file /usr/lib64/python2.7/site-packages/pycrypto-2.6.1-py2.7.egg-info: cpio: rename</span><br><span class="line">  Verifying : python-crypto-2.6.1-1.el7.rf.x86_64 1/1</span><br><span class="line"></span><br><span class="line">Failed:</span><br><span class="line">  python-crypto.x86_64 0:2.6.1-1.el7.rf</span><br></pre></td></tr></table></figure>
 <p>解决方法</p>
@@ -325,7 +348,7 @@
     
     <entry>
       <title><![CDATA[centos7 modify hostname]]></title>
-      <url>http://www.zhou5zhou6.com/2016/11/17/modifyhostname/</url>
+      <url>https://www.zhou5zhou6.com/2016/11/17/modifyhostname/</url>
       <content type="html"><![CDATA[<p>最近在aws上面修改centos7的的hostname，重启后总是失效<br><a id="more"></a><br>解决方法<br>1.编辑/etc/sysconfig/network<br>2.编辑/etc/hostname<br>3.编辑/etc/cloud/cloud.cfg<br>添加如下的参数</p>
 <blockquote>
 <p>preserve_hostname: true</p>
@@ -345,7 +368,7 @@
     
     <entry>
       <title><![CDATA[bind_dlz_mysql]]></title>
-      <url>http://www.zhou5zhou6.com/2016/02/01/bind_dlz_mysql/</url>
+      <url>https://www.zhou5zhou6.com/2016/02/01/bind_dlz_mysql/</url>
       <content type="html"><![CDATA[<p>##一。安装包下载<br><a href="ftp://ftp.isc.org/isc/bind9/cur/9.10/bind-9.10.3-P3.tar.gz" target="_blank" rel="noopener">bind</a><br><a href="http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.10.tar.gz" target="_blank" rel="noopener">mysql</a><br><a href="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz" target="_blank" rel="noopener">boost</a></p>
 <a id="more"></a>
 <p>注意mysql5.7如果想通过编译安装，里面boost库是必须的，如果不安装会报以下信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">-- BOOST_INCLUDE_DIR BOOST_INCLUDE_DIR-NOTFOUND</span><br><span class="line">-- LOCAL_BOOST_DIR</span><br><span class="line">-- LOCAL_BOOST_ZIP</span><br><span class="line">-- Could not find (the correct version of) boost.</span><br><span class="line">-- MySQL currently requires boost_1_59_0</span><br><span class="line"></span><br><span class="line">CMake Error at cmake/boost.cmake:76 (MESSAGE):</span><br><span class="line">  You can download it with -DDOWNLOAD_BOOST=1 -DWITH_BOOST=&lt;directory&gt;</span><br><span class="line"></span><br><span class="line">  This CMake script will look for boost in &lt;directory&gt;.  If it is not there,</span><br><span class="line">  it will download and unpack it (in that directory) for you.</span><br><span class="line"></span><br><span class="line">  If you are inside a firewall, you may need to use an http proxy:</span><br><span class="line"></span><br><span class="line">  export http_proxy=http://example.com:80</span><br><span class="line"></span><br><span class="line">Call Stack (most recent call first):</span><br><span class="line">  cmake/boost.cmake:228 (COULD_NOT_FIND_BOOST)</span><br><span class="line">  CMakeLists.txt:435 (INCLUDE)</span><br></pre></td></tr></table></figure></p>
@@ -385,7 +408,7 @@
     
     <entry>
       <title><![CDATA[jenkins]]></title>
-      <url>http://www.zhou5zhou6.com/2016/01/19/jenkins/</url>
+      <url>https://www.zhou5zhou6.com/2016/01/19/jenkins/</url>
       <content type="html"><![CDATA[<p>#INSTALL</p>
 <p>####一.install tomcat<br><a href="http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz" target="_blank" rel="noopener">jdk</a><br><a href="http://apache.cs.utah.edu/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz" target="_blank" rel="noopener">tomcat</a><br><a id="more"></a></p>
 <p>#####1.安装jdk<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/java</span><br><span class="line">tar zxvf jdk-7u79-linux-x64.tar.gz -C /usr/java/</span><br></pre></td></tr></table></figure></p>
@@ -421,7 +444,7 @@
     
     <entry>
       <title><![CDATA[google-authenticator]]></title>
-      <url>http://www.zhou5zhou6.com/2015/12/15/google-authenticator/</url>
+      <url>https://www.zhou5zhou6.com/2015/12/15/google-authenticator/</url>
       <content type="html"><![CDATA[<p>结合ldap和google-authenticator 完成两步验证<br><a id="more"></a><br>一，</p>
 <p>下载所需安装包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget gcc make pam-devel libpng-devel</span><br><span class="line">git clone https://github.com/google/google-authenticator.git</span><br><span class="line">wget -N http://arthurdejong.org/nss-pam-ldapd/nss-pam-ldapd-0.9.6.tar.gz</span><br></pre></td></tr></table></figure></p>
 <p>二.<br>1&gt;安装配置google-authenticator<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd google-authenticator/libpam/</span><br><span class="line">./bootstrap.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line">ln -s /usr/local/lib/security/pam_google_authenticator.so /lib64/security/pam_google_authenticator.so</span><br><span class="line">ln -s /lib/security/pam_ldap.so /lib64/security/pam_ldap.so</span><br></pre></td></tr></table></figure></p>
@@ -460,7 +483,7 @@
     
     <entry>
       <title><![CDATA[ntpd更新时间]]></title>
-      <url>http://www.zhou5zhou6.com/2015/10/16/ntpd/</url>
+      <url>https://www.zhou5zhou6.com/2015/10/16/ntpd/</url>
       <content type="html"><![CDATA[<p>1.本地执行date报以下信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fri Oct 16 07:09:19 Local time zone must be set--see zic manual page 2015</span><br></pre></td></tr></table></figure></p>
 <p>检查/etc/sysconfig/clock 和 /etc/localtime 均配置正常<br>执行后发现还是有问题<br>最后修改了一下环境变量,就能正常使用了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TZ=&apos;Asia/Shanghai&apos; ; export TZ</span><br></pre></td></tr></table></figure></p>
 ]]></content>
@@ -482,7 +505,7 @@
     
     <entry>
       <title><![CDATA[puppet_modify_password]]></title>
-      <url>http://www.zhou5zhou6.com/2015/08/24/puppet_modify_password/</url>
+      <url>https://www.zhou5zhou6.com/2015/08/24/puppet_modify_password/</url>
       <content type="html"><![CDATA[<p>通过puppet的user修改密码失败提示以下信息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">info: /User[zabbix]: Provider useradd does not support features manages_passwords; not managing attribute password</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
@@ -497,7 +520,7 @@
     
     <entry>
       <title><![CDATA[systemtap_install]]></title>
-      <url>http://www.zhou5zhou6.com/2015/07/17/systemtap_install/</url>
+      <url>https://www.zhou5zhou6.com/2015/07/17/systemtap_install/</url>
       <content type="html"><![CDATA[<p>最近一个机器的cpu sy很高，cs切换很频繁，估计是某个程序有问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----</span><br><span class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</span><br><span class="line">12  4 1921224 851056   3288 4268828    1    7 14422  2270    0    0  6 14 57 24  0</span><br><span class="line">19  2 1921228 866648   3288 4240524    0    4 81520 20471 77085 1657871 16 71  8  5  0</span><br><span class="line">11  0 1921228 867340   3280 4241312    0    0 63484 17729 77097 1670401 17 69 12  2  0</span><br><span class="line">13  0 1921228 868596   3288 4233176    0    0 52852 17931 70692 1737849 17 70 11  3  0</span><br><span class="line">17  0 1921228 871384   3280 4228236    0    0 67400 25778 77112 1679067 16 69 13  2  0</span><br><span class="line">21  1 1921228 866268   3296 4232780    0    0 64408 19465 75566 1671655 17 69 13  1  0</span><br><span class="line"> 5  0 1921228 815304   3280 4283268    0    0 74260 17012 73822 1679299 18 70 11  1  0</span><br><span class="line">15  2 1921228 757480   3288 4336520    0    0 53720  9204 67308 1766932 17 69 13  1  0</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>然后通过dstat –top-cpu或者ps查看占用高的进程ps -eo pid,ni,pri,pcpu,psr,comm| sort -nr -k4| more</p>
@@ -535,7 +558,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[tcpcopy笔记]]></title>
-      <url>http://www.zhou5zhou6.com/2015/07/10/tcpcopy/</url>
+      <url>https://www.zhou5zhou6.com/2015/07/10/tcpcopy/</url>
       <content type="html"><![CDATA[<p>#通过tcpcopy压力测试</p>
 <p>##下载<br><a href="https://github.com/session-replay-tools/intercept/releases" target="_blank" rel="noopener">intercept下载</a></p>
 <p><a href="https://github.com/session-replay-tools/tcpcopy/releases" target="_blank" rel="noopener">tcpcopy下载</a></p>
@@ -572,7 +595,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[mitmproxy]]></title>
-      <url>http://www.zhou5zhou6.com/2015/06/04/mitmproxy/</url>
+      <url>https://www.zhou5zhou6.com/2015/06/04/mitmproxy/</url>
       <content type="html"><![CDATA[<p>###mac通过mitmproxy设置代理给手机抓包</p>
 <p>##一、安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mitmproxy</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
@@ -608,7 +631,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[docker_install]]></title>
-      <url>http://www.zhou5zhou6.com/2015/06/03/dockerinstall/</url>
+      <url>https://www.zhou5zhou6.com/2015/06/03/dockerinstall/</url>
       <content type="html"><![CDATA[<p>####dock 安装  @centos<br>1.yum -y install docker-io</p>
 <a id="more"></a>
 <p>2./etc/init.d/docker start</p>
@@ -636,7 +659,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[slat-multi-master]]></title>
-      <url>http://www.zhou5zhou6.com/2015/05/26/slat-multi-master/</url>
+      <url>https://www.zhou5zhou6.com/2015/05/26/slat-multi-master/</url>
       <content type="html"><![CDATA[<p>##salt扩展</p>
 <p>####多master横向扩展<br>1.机器B设置yum的epol源，安装salt-master<br>2.机器A上面通过nfs共享/etc/salt/pki/master配置<br><a id="more"></a><br>3.机器B mount A 的/etc/salt/pki/master；并把/etc/salt/的配置拷贝倒B的相同目录下<br>4.启动B机器的salt-master<br>5.配置minion为多个master即可<br>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">master:</span><br><span class="line">  - 机器A</span><br><span class="line">  - 机器B</span><br></pre></td></tr></table></figure></p>
 <p><a href="http://docs.saltstack.com/en/latest/topics/tutorials/multimaster.html" target="_blank" rel="noopener">参考资料</a></p>
@@ -663,7 +686,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[yum下载rpm包]]></title>
-      <url>http://www.zhou5zhou6.com/2015/05/20/yum_conf/</url>
+      <url>https://www.zhou5zhou6.com/2015/05/20/yum_conf/</url>
       <content type="html"><![CDATA[<p>###yum仅下载rpm包，不进行安装<br>1.安装yum的download插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install yum-downloadonly</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>2.多了2个配置参数<br>–downloadonly<br>–downloaddir<br>例如：将salt-master的rpm安装包保存倒/var下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install --downloadonly --downloaddir=/var salt-master</span><br></pre></td></tr></table></figure></p>
@@ -690,7 +713,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[salt报错汇总]]></title>
-      <url>http://www.zhou5zhou6.com/2015/05/20/slat_error/</url>
+      <url>https://www.zhou5zhou6.com/2015/05/20/slat_error/</url>
       <content type="html"><![CDATA[<p>#salt报错汇总<br>1.执行salt-run 报[ERROR   ] Failed to import runners drac</p>
 <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">[root@puppet ~]# salt-run manage.up</span><br><span class="line">[ERROR   ] Failed to import runners drac, this is due most likely to a syntax error:</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;/usr/lib/python2.6/site-packages/salt/loader.py&quot;, line 951, in _load_module</span><br><span class="line">    ), fn_, fpath, desc)</span><br><span class="line">  File &quot;/usr/lib/python2.6/site-packages/salt/runners/drac.py&quot;, line 21, in &lt;module&gt;</span><br><span class="line">    import paramiko</span><br><span class="line">  File &quot;/usr/lib/python2.6/site-packages/paramiko/__init__.py&quot;, line 30, in &lt;module&gt;</span><br><span class="line">    from paramiko.transport import SecurityOptions, Transport</span><br><span class="line">  File &quot;/usr/lib/python2.6/site-packages/paramiko/transport.py&quot;, line 49, in &lt;module&gt;</span><br><span class="line">    from paramiko.dsskey import DSSKey</span><br><span class="line">  File &quot;/usr/lib/python2.6/site-packages/paramiko/dsskey.py&quot;, line 26, in &lt;module&gt;</span><br><span class="line">    from Crypto.PublicKey import DSA</span><br><span class="line">  File &quot;/usr/lib64/python2.6/site-packages/Crypto/PublicKey/DSA.py&quot;, line 88, in &lt;module&gt;</span><br><span class="line">    from Crypto.PublicKey import _DSA, _slowmath, pubkey</span><br><span class="line">  File &quot;/usr/lib64/python2.6/site-packages/Crypto/PublicKey/_DSA.py&quot;, line 30, in &lt;module&gt;</span><br><span class="line">    from Crypto.PublicKey.pubkey import *</span><br><span class="line">  File &quot;/usr/lib64/python2.6/site-packages/Crypto/PublicKey/pubkey.py&quot;, line 30, in &lt;module&gt;</span><br><span class="line">    from Crypto.Util.number import *</span><br><span class="line">  File &quot;/usr/lib64/python2.6/site-packages/Crypto/Util/number.py&quot;, line 56, in &lt;module&gt;</span><br><span class="line">    if _fastmath is not None and not _fastmath.HAVE_DECL_MPZ_POWM_SEC:</span><br><span class="line">AttributeError: &apos;module&apos; object has no attribute &apos;HAVE_DECL_MPZ_POWM_SEC&apos;</span><br><span class="line">- CDN-HLJ-SH-CNC-135</span><br></pre></td></tr></table></figure>
@@ -731,7 +754,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[salt-install]]></title>
-      <url>http://www.zhou5zhou6.com/2015/05/18/salt-install/</url>
+      <url>https://www.zhou5zhou6.com/2015/05/18/salt-install/</url>
       <content type="html"><![CDATA[<p>###saltsatck<br>环境centos6.0<br><a id="more"></a></p>
 <p>#安装<br>1.yum方式<br>安装epol源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</span><br></pre></td></tr></table></figure></p>
 <p>安装salt-master或者salt-minion<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install salt-master</span><br><span class="line">yum install salt-minion</span><br></pre></td></tr></table></figure></p>
@@ -758,7 +781,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[hp服务器无法修改读写比例]]></title>
-      <url>http://www.zhou5zhou6.com/2015/05/08/hpacucli_1/</url>
+      <url>https://www.zhou5zhou6.com/2015/05/08/hpacucli_1/</url>
       <content type="html"><![CDATA[<p>###hp服务器无法修改读写比例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@cdn tmp]# hpssacli ctrl slot=2 modify cacheratio=80/20</span><br><span class="line"></span><br><span class="line">Error: Caching is currently disabled for all logical drives. Setting the cache</span><br><span class="line">       ratio is not allowed until a logical drive enables caching.</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>hp服务器报以上错误<br>hpacucli ctrl slot=2 show config detail<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Post Prompt Timeout: 15 secs</span><br><span class="line">Cache Board Present: True</span><br><span class="line">Cache Status: Not Configured          &lt;-----cache 状态未配置</span><br><span class="line">Cache Ratio: 100% Read / 0% Write</span><br><span class="line">Read Cache Size: 0 MB</span><br></pre></td></tr></table></figure></p>
@@ -788,7 +811,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[elasticsarchturnred]]></title>
-      <url>http://www.zhou5zhou6.com/2015/04/20/elasticsarchturnred/</url>
+      <url>https://www.zhou5zhou6.com/2015/04/20/elasticsarchturnred/</url>
       <content type="html"><![CDATA[<p>###elasticsearch服务器重启后导致shard多好变成UNASSIGNED，elasticsearch状态变成red<br>通过<a href="http://192.168.1.100:9200/_plugin/head/查看图形如下所示" target="_blank" rel="noopener">http://192.168.1.100:9200/_plugin/head/查看图形如下所示</a><br><a id="more"></a><br><img src="http://7x00f8.com1.z0.glb.clouddn.com/zhou5zhou6zhou5zhou6unassigned.png" alt="异常图"></p>
 <p>通过curl -s localhost:9200/_cat/shards | grep UNASS<br>查询结果如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">logstsh-combine-2015.04.10 7 p UNASSIGNED</span><br><span class="line">logstash-combine-2015.04.10 7 r UNASSIGNED</span><br><span class="line">logstash-combine-2015.04.10 4 p UNASSIGNED</span><br><span class="line">logstash-combine-2015.04.10 4 r UNASSIGNED</span><br></pre></td></tr></table></figure></p>
 <p>解决方法<br>强行指定nassigned的shard到ES的某个机器上<br>例如logstsh-combine-2015.04.10 7 p UNASSIGNED<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST -d &apos;&#123; &quot;commands&quot; : [ &#123; &quot;allocate&quot; : &#123; &quot;index&quot; : &quot;logstsh-combine-2015.04.10&quot;, &quot;shard&quot; : 7, &quot;node&quot; : &quot;glsb-188&quot;, &quot;allow_primary&quot; : true &#125; &#125; ] &#125;&apos; http://10.140.60.189:9200/_cluster/reroute?pretty</span><br></pre></td></tr></table></figure></p>
@@ -814,7 +837,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[foreman_install]]></title>
-      <url>http://www.zhou5zhou6.com/2015/04/11/foreman_install/</url>
+      <url>https://www.zhou5zhou6.com/2015/04/11/foreman_install/</url>
       <content type="html"><![CDATA[<p>##foreman杂七杂八</p>
 <p>###一，环境配置<br><a id="more"></a><br>配置epel源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</span><br></pre></td></tr></table></figure></p>
 <p>puppetlabs源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm</span><br></pre></td></tr></table></figure></p>
@@ -853,7 +876,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[redis_error]]></title>
-      <url>http://www.zhou5zhou6.com/2015/04/01/redis_error/</url>
+      <url>https://www.zhou5zhou6.com/2015/04/01/redis_error/</url>
       <content type="html"><![CDATA[<p>1.安装redis-stat报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@log bin]# gem install redis-stat</span><br><span class="line">Building native extensions.  This could take a while...</span><br><span class="line">ERROR:  Error installing redis-stat:</span><br><span class="line">    ERROR: Failed to build gem native extension.</span><br><span class="line"></span><br><span class="line">/usr/bin/ruby extconf.rb</span><br><span class="line">mkmf.rb can&apos;t find header files for ruby at /usr/lib/ruby/ruby.h</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Gem files will remain installed in /usr/lib/ruby/gems/1.8/gems/json-1.8.2 for inspection.</span><br><span class="line">Results logged to /usr/lib/ruby/gems/1.8/gems/json-1.8.2/ext/json/ext/generator/gem_make.out</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>解决方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install ruby-devel</span><br></pre></td></tr></table></figure></p>
@@ -880,7 +903,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[kibana map]]></title>
-      <url>http://www.zhou5zhou6.com/2015/03/19/kibana_map/</url>
+      <url>https://www.zhou5zhou6.com/2015/03/19/kibana_map/</url>
       <content type="html"><![CDATA[<p>###通过kibana的map在地图上面展现访问IP的来源地<br>版本是kibana4<br><a id="more"></a><br>1.在下面的地址下载下来IP库<br><a href="http://dev.maxmind.com/geoip/legacy/geolite/" target="_blank" rel="noopener">http://dev.maxmind.com/geoip/legacy/geolite/</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz</span><br><span class="line">gunzip GeoLiteCity.dat.gz</span><br></pre></td></tr></table></figure></p>
 <p>2.在logstash里面使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">geoip &#123;</span><br><span class="line">     source =&gt; &quot;ip_s&quot;</span><br><span class="line">     target =&gt; &quot;geoip&quot;</span><br><span class="line">     database =&gt; &quot;/home/herbert/search/GeoLiteCity.dat&quot;</span><br><span class="line"></span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
@@ -910,7 +933,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[elasticsearch_503]]></title>
-      <url>http://www.zhou5zhou6.com/2015/03/18/elasticsearch_503/</url>
+      <url>https://www.zhou5zhou6.com/2015/03/18/elasticsearch_503/</url>
       <content type="html"><![CDATA[<p>###Elastic Search分布式失效</p>
 <p>通过<a href="http://10.150.150.42:9200/_plugin/head/查看只有master" target="_blank" rel="noopener">http://10.150.150.42:9200/_plugin/head/查看只有master</a> node，找不到另外一个节点<br>然后通过<a href="http://10.150.150.42:9200/" target="_blank" rel="noopener">http://10.150.150.42:9200/</a> 查看报503</p>
 <a id="more"></a>
@@ -939,7 +962,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[sysdig(三)]]></title>
-      <url>http://www.zhou5zhou6.com/2015/03/10/sysdig3/</url>
+      <url>https://www.zhou5zhou6.com/2015/03/10/sysdig3/</url>
       <content type="html"><![CDATA[<p>sysdig的简要说明</p>
 <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line">ysdig version 0.1.98</span><br><span class="line">Usage: sysdig [options] [-p &lt;output_format&gt;] [filter]</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line"> -A, --print-ascii  Only print the text portion of data buffers, and echo</span><br><span class="line">                    end-of-lines. This is useful to only display human-readable</span><br><span class="line">                    data.</span><br><span class="line"> -b, --print-base64 Print data buffers in base64. This is useful for encoding</span><br><span class="line">                    binary data that needs to be used over media designed to</span><br><span class="line">                    handle textual data (i.e., terminal or json).</span><br><span class="line"> -c &lt;chiselname&gt; &lt;chiselargs&gt;, --chisel  &lt;chiselname&gt; &lt;chiselargs&gt;</span><br><span class="line">                    run the specified chisel. If the chisel require arguments,</span><br><span class="line">                    they must be specified in the command line after the name.</span><br><span class="line"> -cl, --list-chisels</span><br><span class="line">                    lists the available chisels. Looks for chisels in</span><br><span class="line">                    ./chisels, ~/.chisels and /usr/share/sysdig/chisels.</span><br><span class="line"> -d, --displayflt   Make the given filter a display one</span><br><span class="line">                    Setting this option causes the events to be filtered</span><br><span class="line">                    after being parsed by the state system. Events are</span><br><span class="line">                    normally filtered before being analyzed, which is more</span><br><span class="line">                    efficient, but can cause state (e.g. FD names) to be lost.</span><br><span class="line"> -D, --debug        Capture events about sysdig itself</span><br><span class="line"> -E, --exclude-users</span><br><span class="line">                    Don&apos;t create the user/group tables by querying the OS when</span><br><span class="line">                    sysdig starts. This also means that no user or group info</span><br><span class="line">                    will be written to the tracefile by the -w flag.</span><br><span class="line">                    The user/group tables are necessary to use filter fields</span><br><span class="line">                    like user.name or group.name. However, creating them can</span><br><span class="line">                    increase sysdig&apos;s startup time. Moreover, they contain</span><br><span class="line">                    information that could be privacy sensitive.</span><br><span class="line"> -F, --fatfile       Enable fatfile mode</span><br><span class="line">                    when writing in fatfile mode, the output file will contain</span><br><span class="line">                    events that will be invisible when reading the file, but</span><br><span class="line">                    that are necessary to fully reconstruct the state.</span><br><span class="line">                    Fatfile mode is useful when saving events to disk with an</span><br><span class="line">                    aggressive filter. The filter could drop events that would</span><br><span class="line">                    the state to be updated (e.g. clone() or open()). With</span><br><span class="line">                    fatfile mode, those events are still saved to file, but</span><br><span class="line">                    &apos;hidden&apos; so that they won&apos;t appear when reading the file.</span><br><span class="line">                    Be aware that using this flag might generate substantially</span><br><span class="line">                    bigger traces files.</span><br><span class="line"> -h, --help         Print this page</span><br><span class="line"> -i &lt;chiselname&gt;, --chisel-info &lt;chiselname&gt;</span><br><span class="line">                    Get a longer description and the arguments associated with</span><br><span class="line">                    a chisel found in the -cl option list.</span><br><span class="line"> -j, --json         Emit output as json, data buffer encoding will depend from the</span><br><span class="line">                    print format selected.</span><br><span class="line"> -L, --list-events  List the events that the engine supports</span><br><span class="line"> -l, --list         List the fields that can be used for filtering and output</span><br><span class="line">                    formatting. Use -lv to get additional information for each</span><br><span class="line">                    field.</span><br><span class="line"> -n &lt;num&gt;, --numevents=&lt;num&gt;</span><br><span class="line">                    Stop capturing after &lt;num&gt; events</span><br><span class="line"> -P, --progress     Print progress on stderr while processing trace files</span><br><span class="line"> -p &lt;output_format&gt;, --print=&lt;output_format&gt;</span><br><span class="line">                    Specify the format to be used when printing the events.</span><br><span class="line">                    With -pc or -pcontainer will use a container-friendly format.</span><br><span class="line">                    See the examples section below for more info.</span><br><span class="line"> -q, --quiet        Don&apos;t print events on the screen</span><br><span class="line">                    Useful when dumping to disk.</span><br><span class="line"> -r &lt;readfile&gt;, --read=&lt;readfile&gt;</span><br><span class="line">                    Read the events from &lt;readfile&gt;.</span><br><span class="line"> -S, --summary      print the event summary (i.e. the list of the top events)</span><br><span class="line">                    when the capture ends.</span><br><span class="line"> -s &lt;len&gt;, --snaplen=&lt;len&gt;</span><br><span class="line">                    Capture the first &lt;len&gt; bytes of each I/O buffer.</span><br><span class="line">                    By default, the first 80 bytes are captured. Use this</span><br><span class="line">                    option with caution, it can generate huge trace files.</span><br><span class="line"> -t &lt;timetype&gt;, --timetype=&lt;timetype&gt;</span><br><span class="line">                    Change the way event time is displayed. Accepted values are</span><br><span class="line">                    h for human-readable string, a for absolute timestamp from</span><br><span class="line">                    epoch, r for relative time from the beginning of the</span><br><span class="line">                    capture, d for delta between event enter and exit, and</span><br><span class="line">                    D for delta from the previous event.</span><br><span class="line"> -v, --verbose      Verbose output.</span><br><span class="line">                    This flag will cause the full content of text and binary</span><br><span class="line">                    buffers to be printed on screen, instead of being truncated</span><br><span class="line">                    to 40 characters. Note that data buffers length is still</span><br><span class="line">                    limited by the snaplen (refer to the -s flag documentation)</span><br><span class="line">                    -v will also make sysdig print some summary information at</span><br><span class="line">                    the end of the capture.</span><br><span class="line"> --version          Print version number.</span><br><span class="line"> -w &lt;writefile&gt;, --write=&lt;writefile&gt;</span><br><span class="line">                    Write the captured events to &lt;writefile&gt;.</span><br><span class="line"> -x, --print-hex    Print data buffers in hex.</span><br><span class="line"> -X, --print-hex-ascii</span><br><span class="line">                    Print data buffers in hex and ASCII.</span><br><span class="line"> -z, --compress     Used with -w, enables compression for tracefiles.</span><br><span class="line"></span><br><span class="line">Output format:</span><br><span class="line"></span><br><span class="line">By default, sysdig prints the information for each captured event on a single</span><br><span class="line"> line with the following format:</span><br><span class="line"></span><br><span class="line"> %evt.num %evt.time %evt.cpu %proc.name (%thread.tid) %evt.dir %evt.type %evt.info</span><br><span class="line"></span><br><span class="line">where:</span><br><span class="line"> evt.num is the incremental event number</span><br><span class="line"> evt.time is the event timestamp</span><br><span class="line"> evt.cpu is the CPU number where the event was captured</span><br><span class="line"> proc.name is the name of the process that generated the event</span><br><span class="line"> thread.tid id the TID that generated the event, which corresponds to the</span><br><span class="line">   PID for single thread processes</span><br><span class="line"> evt.dir is the event direction, &gt; for enter events and &lt; for exit events</span><br><span class="line"> evt.type is the name of the event, e.g. &apos;open&apos; or &apos;read&apos;</span><br><span class="line"> evt.info is the list of event arguments.</span><br><span class="line"></span><br><span class="line">The output format can be customized with the -p switch, using any of the</span><br><span class="line">fields listed by &apos;sysdig -l&apos;.</span><br><span class="line"></span><br><span class="line">Using -pc or -pcontainer, the default format will be changed to a container-friendly one:</span><br><span class="line"></span><br><span class="line">%evt.num %evt.time %evt.cpu %container.name (%container.id) %proc.name (%thread.tid:%thread.vtid) %evt.dir %evt.type %evt.info</span><br><span class="line"></span><br><span class="line">Examples:</span><br><span class="line"></span><br><span class="line"> Capture all the events from the live system and print them to screen</span><br><span class="line">   $ sysdig</span><br><span class="line"></span><br><span class="line"> Capture all the events from the live system and save them to disk</span><br><span class="line">   $ sysdig -w dumpfile.scap</span><br><span class="line"></span><br><span class="line"> Read events from a file and print them to screen</span><br><span class="line">   $ sysdig -r dumpfile.scap</span><br><span class="line"></span><br><span class="line"> Print all the open system calls invoked by cat</span><br><span class="line">   $ sysdig proc.name=cat and evt.type=open</span><br><span class="line"></span><br><span class="line"> Print the name of the files opened by cat</span><br><span class="line">   $ sysdig -p&quot;%evt.arg.name&quot; proc.name=cat and evt.type=open</span><br></pre></td></tr></table></figure>
@@ -962,7 +985,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[sysdig(二)]]></title>
-      <url>http://www.zhou5zhou6.com/2015/03/10/sysdig2/</url>
+      <url>https://www.zhou5zhou6.com/2015/03/10/sysdig2/</url>
       <content type="html"><![CDATA[<p>#Chisels<br>sysdig的chisels是根据执行动作实时分析sysdig事件的脚本；</p>
 <ul>
 <li>1.chisels采用lua脚本，功能强大稳定效率高</li>
@@ -1032,7 +1055,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[sysdig(一)]]></title>
-      <url>http://www.zhou5zhou6.com/2015/03/10/sysdig1/</url>
+      <url>https://www.zhou5zhou6.com/2015/03/10/sysdig1/</url>
       <content type="html"><![CDATA[<p>#sysdig<br><a id="more"></a></p>
 <p>##一.install<br><strong>shell</strong>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://s3.amazonaws.com/download.draios.com/stable/install-sysdig | sudo bash</span><br></pre></td></tr></table></figure></p>
 <p><strong>rhel/centos</strong>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public  </span><br><span class="line">curl -s -o /etc/yum.repos.d/draios.repo http://download.draios.com/stable/rpm/draios.repo</span><br><span class="line">rpm -i http://mirror.us.leaseweb.net/epel/6/i386/epel-release-6-8.noarch.rpm</span><br><span class="line">yum -y install kernel-devel-$(uname -r)</span><br><span class="line">yum -y install sysdig</span><br></pre></td></tr></table></figure></p>
@@ -1115,7 +1138,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[git_rollback]]></title>
-      <url>http://www.zhou5zhou6.com/2015/03/06/git_rollback/</url>
+      <url>https://www.zhou5zhou6.com/2015/03/06/git_rollback/</url>
       <content type="html"><![CDATA[<p>#版本回滚</p>
 <p>创建git库<br>git init #在当前的目录下创建一个新的空的本地仓库<br><a id="more"></a></p>
 <p>##一，本地修改<br>1.工作区修改内容恢复</p>
@@ -1156,7 +1179,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[git操作(一)]]></title>
-      <url>http://www.zhou5zhou6.com/2015/03/06/git2/</url>
+      <url>https://www.zhou5zhou6.com/2015/03/06/git2/</url>
       <content type="html"><![CDATA[<p>##概念<br>Git有三个工作区域，分别为：工作目录（Working Directory对应图中的workspace）、暂存区（Stage或Index对应图中的index）以及资源库（Repository或Git Directory对应图中的local repository）。<br>另外一个remote repository是远程资源库<br><a id="more"></a></p>
 <ul>
 <li>git add  工作目录提交到暂存区</li>
@@ -1194,7 +1217,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[ntp ddos]]></title>
-      <url>http://www.zhou5zhou6.com/2015/03/04/ntp_ddos/</url>
+      <url>https://www.zhou5zhou6.com/2015/03/04/ntp_ddos/</url>
       <content type="html"><![CDATA[<p>##ntp ddos<br>最近运营商发过来个邮件，说我们的服务器发起ntp攻击<br>基础知识：<br><a href="http://drops.wooyun.org/papers/955" target="_blank" rel="noopener">http://drops.wooyun.org/papers/955</a></p>
 <a id="more"></a>
 <p>检测方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.nmap -sU -pU:123 -n --script=ntp-monlist 10.151.91.180</span><br><span class="line">2.ntpdc -n -c monlist 10.151.91.180</span><br></pre></td></tr></table></figure></p>
@@ -1220,7 +1243,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[rundeck install]]></title>
-      <url>http://www.zhou5zhou6.com/2015/01/27/rundeck_install/</url>
+      <url>https://www.zhou5zhou6.com/2015/01/27/rundeck_install/</url>
       <content type="html"><![CDATA[<p>Rundeck是一个帮助你在数据中心以及云环境中自动运行程序开源工具；</p>
 <ul>
 <li>Web API 提供web界面创建工程以及任务，并执行相关命令</li>
@@ -1258,7 +1281,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[pip使用备忘]]></title>
-      <url>http://www.zhou5zhou6.com/2015/01/20/pip_error/</url>
+      <url>https://www.zhou5zhou6.com/2015/01/20/pip_error/</url>
       <content type="html"><![CDATA[<p>我处理的安装模块的方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install python-setuptools</span><br><span class="line">easy_install pip</span><br><span class="line">pip 模块名字</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <h1 id="pip-–help"><a href="#pip-–help" class="headerlink" title="pip –help"></a>pip –help</h1><p>Usage:<br>  pip <command> [options]</p>
@@ -1294,7 +1317,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[登陆管理备忘]]></title>
-      <url>http://www.zhou5zhou6.com/2015/01/16/user/</url>
+      <url>https://www.zhou5zhou6.com/2015/01/16/user/</url>
       <content type="html"><![CDATA[<p>#用户管理<br>最近迁移跳板机，以前用户登录很混乱，现在决定整改一下<br><strong>1</strong>.分别建立运维，开发，idc用户，然后这3个用户的登陆人员全部都要通过公钥私钥的方式登陆；<br><a id="more"></a><br>遇到的问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Authentication refused: bad ownership or modes for directory</span><br><span class="line">解决方法就是改数组和响应文件的权限</span><br><span class="line">SSH doesn’t like it if your home or ~/.ssh directories have group write permissions. Your home directory should be writable only by you, ~/.ssh should be 700, and authorized_keys should be 600</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">You can also get around this by adding StrictModes off to your ssh_config file, but I’d advise against it - fixing permissions is the way to go.</span><br></pre></td></tr></table></figure></p>
 <p><strong>2</strong>.禁用账号密码登陆<br>修改 /etc/ssh/sshd_config<br>PasswordAuthentication no<br><strong>3</strong>.添加黑白名单，只允许特定IP链接<br>/etc/hosts.allow<br>/etc/hosts.deny<br><strong>4</strong>.对于登陆人员操作命令进行记录<br>修改bash源码，加上响应的字段，然后配置syslog即可<br>详细内容请搜索 bash记录审核，有一篇文章写得很全<br><a href="http://my.oschina.net/liujen/blog/78441" target="_blank" rel="noopener">http://my.oschina.net/liujen/blog/78441</a></p>
 <p><strong>5</strong>.如果手头机器多，可以使用Kerberos认证登陆，上家公司在用这个，方便用户管理。</p>
@@ -1319,7 +1342,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[处理mysql二进制文件]]></title>
-      <url>http://www.zhou5zhou6.com/2015/01/08/mysql_1/</url>
+      <url>https://www.zhou5zhou6.com/2015/01/08/mysql_1/</url>
       <content type="html"><![CDATA[<p>1.磁盘快满了。。。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -hs $(du -sk ./`ls -F |grep /` |sort -nr |awk &apos;&#123;print $NF&#125;&apos;)</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>2.<br>看看那里磁盘占用的多</p>
@@ -1380,7 +1403,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[git迁移]]></title>
-      <url>http://www.zhou5zhou6.com/2015/01/07/git_1/</url>
+      <url>https://www.zhou5zhou6.com/2015/01/07/git_1/</url>
       <content type="html"><![CDATA[<p>最近虚拟机迁移，git服务器要替换掉，本以为直接把git仓库拷贝过去就能用，结果还真不行<br>A 192.168.0.100  老的git服务器<br>B 192.168.0.200  新的git服务器</p>
 <a id="more"></a>
 <p>方法一<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">**1.从A拷贝库到本地**</span><br><span class="line">git clone git@192.168.0.100:library.git</span><br><span class="line">**2.查看remote的名字**</span><br><span class="line">git branch -r</span><br><span class="line">  origin/HEAD -&gt; origin/master</span><br><span class="line">  origin/master</span><br><span class="line">**3.修改remote git address**</span><br><span class="line">git remote set-url origin 192.168.0.200 </span><br><span class="line">**4.push到新的git服务器**</span><br><span class="line">git push git@192.168.0.200:library.git master</span><br><span class="line">**5.检查从新的git服务器Bclone下数据，看是否正常**</span><br></pre></td></tr></table></figure></p>
@@ -1405,7 +1428,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[smokeping_install]]></title>
-      <url>http://www.zhou5zhou6.com/2014/12/26/smokeping_install/</url>
+      <url>https://www.zhou5zhou6.com/2014/12/26/smokeping_install/</url>
       <content type="html"><![CDATA[<p>###smokeping安装笔记</p>
 <p>1.配置yum的epel源</p>
 <blockquote>
@@ -1450,7 +1473,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[puppet_file]]></title>
-      <url>http://www.zhou5zhou6.com/2014/12/23/puppet_file/</url>
+      <url>https://www.zhou5zhou6.com/2014/12/23/puppet_file/</url>
       <content type="html"><![CDATA[<p>###puppet Resources (file)<br>puppet的file资源<br>1.可以管理文件，目录，软连接<br>2.目录文件的所有者、权限<br>3.删除或者创建文件目录</p>
 <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">file &#123; &apos;resource title&apos;:</span><br><span class="line">  path                    =&gt; # 文件或目录完整路径</span><br><span class="line">  ensure                  =&gt; # 指定文件的状态 present（不存在就创建）, absent（存在就删除）, file（确定文件是普通的file）, directory（确定是目录）, and link（确定是软连接）.</span><br><span class="line">  backup                  =&gt; # 节点文件改动之前将文件备份到本地，这个需要配合filebucket实现；</span><br><span class="line">  checksum                =&gt; #  检查文件是否更新，可以指定检测类型，例如；md5, md5lite, sha256, sha256lite, mtime, ctime, none.默认的检测类型是md5</span><br><span class="line">  content                 =&gt; # 文件的具体内容；可以是字符串也可以是erb模板</span><br><span class="line">  ctime                   =&gt; # 检查当前文件的创建日期</span><br><span class="line">  force                   =&gt; # 执行文件操作，强制破坏一个或者多个目录；可选的值有true, false, yes, no. 以下操作要必须指定此参数：清理目录；替换目录或者软连接；删除某个目录ensure =&gt; absent</span><br><span class="line">  group                   =&gt; # 指定用户组</span><br><span class="line">  ignore                  =&gt; # 忽略某个目录或者文件</span><br><span class="line">  links                   =&gt; # 对于软连接文件如何操作：值有follow, manage.follow将会拷贝目标文件代替链接文件，manage将只会拷贝链接文件</span><br><span class="line">  mode                    =&gt; # 文件或者目录的权限</span><br><span class="line">  mtime                   =&gt; # 检查文件的修改时间</span><br><span class="line">  owner                   =&gt; # 文件或者目录的属主</span><br><span class="line">  provider                =&gt; # 具体后端使用的file资源，不常用</span><br><span class="line">  purge                   =&gt; # 清理目录中没有通过puppet管理的文件；这个参数只有在指定以下参数的时候才有意义 ensure =&gt; directory and recurse =&gt; true</span><br><span class="line">  recurse                 =&gt; # 仅对 ensure =&gt; directory 有效；指定目录是否递归和递归深度；false：不进行递归，默认配置；remote：远程进行递归调用；true：本地进行递归</span><br><span class="line">  recurselimit            =&gt; # 当使用ensure =&gt; directory和recurse =&gt; true or recurse =&gt; remote；使用次参数指定递归深度，取值/^[0-9]+$/</span><br><span class="line">  replace                 =&gt; # 是否替换已经存在的文件或者链接；Valid values are true, false, yes, no.</span><br><span class="line">  selinux_ignore_defaults =&gt; # selinux设置</span><br><span class="line">  selrange                =&gt; # What the SELinux range component of the context...</span><br><span class="line">  selrole                 =&gt; # What the SELinux role component of the context...</span><br><span class="line">  seltype                 =&gt; # What the SELinux type component of the context...</span><br><span class="line">  seluser                 =&gt; # What the SELinux user component of the context...</span><br><span class="line">  show_diff               =&gt; # 更新时候显示不同，默认是true；可选项：Valid values are true, false, yes, no.</span><br><span class="line">  source                  =&gt; # 指定将会被拷贝到指定位置的资源文件；这个参数和 content以及target不能同时使用</span><br><span class="line">  source_permissions      =&gt; # 是否拷贝源文件的权限；Valid values are use（使用源文件权限）, use_when_creating（仅仅当创建的时候才使用）, ignore.</span><br><span class="line">  sourceselect            =&gt; # Whether to copy all valid sources, or just the...</span><br><span class="line">  target                  =&gt; # 指定创建链接文件的目标文件或者目录。</span><br><span class="line">  type                    =&gt; # 只读的方式检查一个文件</span><br><span class="line">  validate_cmd            =&gt; # 当前配置文件被替代前用validate_cmd指定的命令进行校验，只有返回true才会被替换</span><br><span class="line">  validate_replacement    =&gt; # The replacement string in a validate_cmd that will be replaced with an input file name. Defaults to: %</span><br><span class="line">  # ...plus any applicable metaparameters.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1490,7 +1513,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[puppet_cron]]></title>
-      <url>http://www.zhou5zhou6.com/2014/12/17/puppet_cron/</url>
+      <url>https://www.zhou5zhou6.com/2014/12/17/puppet_cron/</url>
       <content type="html"><![CDATA[<p>###puppet Resources（cron）<br>配置和管理服务器的cron资源<br>每一个cron资源需要一个command属性，用户属性和时间周期属性（Every cron resource created by Puppet requires a command and at least one periodic attribute (hour, minute, month, monthday, weekday, or special).）<br><a id="more"></a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cron &#123; &apos;resource title&apos;:                        #资源标题</span><br><span class="line">  name        =&gt; # cron作业的名字，用以区别其他的cron；如果为空就是resource title</span><br><span class="line">  ensure      =&gt; # 该资源是否可用present（没有就创建）, absent（有就删除）</span><br><span class="line">  command     =&gt; # 在cron中运行的命令</span><br><span class="line">  environment =&gt; # 指定crontab的环境变量</span><br><span class="line">  hour        =&gt; # 运行crontab的小时【0-23】</span><br><span class="line">  minute      =&gt; # 运行crontab的分钟【0-59】</span><br><span class="line">  month       =&gt; # 运行crontab的月份【1-12】</span><br><span class="line">  monthday    =&gt; # 每个月的那天运行crontab【1-31】</span><br><span class="line">  provider    =&gt; # 指定后端运行的类型，默认是crontab；非常用配置</span><br><span class="line">  special     =&gt; # 指定目标主机上的属性 （这个没用过）</span><br><span class="line">  target      =&gt; # cron job存放位置</span><br><span class="line">  user        =&gt; # cron job运行用户</span><br><span class="line">  weekday     =&gt; # 运行crontab的星期【0-7】，注意0是星期日</span><br><span class="line">  # ...plus any applicable metaparameters.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>###备注：</p>
@@ -1518,7 +1541,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[puppet+passenger+nginx操作笔记]]></title>
-      <url>http://www.zhou5zhou6.com/2014/12/16/nginx_passenger_puppet/</url>
+      <url>https://www.zhou5zhou6.com/2014/12/16/nginx_passenger_puppet/</url>
       <content type="html"><![CDATA[<p>###puppet+passenger+nginx操作笔记</p>
 <p>####nginx</p>
 <blockquote>
@@ -1575,7 +1598,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[kibana采用特定字段作为x时间轴]]></title>
-      <url>http://www.zhou5zhou6.com/2014/12/04/logstash/</url>
+      <url>https://www.zhou5zhou6.com/2014/12/04/logstash/</url>
       <content type="html"><![CDATA[<p>###kibana使用其他字段作为x坐标时间轴<br>1.最近使用logstash统计上报的日志，由于网络限制只能一个小时收集一次日志，这个时候日志展现就会显示日志入ES的时间，而不是日志记录时间<br>解决方法：<br><a href="http://logstash.net/docs/1.4.2/filters/date" target="_blank" rel="noopener">http://logstash.net/docs/1.4.2/filters/date</a></p>
 <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">filter &#123;</span><br><span class="line">  date &#123;</span><br><span class="line">    add_field =&gt; ... # hash (optional), default: &#123;&#125;</span><br><span class="line">    add_tag =&gt; ... # array (optional), default: []</span><br><span class="line">    locale =&gt; ... # string (optional)</span><br><span class="line">    match =&gt; ... # array (optional), default: []</span><br><span class="line">    remove_field =&gt; ... # array (optional), default: []</span><br><span class="line">    remove_tag =&gt; ... # array (optional), default: []</span><br><span class="line">    target =&gt; ... # string (optional), default: &quot;@timestamp&quot;</span><br><span class="line">    timezone =&gt; ... # string (optional)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> target</span><br><span class="line"></span><br><span class="line">    Value type is string</span><br><span class="line">    Default value is &quot;@timestamp&quot;</span><br><span class="line"></span><br><span class="line">Store the matching timestamp into the given target field. If not provided, default to updating the @timestamp field of the event.</span><br></pre></td></tr></table></figure>
@@ -1608,7 +1631,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[按秒拉起服务进程]]></title>
-      <url>http://www.zhou5zhou6.com/2014/11/21/monitor/</url>
+      <url>https://www.zhou5zhou6.com/2014/11/21/monitor/</url>
       <content type="html"><![CDATA[<p>###如何拉起服务<br>以前服务的自动拉起都是通过crontab调用脚本实现的。<br>crontab拉起最低只能控制每分钟。<br>最近同事需要对某个进程控制在秒级别。。。<br><a id="more"></a></p>
 <p>####方法一<br>后台执行此文件，这样就是每15秒执行某个命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">while [ 1 ]; do</span><br><span class="line">    echo &quot;Hell yeah!&quot;</span><br><span class="line">    sleep 15</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
 <p>####方法二<br>crontab里面执行多条</p>
@@ -1637,7 +1660,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[puppet扩展]]></title>
-      <url>http://www.zhou5zhou6.com/2014/11/11/puppetmore/</url>
+      <url>https://www.zhou5zhou6.com/2014/11/11/puppetmore/</url>
       <content type="html"><![CDATA[<p>##puppet扩展</p>
 <p>###一、第一次调整<br>刚开始就一台puppet服务器，为2k台机器提供服务，架构是puppet+nginx+mongrel<br>mongrel开了12个端口，nginx做调度为12个端口的mongrel分配任务</p>
 <blockquote>
@@ -1682,7 +1705,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[ipmitool执行卡住]]></title>
-      <url>http://www.zhou5zhou6.com/2014/11/05/ipmi/</url>
+      <url>https://www.zhou5zhou6.com/2014/11/05/ipmi/</url>
       <content type="html"><![CDATA[<p>Ipmitool执行缓慢；strace结果显示select堵塞，一直卡在那个位置</p>
 <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">execve(&quot;/usr/bin/ipmitool&quot;, [&quot;ipmitool&quot;, &quot;lan&quot;, &quot;print&quot;], [/* 27 vars */]) = 0</span><br><span class="line">brk(0)                                  = 0x27df000</span><br><span class="line">mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7faaed83d000</span><br><span class="line">access(&quot;/etc/ld.so.preload&quot;, R_OK)      = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/etc/ld.so.cache&quot;, O_RDONLY)      = 3</span><br><span class="line">fstat(3, &#123;st_mode=S_IFREG|0644, st_size=61435, ...&#125;) = 0</span><br><span class="line">mmap(NULL, 61435, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7faaed82e000</span><br><span class="line">close(3)                                = 0</span><br><span class="line">open(&quot;/lib64/libm.so.6&quot;, O_RDONLY)      = 3</span><br><span class="line">read(3, &quot;\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0p&gt;`\373&lt;\0\0\0&quot;..., 832) = 832</span><br><span class="line">fstat(3, &#123;st_mode=S_IFREG|0755, st_size=599384, ...&#125;) = 0</span><br><span class="line">mmap(0x3cfb600000, 2633912, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3cfb600000</span><br><span class="line">mprotect(0x3cfb683000, 2093056, PROT_NONE) = 0</span><br><span class="line">mmap(0x3cfb882000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x82000) = 0x3cfb882000</span><br><span class="line">close(3)                                = 0</span><br><span class="line">open(&quot;/lib64/libreadline.so.5&quot;, O_RDONLY) = 3</span><br><span class="line">read(3, &quot;\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0 &lt;\241\372&lt;\0\0\0&quot;..., 832) = 832</span><br><span class="line">fstat(3, &#123;st_mode=S_IFREG|0755, st_size=263560, ...&#125;) = 0</span><br><span class="line">mmap(0x3cfaa00000, 2361440, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3cfaa00000</span><br><span class="line">mprotect(0x3cfaa38000, 2097152, PROT_NONE) = 0</span><br><span class="line">mmap(0x3cfac38000, 32768, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x38000) = 0x3cfac38000</span><br><span class="line">mmap(0x3cfac40000, 2144, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3cfac40000</span><br><span class="line">close(3)                                = 0</span><br><span class="line">open(&quot;/lib64/libncurses.so.5&quot;, O_RDONLY) = 3</span><br><span class="line">read(3, &quot;\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0000j \373&lt;\0\0\0&quot;..., 832) = 832</span><br><span class="line">fstat(3, &#123;st_mode=S_IFREG|0755, st_size=142536, ...&#125;) = 0</span><br><span class="line">mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7faaed82d000</span><br><span class="line">mmap(0x3cfb200000, 2235624, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3cfb200000</span><br><span class="line">mprotect(0x3cfb222000, 2093056, PROT_NONE) = 0</span><br><span class="line">mmap(0x3cfb421000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x21000) = 0x3cfb421000</span><br><span class="line">close(3)                                = 0</span><br><span class="line">open(&quot;/lib64/libc.so.6&quot;, O_RDONLY)      = 3</span><br><span class="line">read(3, &quot;\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0000\356a\372&lt;\0\0\0&quot;..., 832) = 832</span><br><span class="line">fstat(3, &#123;st_mode=S_IFREG|0755, st_size=1926800, ...&#125;) = 0</span><br><span class="line">mmap(0x3cfa600000, 3750152, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3cfa600000</span><br><span class="line">mprotect(0x3cfa78b000, 2093056, PROT_NONE) = 0</span><br><span class="line">mmap(0x3cfa98a000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x18a000) = 0x3cfa98a000</span><br><span class="line">mmap(0x3cfa98f000, 18696, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3cfa98f000</span><br><span class="line">close(3)                                = 0</span><br><span class="line">open(&quot;/lib64/libtinfo.so.5&quot;, O_RDONLY)  = 3</span><br><span class="line">read(3, &quot;\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0@\310\240\374&lt;\0\0\0&quot;..., 832) = 832</span><br><span class="line">fstat(3, &#123;st_mode=S_IFREG|0755, st_size=138280, ...&#125;) = 0</span><br><span class="line">mmap(0x3cfca00000, 2232320, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3cfca00000</span><br><span class="line">mprotect(0x3cfca1d000, 2097152, PROT_NONE) = 0</span><br><span class="line">mmap(0x3cfcc1d000, 16384, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1d000) = 0x3cfcc1d000</span><br><span class="line">close(3)                                = 0</span><br><span class="line">open(&quot;/lib64/libdl.so.2&quot;, O_RDONLY)     = 3</span><br><span class="line">read(3, &quot;\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0\340\r \372&lt;\0\0\0&quot;..., 832) = 832</span><br><span class="line">fstat(3, &#123;st_mode=S_IFREG|0755, st_size=22536, ...&#125;) = 0</span><br><span class="line">mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7faaed82c000</span><br><span class="line">mmap(0x3cfa200000, 2109696, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3cfa200000</span><br><span class="line">mprotect(0x3cfa202000, 2097152, PROT_NONE) = 0</span><br><span class="line">mmap(0x3cfa402000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x3cfa402000</span><br><span class="line">close(3)                                = 0</span><br><span class="line">mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7faaed82b000</span><br><span class="line">mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7faaed82a000</span><br><span class="line">mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7faaed829000</span><br><span class="line">arch_prctl(ARCH_SET_FS, 0x7faaed82a700) = 0</span><br><span class="line">mprotect(0x3cfb882000, 4096, PROT_READ) = 0</span><br><span class="line">mprotect(0x3cfa98a000, 16384, PROT_READ) = 0</span><br><span class="line">mprotect(0x3cfa402000, 4096, PROT_READ) = 0</span><br><span class="line">mprotect(0x3cfa01f000, 4096, PROT_READ) = 0</span><br><span class="line">munmap(0x7faaed82e000, 61435)           = 0</span><br><span class="line">brk(0)                                  = 0x27df000</span><br><span class="line">brk(0x2800000)                          = 0x2800000</span><br><span class="line">open(&quot;/dev/ipmi0&quot;, O_RDWR)              = 3</span><br><span class="line">ioctl(3, IPMICTL_SET_GETS_EVENTS_CMD, 0x7ffff50107e8) = 0</span><br><span class="line">ioctl(3, IPMICTL_SET_MY_ADDRESS_CMD, 0x7ffff50107e4) = 0</span><br><span class="line">ioctl(3, IPMICTL_SEND_COMMAND, 0x7ffff5010730) = 0</span><br><span class="line">select(4, [3], NULL, NULL, NULL</span><br></pre></td></tr></table></figure>
@@ -1715,7 +1738,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[nic_overruns]]></title>
-      <url>http://www.zhou5zhou6.com/2014/10/31/nic_overruns/</url>
+      <url>https://www.zhou5zhou6.com/2014/10/31/nic_overruns/</url>
       <content type="html"><![CDATA[<p>##一、丢包问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">eth0      Link encap:Ethernet  HWaddr 40:F2:E9:6A:51:90</span><br><span class="line">          UP BROADCAST RUNNING SLAVE MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:1630869437 errors:0 dropped:0 overruns:6158 frame:0</span><br><span class="line">          TX packets:1962708078 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:550772215872 (512.9 GiB)  TX bytes:2636446959152 (2.3 TiB)</span><br><span class="line">          Memory:a85a0000-a85c0000</span><br><span class="line"></span><br><span class="line">eth1      Link encap:Ethernet  HWaddr 40:F2:E9:6A:51:90</span><br><span class="line">          UP BROADCAST RUNNING SLAVE MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:1705143800 errors:66 dropped:0 overruns:2837 frame:66</span><br><span class="line">          TX packets:1962681963 errors:0 dropped:0 overruns:0 carrier:0</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>网卡报overruns:6158</p>
@@ -1760,7 +1783,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[mac_error]]></title>
-      <url>http://www.zhou5zhou6.com/2014/10/22/mac_error/</url>
+      <url>https://www.zhou5zhou6.com/2014/10/22/mac_error/</url>
       <content type="html"><![CDATA[<p>###一<br>mac os升级到10.10后执行brew报以下信息</p>
 <blockquote>
 <p>/usr/local/bin/brew: /usr/local/Library/brew.rb: /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby: bad interpreter: No such file or directory</p>
@@ -1791,7 +1814,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[blktrace分析IO]]></title>
-      <url>http://www.zhou5zhou6.com/2014/09/22/blktrace/</url>
+      <url>https://www.zhou5zhou6.com/2014/09/22/blktrace/</url>
       <content type="html"><![CDATA[<p>###blacktrace<br><a href="http://www.cse.unsw.edu.au/~aaronc/iosched/doc/blktrace.html" target="_blank" rel="noopener">英文DOC</a></p>
 <a id="more"></a>
 <blockquote>
@@ -1842,7 +1865,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[抓包工具]]></title>
-      <url>http://www.zhou5zhou6.com/2014/09/19/zhuabao/</url>
+      <url>https://www.zhou5zhou6.com/2014/09/19/zhuabao/</url>
       <content type="html"><![CDATA[<p>###抓包工具列表</p>
 <p>##<strong>1，tcpdump</strong><br><a id="more"></a></p>
 <p>##<strong>2.httpry (linux)</strong></p>
@@ -1874,7 +1897,7 @@ kernel-devel
     
     <entry>
       <title><![CDATA[parameters]]></title>
-      <url>http://www.zhou5zhou6.com/2014/09/19/parameters/</url>
+      <url>https://www.zhou5zhou6.com/2014/09/19/parameters/</url>
       <content type="html"><![CDATA[<p>###系统调优遇到的工具返回的参数含义</p>
 <a id="more"></a>
 <p>#<strong>一、datat</strong></p>
@@ -1942,7 +1965,7 @@ cs: 每秒产生的上下文切换次数
     
     <entry>
       <title><![CDATA[linux下的IO查看工具（四）]]></title>
-      <url>http://www.zhou5zhou6.com/2014/09/19/dstat/</url>
+      <url>https://www.zhou5zhou6.com/2014/09/19/dstat/</url>
       <content type="html"><![CDATA[<p>###dstat<br><a href="https://github.com/dagwieers/dstat" target="_blank" rel="noopener">github地址</a></p>
 <a id="more"></a>
 <blockquote>
@@ -1996,7 +2019,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[starce]]></title>
-      <url>http://www.zhou5zhou6.com/2014/09/12/starce/</url>
+      <url>https://www.zhou5zhou6.com/2014/09/12/starce/</url>
       <content type="html"><![CDATA[<p>####strace</p>
 <blockquote>
 <p>strace is a system call tracer, i.e. a debugging tool which prints out<br>a trace of all the system calls made by a another process/program.</p>
@@ -2050,7 +2073,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[ansible]]></title>
-      <url>http://www.zhou5zhou6.com/2014/09/11/ansible/</url>
+      <url>https://www.zhou5zhou6.com/2014/09/11/ansible/</url>
       <content type="html"><![CDATA[<p>###ansible执行命令的时候很慢</p>
 <p>今天同事遇到一个问题，ansible执行命令，速度很慢；<br><a id="more"></a><br>后来从同事反馈得到的结果是</p>
 <blockquote>
@@ -2082,7 +2105,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[linux下的IO查看工具（三）]]></title>
-      <url>http://www.zhou5zhou6.com/2014/09/05/linuxio3/</url>
+      <url>https://www.zhou5zhou6.com/2014/09/05/linuxio3/</url>
       <content type="html"><![CDATA[<p>##iopp</p>
 <p>###下载<br>源码：<a href="https://github.com/markwkm/iopp" target="_blank" rel="noopener">https://github.com/markwkm/iopp</a></p>
 <blockquote>
@@ -2114,7 +2137,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[linux下的IO查看工具（二）]]></title>
-      <url>http://www.zhou5zhou6.com/2014/09/05/linuxio2/</url>
+      <url>https://www.zhou5zhou6.com/2014/09/05/linuxio2/</url>
       <content type="html"><![CDATA[<p>#iodump</p>
 <p>利用block_dump使块I / O调试时设置为一个非零的值。如果你想找出哪些过程引起的磁盘旋转（见/proc/sys/vm/laptop_mode），你可以通过设置标志收集信息。设置该标志后，Linux将会以文件的形式报告所有磁盘活动时的读写操作以及所有脏块。这使得它可以解释为什么一个磁盘需要旋转起来，甚至可以增加电池寿命。把block_dump输出写至内核输出，可以使用“dmesg”相关信息。当你使用block_dump和内核日志记录级别，还包括内核调试信息，你可能要关闭klogd，否则block_dump输出将被记录，导致不正常的磁盘活动有。<br>iodump是一个perl脚本，就是一个分析dmesg中block_dump输出的脚本</p>
 <a id="more"></a>
@@ -2160,7 +2183,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[linux下的IO查看工具（一）]]></title>
-      <url>http://www.zhou5zhou6.com/2014/09/05/linuxio/</url>
+      <url>https://www.zhou5zhou6.com/2014/09/05/linuxio/</url>
       <content type="html"><![CDATA[<p>#iotop</p>
 <blockquote>
 <pre><code>iotop  watches  I/O  usage  information  output  by the Linux kernel (requires 2.6.20 or later) and displays a table of current I/O usage by processes or
@@ -2195,7 +2218,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[awk语句汇总]]></title>
-      <url>http://www.zhou5zhou6.com/2014/08/27/awk/</url>
+      <url>https://www.zhou5zhou6.com/2014/08/27/awk/</url>
       <content type="html"><![CDATA[<p>##awk语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">       awk - pattern-directed scanning and processing language</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       awk [ -F fs ] [ -v var=value ] [ &apos;prog&apos; | -f progfile ] [ file ...  ]</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">awk  -F&apos;:&apos; &apos;&#123;if($1~/root/)print $0&#125;&apos; /etc/passwd    打印包含root的行</span><br><span class="line">awk -F&apos;:&apos; &apos;/root/&#123;print&#125;&apos; /etc/passwd         打印匹配root的行</span><br><span class="line">awk -F&apos;:&apos; &apos;$1 !~/root/&#123;print&#125;&apos; /etc/passwd    打印不匹配root的行</span><br><span class="line">awk -F&apos;:&apos; &apos;$3&lt;$4&#123;print&#125;&apos; /etc/passwd          打印第三列小于第四列的行</span><br><span class="line">awk -F&apos;:&apos; &apos;$3+$4==20&#123;print&#125;&apos; /etc/passwd      打印第三列和第四列等于20的行</span><br><span class="line">awk -F&apos;:&apos; &apos;&#123;print $3,$4,&quot;Total is:&quot;$3+$4&quot;&quot;&#125;&apos; /etc/passwd     打印第三列和第四列以及他们的和</span><br><span class="line">awk  &apos;/[Rr]oot/&apos; /etc/passwd                  打印匹配root的行</span><br><span class="line">awk  &apos;/root|nginx/&apos; /etc/passwd              打印匹配 root和nginx的行</span><br><span class="line">awk &apos;/^[0-9]/&apos; /etc/passwd                  打印匹配0-9开头的行</span><br><span class="line">awk &apos;NR&gt;0 &amp;&amp; NR&lt;10&#123;print NR,$0&#125;&apos; /etc/passwd    打印第0行至第10行</span><br><span class="line">awk &apos;NF&gt;5&#123;print NF,$0&#125;&apos; /etc/passwd       打印大于5列的行</span><br><span class="line">awk &apos;&#123;if(NF&gt;5 &amp;&amp; NR==8)print $0&#125;&apos; /etc/passwd   打印大于5列行数等于8的数据</span><br><span class="line">awk &apos;gsub(/root/,&quot;admin&quot;)&#123;print $0&#125;&apos; /etc/passw   root替换成admin</span><br><span class="line">awk -F: &apos;length($1)==4&#123;print $0,length($1)&#125;&apos; /etc/passwd   打印第一列的长度是4的行</span><br><span class="line">awk &apos;$3==day &#123;print $0&#125;&apos; day=`date +%d` /tmp/log   将命令结果传给awk</span><br><span class="line">awk &apos;&#123;for(i=1;i&lt;=NF;i++)print $i&#125;&apos; /etc/passwd  打印每一列</span><br></pre></td></tr></table></figure>
@@ -2219,7 +2242,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[ss]]></title>
-      <url>http://www.zhou5zhou6.com/2014/08/26/ss/</url>
+      <url>https://www.zhou5zhou6.com/2014/08/26/ss/</url>
       <content type="html"><![CDATA[<p>##SS用法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># ss -h</span><br><span class="line">Usage: ss [ OPTIONS ]</span><br><span class="line">       ss [ OPTIONS ] [ FILTER ]</span><br><span class="line">   -h, --help           this message</span><br><span class="line">   -V, --version        output version information</span><br><span class="line">   -n, --numeric        don&apos;t resolve service names</span><br><span class="line">   -r, --resolve       resolve host names</span><br><span class="line">   -a, --all            display all sockets</span><br><span class="line">   -l, --listening      display listening sockets</span><br><span class="line">   -o, --options       show timer information</span><br><span class="line">   -e, --extended      show detailed socket information</span><br><span class="line">   -m, --memory        show socket memory usage</span><br><span class="line">   -p, --processes      show process using socket</span><br><span class="line">   -i, --info           show internal TCP information</span><br><span class="line">   -s, --summary        show socket usage summary</span><br><span class="line"> </span><br><span class="line">   -4, --ipv4          display only IP version 4 sockets</span><br><span class="line">   -6, --ipv6          display only IP version 6 sockets</span><br><span class="line">   -0, --packet display PACKET sockets</span><br><span class="line">   -t, --tcp            display only TCP sockets</span><br><span class="line">   -u, --udp            display only UDP sockets</span><br><span class="line">   -d, --dccp           display only DCCP sockets</span><br><span class="line">   -w, --raw            display only RAW sockets</span><br><span class="line">   -x, --unix           display only Unix domain sockets</span><br><span class="line">   -f, --family=FAMILY display sockets of type FAMILY</span><br><span class="line"> </span><br><span class="line">   -A, --query=QUERY, --socket=QUERY</span><br><span class="line">       QUERY := &#123;all|inet|tcp|udp|raw|unix|packet|netlink&#125;[,QUERY]</span><br><span class="line"> </span><br><span class="line">   -D, --diag=FILE      Dump raw information about TCP sockets to FILE</span><br><span class="line">   -F, --filter=FILE   read filter information from FILE</span><br><span class="line">       FILTER := [ state TCP-STATE ] [ EXPRESSION ]</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
@@ -2251,7 +2274,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[ansible_inventory]]></title>
-      <url>http://www.zhou5zhou6.com/2014/07/29/ansible_inventory/</url>
+      <url>https://www.zhou5zhou6.com/2014/07/29/ansible_inventory/</url>
       <content type="html"><![CDATA[<h3 id="ansible-Inventory"><a href="#ansible-Inventory" class="headerlink" title="ansible Inventory"></a>ansible Inventory</h3><p>ansible 的主机定义列表<br>可以把主机进行分组管理，方便分组执行playbook<br> 默认主机列表位置：/etc/ansible/hosts，也可以通过-i参数直接指定hosts文件<br><a id="more"></a></p>
 <p> ####例子</p>
 <p> #####1.定义主机<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.100        #指定ip</span><br><span class="line">xxx.xxx.com          #指定域名</span><br><span class="line">cdn[1:10].com        #cdn1.com 至 cdn10.com共计10台机器   </span><br><span class="line">cdn[a:f].com         #通过指定字母范围</span><br><span class="line">192.168.1.100 ansible_ssh_port=22 ansible_connections=local ansible_ssh_user=root ansible_ssh_private_key_file=/root/.ssh/gitupdate    #可以指定某台机器的特殊配置，例如登陆用户，端口，私钥等等</span><br></pre></td></tr></table></figure></p>
@@ -2292,7 +2315,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[install-OS-by-grub]]></title>
-      <url>http://www.zhou5zhou6.com/2014/07/24/install-os-by-grub/</url>
+      <url>https://www.zhou5zhou6.com/2014/07/24/install-os-by-grub/</url>
       <content type="html"><![CDATA[<p>#grub安装centos</p>
 <p>###1.通过本地镜像安装<br>例如<br>将镜像挂载，把光盘镜像中的isolinux目录下的vmlinuz 和initrd.img放到/boot下</p>
 <a id="more"></a>
@@ -2324,7 +2347,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[Kibana+Logstash+Elasticsearch+Redis安装部署]]></title>
-      <url>http://www.zhou5zhou6.com/2014/07/18/kibana+logstash+elasticsearch+redis/</url>
+      <url>https://www.zhou5zhou6.com/2014/07/18/kibana+logstash+elasticsearch+redis/</url>
       <content type="html"><![CDATA[<p>系统环境<br>cengos6.3 x86_64<br>logstash-1.4.1.tar.gz<br>kibana-3.1.0.zip<br>redis 2.8.13<br>elasticsearch-1.2.2.tar.gz</p>
 <a id="more"></a>
 <p>下载地址<br><a href="http://www.elasticsearch.org/downloads/" target="_blank" rel="noopener">http://www.elasticsearch.org/downloads/</a><br><a href="http://download.redis.io/releases/" target="_blank" rel="noopener">http://download.redis.io/releases/</a></p>
@@ -2390,7 +2413,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[ansible_error]]></title>
-      <url>http://www.zhou5zhou6.com/2014/07/16/ansible_error/</url>
+      <url>https://www.zhou5zhou6.com/2014/07/16/ansible_error/</url>
       <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> [DEPRECATION WARNING]: Legacy variable substitution, such as using $&#123;foo&#125; or</span><br><span class="line">$foo instead of &#123;&#123; foo &#125;&#125; is currently valid but will be phased out and has</span><br><span class="line">been out of favor since version 1.2. This is the last of legacy features on our</span><br><span class="line">deprecation list. You may continue to use this if you have specific needs for</span><br><span class="line">now. This feature will be removed in version 1.6. Deprecation warnings can be</span><br><span class="line">disabled by setting deprecation_warnings=False in ansible.cfg.</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>####关于变量的引用，网上有文档说可以使用用 , ${variablename} , 或者$variablename .来表示<br>但是我目前在ansible配置playbook的时候会出错，以上的内容说明在${variablename} ,   或者$variablename 1.6里面已经弃用了</p>
@@ -2413,7 +2436,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[ansible_install]]></title>
-      <url>http://www.zhou5zhou6.com/2014/07/15/ansible_install/</url>
+      <url>https://www.zhou5zhou6.com/2014/07/15/ansible_install/</url>
       <content type="html"><![CDATA[<p>通过yum安装ansible后，运行ansible报以下错误</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;/usr/bin/ansible&quot;, line 25, in &lt;module&gt;</span><br><span class="line">    from ansible.runner import Runner</span><br><span class="line">  File &quot;/usr/lib/python2.6/site-packages/ansible/runner/__init__.py&quot;, line 32, in &lt;module&gt;</span><br><span class="line">    import jinja2</span><br><span class="line">ImportError: No module named jinja2</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
@@ -2437,7 +2460,7 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
     
     <entry>
       <title><![CDATA[CPU frequency and voltage scaling code in the Linux]]></title>
-      <url>http://www.zhou5zhou6.com/2014/07/01/cpuscaling/</url>
+      <url>https://www.zhou5zhou6.com/2014/07/01/cpuscaling/</url>
       <content type="html"><![CDATA[<p>##CPU frequency and voltage scaling code in the Linux(TM) kernel</p>
 <p>   最近测试7家服务器厂商，测试cpu的过程中发现有的开了cpu节能模式，有的未开。</p>
 <ul>
@@ -2526,7 +2549,7 @@ mperf.ko         pcc-cpufreq.ko  speedstep-lib.ko
     
     <entry>
       <title><![CDATA[Lm_sensors]]></title>
-      <url>http://www.zhou5zhou6.com/2014/06/11/mac_5/</url>
+      <url>https://www.zhou5zhou6.com/2014/06/11/mac_5/</url>
       <content type="html"><![CDATA[<p>##查看linux服务器温度</p>
 <p>###1.ipmitool<br>for example</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipmitool sdr type Temperature</span><br></pre></td></tr></table></figure>
@@ -2567,7 +2590,7 @@ mperf.ko         pcc-cpufreq.ko  speedstep-lib.ko
     
     <entry>
       <title><![CDATA[cpu burn-in]]></title>
-      <url>http://www.zhou5zhou6.com/2014/06/11/mac_4/</url>
+      <url>https://www.zhou5zhou6.com/2014/06/11/mac_4/</url>
       <content type="html"><![CDATA[<p>###CPU Burn-in 压力测试cpu<br>官网：<a href="http://cpuburnin.com/" target="_blank" rel="noopener">http://cpuburnin.com/</a><br>下载地址: <a href="http://www.cpuburnin.com/downloads/cpuburn-in.tar.gz" target="_blank" rel="noopener">http://www.cpuburnin.com/downloads/cpuburn-in.tar.gz</a><br>安装：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf cpuburn-in.tar.gz;chmod 755 cpuburn-in;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
@@ -2598,7 +2621,7 @@ mperf.ko         pcc-cpufreq.ko  speedstep-lib.ko
     
     <entry>
       <title><![CDATA[shell-init]]></title>
-      <url>http://www.zhou5zhou6.com/2014/06/05/mac_3/</url>
+      <url>https://www.zhou5zhou6.com/2014/06/05/mac_3/</url>
       <content type="html"><![CDATA[<pre><code>shell-init: error retrieving current directory: getcwd: cannot access parent directories: 没有那个文件或目录
 启动 puppetmaster：
 Port: 18140shell-init: error retrieving current directory: getcwd: cannot access parent directories: 没有那个文件或目录
@@ -2631,7 +2654,7 @@ Port: 28140shell-init: error retrieving current dire
     
     <entry>
       <title><![CDATA[英语角]]></title>
-      <url>http://www.zhou5zhou6.com/2014/06/03/mac_2/</url>
+      <url>https://www.zhou5zhou6.com/2014/06/03/mac_2/</url>
       <content type="html"><![CDATA[<p>####frame<br>    美音 /frem/ 英音 /freɪm/     </p>
 <blockquote>
 <p>data frame 数据帧<br>Frame rate 帧率；帧速率；帧频；画面更新率<br>time frame 时间框架；时间帧；时间范围；期限</p>
@@ -2662,7 +2685,7 @@ Port: 28140shell-init: error retrieving current dire
     
     <entry>
       <title><![CDATA[virtual box]]></title>
-      <url>http://www.zhou5zhou6.com/2014/05/30/mac-1/</url>
+      <url>https://www.zhou5zhou6.com/2014/05/30/mac-1/</url>
       <content type="html"><![CDATA[<p>MAC OS 下面打开虚拟机有以下提示框出现</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Failed to load VMMR0.r0 (VERR_SUPLIB_WORLD_WRITABLE)</span><br></pre></td></tr></table></figure>
 <p>解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 755 /Applications</span><br><span class="line">sudo chmod 755 /Applications/Virtualbox.app</span><br></pre></td></tr></table></figure></p>
@@ -2685,7 +2708,7 @@ Port: 28140shell-init: error retrieving current dire
     
     <entry>
       <title><![CDATA[test]]></title>
-      <url>http://www.zhou5zhou6.com/2014/05/26/test/</url>
+      <url>https://www.zhou5zhou6.com/2014/05/26/test/</url>
       <content type="html"></content>
       
         <categories>
