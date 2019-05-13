@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title><![CDATA[es_error]]></title>
+      <url>https://www.zhou5zhou6.com/2019/05/13/es-error/</url>
+      <content type="html"><![CDATA[<p>elk使用过程中的报错以及处理<br><a id="more"></a></p>
+<h2 id="一，"><a href="#一，" class="headerlink" title="一，"></a>一，</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT http://es01-online-hb2-ali:9200/_cluster/settings -d &apos;&#123;&quot;transient&quot; : &#123;&quot;cluster.routing.allocation.enable&quot; : &quot;none&quot;&#125;&#125;&apos;</span><br><span class="line">&#123;&quot;error&quot;:&quot;Content-Type header [application/x-www-form-urlencoded] is not supported&quot;,&quot;status&quot;:406&#125;</span><br></pre></td></tr></table></figure>
+<p>解决方法</p>
+<blockquote>
+<p>加上 –header “content-type: application/JSON”</p>
+</blockquote>
+<p>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl --header &quot;content-type: application/JSON&quot; -XPUT http://es01-online-hb2-ali:9200/_cluster/settings -d &apos;&#123;&quot;transient&quot; : &#123;&quot;cluster.routing.allocation.enable&quot; : &quot;none&quot;&#125;&#125;&apos;</span><br><span class="line">&#123;&quot;acknowledged&quot;:true,&quot;persistent&quot;:&#123;&#125;,&quot;transient&quot;:&#123;&quot;cluster&quot;:&#123;&quot;routing&quot;:&#123;&quot;allocation&quot;:&#123;&quot;enable&quot;:&quot;none&quot;&#125;&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="二、"><a href="#二、" class="headerlink" title="二、"></a>二、</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[2019-05-10T17:41:44,352][WARN ][o.e.d.z.ZenDiscovery     ] [es02-online-hb2-ali] not enough master nodes discovered during pinging (found [[Candidate&#123;node=&#123;es02-online-hb2-ali&#125;&#123;eOpkBTg1SLCbMZQlHoiv5g&#125;&#123;WDAovdJHSCCGU5gZT8vdGA&#125;&#123;10.10.10.72&#125;&#123;10.10.10.72:9300&#125;&#123;ml.machine_memory=16656805888, xpack.installed=true, ml.max_open_jobs=20, ml.enabled=true&#125;, clusterStateVersion=893&#125;]], but needed [2]), pinging again</span><br></pre></td></tr></table></figure>
+<p>日志报以上信息，原因是我的集群用了2个机器，一个机器重启，配置里面有discovery.zen.minimum_master_nodes: 2 ;所以选举出现问题，为了集群高可用，最少要3台机器。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> es </tag>
+            
+            <tag> error </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[扫描redis大key]]></title>
       <url>https://www.zhou5zhou6.com/2019/01/15/redis-bigkey/</url>
       <content type="html"><![CDATA[<p>#方法一。redis-cli 的–bigkeys参数</p>
