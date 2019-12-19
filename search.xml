@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title><![CDATA[kafka监控]]></title>
+      <url>https://www.zhou5zhou6.com/2019/12/19/monitor-kafka/</url>
+      <content type="html"><![CDATA[<p>基于prometheus的kafka监控工具汇总</p>
+<a id="more"></a>
+<p>#工具一：jmx_exporter<br>jmx_exporter<br><a href="https://github.com/prometheus/jmx_exporter/" target="_blank" rel="noopener">https://github.com/prometheus/jmx_exporter/</a></p>
+<p>###一，下载jmx_exporter<br><a href="https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.12.0/jmx_prometheus_javaagent-0.12.0.jar" target="_blank" rel="noopener">https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.12.0/jmx_prometheus_javaagent-0.12.0.jar</a><br>根据kafka版本选择yml文件。<a href="https://github.com/prometheus/jmx_exporter/tree/master/example_configs" target="_blank" rel="noopener">https://github.com/prometheus/jmx_exporter/tree/master/example_configs</a></p>
+<p>###二，编辑/lib/systemd/system/kafka.service<br>添加<br>Environment=”JAVA_HOME=/data/apps/jdk/jdk1.8.0_121” “KAFKA_OPTS=-javaagent:/data/apps/kafka/prometheus/jmx_prometheus_javaagent-0.12.0.jar=11112:/data/apps/kafka/prometheus/kafka-2_0_0.yml”</p>
+<p>###三，重启kafka<br>curl <a href="http://localhost:11112/metrics" target="_blank" rel="noopener">http://localhost:11112/metrics</a><br>就可以看到各种metrics信息</p>
+<p>###四，配置到prometheus</p>
+<p>###五，grafana import dashboard<br>官网没有合适的模板，需要自己根据metric配置</p>
+<p>#工具二：kafka_exporter<br><a href="https://github.com/danielqsj/kafka_exporter#run-binary" target="_blank" rel="noopener">https://github.com/danielqsj/kafka_exporter#run-binary</a></p>
+<p>###一，下载kafka_exporter<br><a href="https://github.com/danielqsj/kafka_exporter/releases/download/v1.2.0/kafka_exporter-1.2.0.linux-amd64.tar.gz" target="_blank" rel="noopener">https://github.com/danielqsj/kafka_exporter/releases/download/v1.2.0/kafka_exporter-1.2.0.linux-amd64.tar.gz</a></p>
+<p>###二，启动kafka_exporter<br>nohup ./kafka_exporter –web.listen-address=”:11113” –kafka.server=kafka01-online-hb2-ali:9092 &amp;</p>
+<p>###三，配置prometheus</p>
+<p>###四，grafana import dashboard<br>7589<br><a href="https://grafana.com/grafana/dashboards/7589" target="_blank" rel="noopener">https://grafana.com/grafana/dashboards/7589</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> prometheus </tag>
+            
+            <tag> kafka </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[es_error]]></title>
       <url>https://www.zhou5zhou6.com/2019/05/13/es-error/</url>
       <content type="html"><![CDATA[<p>elk使用过程中的报错以及处理<br><a id="more"></a></p>

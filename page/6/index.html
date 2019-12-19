@@ -274,6 +274,85 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-nginx_passenger_puppet" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/12/16/nginx_passenger_puppet/" class="article-date">
+      <time datetime="2014-12-16T07:14:24.000Z" itemprop="datePublished">2014-12-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/16/nginx_passenger_puppet/">puppet+passenger+nginx操作笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>###puppet+passenger+nginx操作笔记</p>
+<p>####nginx</p>
+<blockquote>
+<p>groupadd -g 1000 nginx<br>useradd -u 1000 -g 1000 nginx<br>如果无特殊指定可以直接 useradd nginx</p>
+</blockquote>
+<p>安装nginx的环境</p>
+<blockquote>
+<p>yum install ruby-devel gcc make pcre-devel zlib-devel openssl-devel pam-devel curl-devel rpm-buildyum install -y ruby-devel rubygems gcc</p>
+</blockquote>
+<p>通过gem安装passenger<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install rake rack passenger --no-rdoc --no-ri</span><br></pre></td></tr></table></figure></p>
+          
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/puppet/">puppet</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/passenger/">passenger</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/puppet/">puppet</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2014/12/16/nginx_passenger_puppet/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-logstash" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -895,76 +974,6 @@
       
         <p class="article-more-link">
           <a href="/2014/09/19/parameters/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-dstat" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/09/19/dstat/" class="article-date">
-      <time datetime="2014-09-19T06:25:14.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/dstat/">linux下的IO查看工具（四）</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>###dstat<br><a href="https://github.com/dagwieers/dstat" target="_blank" rel="noopener">github地址</a></p>
-          
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/tools/">tools</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dstat/">dstat</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2014/09/19/dstat/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>

@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="###saltsatck环境centos6.0">
-<meta name="keywords" content="saltstack">
+<meta name="description" content="基于prometheus的kafka监控工具汇总">
+<meta name="keywords" content="prometheus,kafka">
 <meta property="og:type" content="article">
-<meta property="og:title" content="salt-install">
-<meta property="og:url" content="https://www.zhou5zhou6.com/2015/05/18/salt-install/index.html">
+<meta property="og:title" content="kafka监控">
+<meta property="og:url" content="https://www.zhou5zhou6.com/2019/12/19/monitor-kafka/index.html">
 <meta property="og:site_name" content="周五周六">
-<meta property="og:description" content="###saltsatck环境centos6.0">
+<meta property="og:description" content="基于prometheus的kafka监控工具汇总">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2016-11-15T20:14:31.000Z">
+<meta property="og:updated_time" content="2019-12-19T03:00:02.520Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="salt-install">
-<meta name="twitter:description" content="###saltsatck环境centos6.0">
+<meta name="twitter:title" content="kafka监控">
+<meta name="twitter:description" content="基于prometheus的kafka监控工具汇总">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -58,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>salt-install | 周五周六</title>
+<title>kafka监控 | 周五周六</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -269,11 +269,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-salt-install" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-monitor-kafka" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/05/18/salt-install/" class="article-date">
-      <time datetime="2015-05-18T08:49:17.000Z" itemprop="datePublished">2015-05-18</time>
+      <a href="/2019/12/19/monitor-kafka/" class="article-date">
+      <time datetime="2019-12-19T02:57:29.000Z" itemprop="datePublished">2019-12-19</time>
 </a>
 
 
@@ -288,7 +288,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      salt-install
+      kafka监控
     </h1>
   
 
@@ -296,14 +296,10 @@
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/saltstack/">saltstack</a>
-    </div>
-
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/saltstack/">saltstack</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/">kafka</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/prometheus/">prometheus</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -313,13 +309,19 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>###saltsatck<br>环境centos6.0<br><a id="more"></a></p>
-<p>#安装<br>1.yum方式<br>安装epol源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</span><br></pre></td></tr></table></figure></p>
-<p>安装salt-master或者salt-minion<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install salt-master</span><br><span class="line">yum install salt-minion</span><br></pre></td></tr></table></figure></p>
-<p>2.pip方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install salt</span><br></pre></td></tr></table></figure></p>
-<p>#遇到的问题<br>客户端的salt-minion执行的时候报一下错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ERROR ] global name &apos;RSA&apos; is not defined</span><br></pre></td></tr></table></figure></p>
-<p>通过pip安装的salt发现以上的问题，<br>然后执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">salt-minion --versions-report</span><br><span class="line"></span><br><span class="line">           Salt: 2015.5.0</span><br><span class="line">         Python: 2.6.6 (r266:84292, Jan 22 2014, 09:42:36)</span><br><span class="line">         Jinja2: 2.2.1</span><br><span class="line">       M2Crypto: Not Installed</span><br><span class="line"> msgpack-python: 0.4.6</span><br><span class="line">   msgpack-pure: Not Installed</span><br><span class="line">       pycrypto: 2.0.1</span><br><span class="line">        libnacl: Not Installed</span><br><span class="line">         PyYAML: 3.10</span><br><span class="line">          ioflo: Not Installed</span><br><span class="line">          PyZMQ: 14.3.1</span><br><span class="line">           RAET: Not Installed</span><br><span class="line">            ZMQ: Not Installed</span><br><span class="line">           Mako: Not Installed</span><br></pre></td></tr></table></figure></p>
-<p>然后yum 安装 M2Crypto,在执行 报zmq is not defined<br>后来pip 卸载掉salt 然后通过yum安装</p>
+        <p>基于prometheus的kafka监控工具汇总</p>
+<a id="more"></a>
+<p>#工具一：jmx_exporter<br>jmx_exporter<br><a href="https://github.com/prometheus/jmx_exporter/" target="_blank" rel="noopener">https://github.com/prometheus/jmx_exporter/</a></p>
+<p>###一，下载jmx_exporter<br><a href="https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.12.0/jmx_prometheus_javaagent-0.12.0.jar" target="_blank" rel="noopener">https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.12.0/jmx_prometheus_javaagent-0.12.0.jar</a><br>根据kafka版本选择yml文件。<a href="https://github.com/prometheus/jmx_exporter/tree/master/example_configs" target="_blank" rel="noopener">https://github.com/prometheus/jmx_exporter/tree/master/example_configs</a></p>
+<p>###二，编辑/lib/systemd/system/kafka.service<br>添加<br>Environment=”JAVA_HOME=/data/apps/jdk/jdk1.8.0_121” “KAFKA_OPTS=-javaagent:/data/apps/kafka/prometheus/jmx_prometheus_javaagent-0.12.0.jar=11112:/data/apps/kafka/prometheus/kafka-2_0_0.yml”</p>
+<p>###三，重启kafka<br>curl <a href="http://localhost:11112/metrics" target="_blank" rel="noopener">http://localhost:11112/metrics</a><br>就可以看到各种metrics信息</p>
+<p>###四，配置到prometheus</p>
+<p>###五，grafana import dashboard<br>官网没有合适的模板，需要自己根据metric配置</p>
+<p>#工具二：kafka_exporter<br><a href="https://github.com/danielqsj/kafka_exporter#run-binary" target="_blank" rel="noopener">https://github.com/danielqsj/kafka_exporter#run-binary</a></p>
+<p>###一，下载kafka_exporter<br><a href="https://github.com/danielqsj/kafka_exporter/releases/download/v1.2.0/kafka_exporter-1.2.0.linux-amd64.tar.gz" target="_blank" rel="noopener">https://github.com/danielqsj/kafka_exporter/releases/download/v1.2.0/kafka_exporter-1.2.0.linux-amd64.tar.gz</a></p>
+<p>###二，启动kafka_exporter<br>nohup ./kafka_exporter –web.listen-address=”:11113” –kafka.server=kafka01-online-hb2-ali:9092 &amp;</p>
+<p>###三，配置prometheus</p>
+<p>###四，grafana import dashboard<br>7589<br><a href="https://grafana.com/grafana/dashboards/7589" target="_blank" rel="noopener">https://grafana.com/grafana/dashboards/7589</a></p>
 
       
       
@@ -329,13 +331,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2015/05/18/salt-install/">salt-install</a></p>
+        <p><span>本文标题:</span><a href="/2019/12/19/monitor-kafka/">kafka监控</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">婚格线</a></p>
-        <p><span>发布时间:</span>2015-05-18, 16:49:17</p>
-        <p><span>最后更新:</span>2016-11-16, 04:14:31</p>
+        <p><span>发布时间:</span>2019-12-19, 10:57:29</p>
+        <p><span>最后更新:</span>2019-12-19, 11:00:02</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2015/05/18/salt-install/" title="salt-install">https://www.zhou5zhou6.com/2015/05/18/salt-install/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://www.zhou5zhou6.com/2015/05/18/salt-install/　　作者: 婚格线" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/12/19/monitor-kafka/" title="kafka监控">https://www.zhou5zhou6.com/2019/12/19/monitor-kafka/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://www.zhou5zhou6.com/2019/12/19/monitor-kafka/　　作者: 婚格线" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -347,16 +349,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2015/05/20/slat_error/">
-                    salt报错汇总
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2015/05/08/hpacucli_1/">
-                    hp服务器无法修改读写比例
+                <a href="/2019/05/13/es-error/">
+                    es_error
                 </a>
             </div>
         
@@ -404,7 +400,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"salt-install　| 周五周六　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"kafka监控　| 周五周六　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -424,15 +420,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2015/05/20/slat_error/" title="上一篇: salt报错汇总">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2015/05/08/hpacucli_1/" title="下一篇: hp服务器无法修改读写比例">
+            <a href="/2019/05/13/es-error/" title="下一篇: es_error">
                 <i class="fa fa-angle-right"></i>
             </a>
         

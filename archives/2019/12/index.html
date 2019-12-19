@@ -15,18 +15,16 @@
 
 
 
-<meta name="description" content="###saltsatck环境centos6.0">
-<meta name="keywords" content="saltstack">
-<meta property="og:type" content="article">
-<meta property="og:title" content="salt-install">
-<meta property="og:url" content="https://www.zhou5zhou6.com/2015/05/18/salt-install/index.html">
+<meta name="description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
+<meta property="og:type" content="website">
+<meta property="og:title" content="周五周六">
+<meta property="og:url" content="https://www.zhou5zhou6.com/archives/2019/12/index.html">
 <meta property="og:site_name" content="周五周六">
-<meta property="og:description" content="###saltsatck环境centos6.0">
+<meta property="og:description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2016-11-15T20:14:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="salt-install">
-<meta name="twitter:description" content="###saltsatck环境centos6.0">
+<meta name="twitter:title" content="周五周六">
+<meta name="twitter:description" content="幸福是追不到的，只要你向前走，幸福就会一直跟着你">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -58,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>salt-install | 周五周六</title>
+<title>Archives: 2019/12 | 周五周六</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -68,8 +66,8 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: true,
-        isArchive: false,
+        isPost: false,
+        isArchive: true,
         isTag: false,
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
@@ -269,183 +267,55 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-salt-install" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap">
   
-    <div class="article-meta">
-      <a href="/2015/05/18/salt-install/" class="article-date">
-      <time datetime="2015-05-18T08:49:17.000Z" itemprop="datePublished">2015-05-18</time>
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+          <div class="article-meta">
+              <a href="/2019/12/19/monitor-kafka/" class="archive-article-date">
+      <time datetime="2019-12-19T02:57:29.000Z" itemprop="datePublished">12-19</time>
 </a>
 
 
-    </div>
+        </div>
+         
   
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      salt-install
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/12/19/monitor-kafka/">kafka监控</a>
     </h1>
   
 
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/saltstack/">saltstack</a>
-    </div>
-
-
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/saltstack/">saltstack</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
+        <div class="article-info info-on-archive">
           
-        <p>###saltsatck<br>环境centos6.0<br><a id="more"></a></p>
-<p>#安装<br>1.yum方式<br>安装epol源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</span><br></pre></td></tr></table></figure></p>
-<p>安装salt-master或者salt-minion<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install salt-master</span><br><span class="line">yum install salt-minion</span><br></pre></td></tr></table></figure></p>
-<p>2.pip方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install salt</span><br></pre></td></tr></table></figure></p>
-<p>#遇到的问题<br>客户端的salt-minion执行的时候报一下错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ERROR ] global name &apos;RSA&apos; is not defined</span><br></pre></td></tr></table></figure></p>
-<p>通过pip安装的salt发现以上的问题，<br>然后执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">salt-minion --versions-report</span><br><span class="line"></span><br><span class="line">           Salt: 2015.5.0</span><br><span class="line">         Python: 2.6.6 (r266:84292, Jan 22 2014, 09:42:36)</span><br><span class="line">         Jinja2: 2.2.1</span><br><span class="line">       M2Crypto: Not Installed</span><br><span class="line"> msgpack-python: 0.4.6</span><br><span class="line">   msgpack-pure: Not Installed</span><br><span class="line">       pycrypto: 2.0.1</span><br><span class="line">        libnacl: Not Installed</span><br><span class="line">         PyYAML: 3.10</span><br><span class="line">          ioflo: Not Installed</span><br><span class="line">          PyZMQ: 14.3.1</span><br><span class="line">           RAET: Not Installed</span><br><span class="line">            ZMQ: Not Installed</span><br><span class="line">           Mako: Not Installed</span><br></pre></td></tr></table></figure></p>
-<p>然后yum 安装 M2Crypto,在执行 报zmq is not defined<br>后来pip 卸载掉salt 然后通过yum安装</p>
 
-      
-      
-    </div>
-    
-  </div>
-  
-    
-    <div class="copyright">
-        <p><span>本文标题:</span><a href="/2015/05/18/salt-install/">salt-install</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页">婚格线</a></p>
-        <p><span>发布时间:</span>2015-05-18, 16:49:17</p>
-        <p><span>最后更新:</span>2016-11-16, 04:14:31</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2015/05/18/salt-install/" title="salt-install">https://www.zhou5zhou6.com/2015/05/18/salt-install/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://www.zhou5zhou6.com/2015/05/18/salt-install/　　作者: 婚格线" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
-        </p>
+          
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/">kafka</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/prometheus/">prometheus</a></li></ul>
     </div>
 
-
-
-    <nav id="article-nav">
-        
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2015/05/20/slat_error/">
-                    salt报错汇总
-                </a>
-            </div>
-        
-        
-            <div id="article-nav-older" class="article-nav-title">
-                <a href="/2015/05/08/hpacucli_1/">
-                    hp服务器无法修改读写比例
-                </a>
-            </div>
-        
-    </nav>
-
-  
-</article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
-
-
-    
-<div class="share">
-    
-        <div class="bdsharebuttonbox">
-            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
-            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
-            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
-            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
-            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
-            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
         </div>
-        <script>
-            window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"salt-install　| 周五周六　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-        </script>
-    
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
+  
 
     
-</div>
-
-
-
-
-
-
-
-    
-
-
-
-
-    <div class="scroll" id="post-nav-button">
-        
-            <a href="/2015/05/20/slat_error/" title="上一篇: salt报错汇总">
-                <i class="fa fa-angle-left"></i>
-            </a>
-        
-
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-
-        
-            <a href="/2015/05/08/hpacucli_1/" title="下一篇: hp服务器无法修改读写比例">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        
-    </div>
-
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/12/19/monitor-kafka/">kafka监控</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/es-error/">es_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/15/redis-bigkey/">扫描redis大key</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/15/hexo-error/">hexo_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/15/confluence-email/">confluence_email</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/06/pam-systemd/">pam_systemd</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/25/gogs-migrate/">gogs_migrate</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/08/Monitoring-Kubernetes-cluster-with-prometheus/">Kubernetes-cluster-with-prometheus</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/09/kubernetes-install/">kubernetes_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/kicktcp/">kicktcp</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/29/kafka/">kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/redis-error/">redis/codis error 汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/supervisor/">supervisor</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/09/env-python/">mac 环境下部署python虚拟环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/01/logstash-command/">通过logstash过滤日志触发脚本执行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/python-error/">python error list</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/modifyhostname/">centos7 modify hostname</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/01/bind_dlz_mysql/">bind_dlz_mysql</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/jenkins/">jenkins</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/15/google-authenticator/">google-authenticator</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/16/ntpd/">ntpd更新时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/24/puppet_modify_password/">puppet_modify_password</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/17/systemtap_install/">systemtap_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/10/tcpcopy/">tcpcopy笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/04/mitmproxy/">mitmproxy</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/03/dockerinstall/">docker_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/26/slat-multi-master/">slat-multi-master</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/20/yum_conf/">yum下载rpm包</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/20/slat_error/">salt报错汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/18/salt-install/">salt-install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/08/hpacucli_1/">hp服务器无法修改读写比例</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/20/elasticsarchturnred/">elasticsarchturnred</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/11/foreman_install/">foreman_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/01/redis_error/">redis_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/19/kibana_map/">kibana map</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/18/elasticsearch_503/">elasticsearch_503</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig3/">sysdig(三)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig2/">sysdig(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/10/sysdig1/">sysdig(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/06/git_rollback/">git_rollback</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/06/git2/">git操作(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/04/ntp_ddos/">ntp ddos</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/27/rundeck_install/">rundeck install</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/20/pip_error/">pip使用备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/16/user/">登陆管理备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/08/mysql_1/">处理mysql二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/01/07/git_1/">git迁移</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/26/smokeping_install/">smokeping_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/23/puppet_file/">puppet_file</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/17/puppet_cron/">puppet_cron</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/16/nginx_passenger_puppet/">puppet+passenger+nginx操作笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/04/logstash/">kibana采用特定字段作为x时间轴</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/21/monitor/">按秒拉起服务进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/11/puppetmore/">puppet扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/05/ipmi/">ipmitool执行卡住</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/31/nic_overruns/">nic_overruns</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/22/mac_error/">mac_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/22/blktrace/">blktrace分析IO</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/zhuabao/">抓包工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/parameters/">parameters</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/19/dstat/">linux下的IO查看工具（四）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/12/starce/">starce</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/11/ansible/">ansible</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio3/">linux下的IO查看工具（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio2/">linux下的IO查看工具（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/05/linuxio/">linux下的IO查看工具（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/27/awk/">awk语句汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/26/ss/">ss</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/29/ansible_inventory/">ansible_inventory</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/24/install-os-by-grub/">install-OS-by-grub</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/18/kibana+logstash+elasticsearch+redis/">Kibana+Logstash+Elasticsearch+Redis安装部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/16/ansible_error/">ansible_error</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/15/ansible_install/">ansible_install</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/01/cpuscaling/">CPU frequency and voltage scaling code in the Linux</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/11/mac_5/">Lm_sensors</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/11/mac_4/">cpu burn-in</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/05/mac_3/">shell-init</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/03/mac_2/">英语角</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/05/30/mac-1/">virtual box</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/05/26/test/">test</a></li></ul>
-
-
-
-
-    <script>
-        
-    </script>
 
 </div>
       <footer id="footer">
