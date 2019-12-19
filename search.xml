@@ -2451,9 +2451,9 @@ dstat --time --cpu --net --disk --sys --load --proc --top-cpu
             
             <tag> elasticsearch </tag>
             
-            <tag> log </tag>
-            
             <tag> kibana </tag>
+            
+            <tag> log </tag>
             
             <tag> logstash </tag>
             
